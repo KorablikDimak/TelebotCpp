@@ -20,15 +20,30 @@ set(OPENSSL_MSVC_STATIC_RT TRUE)
 set(OPENSSL_ROOT_DIR "../OpenSSL")
 find_package(OpenSSL REQUIRED)
 
-set(Headers Bot.h)
-set(Source Bot.cpp)
-
-include_directories(include src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+include_directories(include libs src ${Boost_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
 add_subdirectory(../LINQcpp LINQ)
+
+set(Headers include/Telebot/Bot.h include/Telebot/Api.h include/Telebot/HttpContext.h
+        include/Telebot/HttpServer.h include/Telebot/HttpClient.h include/Telebot/Configuration.h
+        include/Telebot/HttpRequest.h  include/Telebot/HttpResponse.h)
+
+set(Source src/Bot.cpp src/Api.cpp src/HttpContext.cpp src/HttpServer.cpp src/HttpResponse.cpp
+        src/HttpClient.cpp src/Configuration.cpp src/HttpRequest.cpp)
+
+set(Types src/Types/ChatMember.cpp)
+
+set(PugiXML libs/pugiconfig.hpp libs/pugixml.hpp libs/pugixml.cpp)
+
+add_library(TelebotCpp SHARED ${Headers} ${Source} ${Types} ${PugiXML})
+target_link_libraries(TelebotCpp -static ${Boost_LIBRARIES} ${OPENSSL_LIBRARIES})
+
 add_subdirectory(../CInfoLog CInfoLog)
 
-add_library(TelebotCpp SHARED ${Headers} ${Source})
-target_link_libraries(TelebotCpp -static ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} -dynamic CInfoLog)
+set(MyBotHeaders)
+set(MyBotSource MyBot/main.cpp)
+
+add_executable(MyBot ${MyBotHeaders} ${MyBotSource})
+target_link_libraries(MyBot TelebotCpp CInfoLog)
 
 if (ENABLE_TESTS)
     add_subdirectory(../GoogleTest gtest)
@@ -44,5 +59,5 @@ if (ENABLE_TESTS)
             TARGET TelebotCpp POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_SOURCE_DIR}/LogConfig.xml
-            ${CMAKE_CURRENT_BINARY_DIR}/LogConfig.xml)
+            ${CMAKE_CURRENT_BINARY_DIR}/CInfoLog/LogConfig.xml)
 endif()
