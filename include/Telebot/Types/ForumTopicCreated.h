@@ -12,7 +12,7 @@ namespace Telebot
         typedef std::shared_ptr<ForumTopicCreated> Ptr;
 
         std::string Name;
-        int IconColor;
+        std::int32_t IconColor;
         std::string IconCustomEmojiId;
     };
 }
