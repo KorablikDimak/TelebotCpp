@@ -18,7 +18,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 set(BOOST_ROOT "../boost_1_78_0")
 set(BOOST_INCLUDEDIR "../boost_1_78_0")
 set(BOOST_LIBRARYDIR "../boost_1_78_0/stage/lib")
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 include_directories(include libs src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
@@ -27,7 +27,9 @@ set(Headers include/Telebot/Bot.h include/Telebot/Api.h include/Telebot/HttpCont
 
 set(Source src/Bot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp src/Configuration.cpp)
 
-set(Types src/Types/ChatMember.cpp)
+set(Types src/Types/BotCommandScope.cpp src/Types/ChatMember.cpp src/Types/InlineQueryResult.cpp
+        src/Types/InputFile.cpp src/Types/InputMedia.cpp src/Types/InputMessageContent.cpp
+        src/Types/MenuButton.cpp src/Types/PassportElementError.cpp)
 
 set(PugiXML libs/pugiconfig.hpp libs/pugixml.hpp libs/pugixml.cpp)
 
