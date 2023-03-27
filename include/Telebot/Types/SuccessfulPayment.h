@@ -11,7 +11,7 @@ namespace Telebot
         typedef std::shared_ptr<SuccessfulPayment> Ptr;
 
         std::string Currency;
-        int TotalAmount;
+        std::int32_t TotalAmount;
         std::string InvoicePayload;
         std::string ShippingOptionId;
         OrderInfo::Ptr OrderInfo;

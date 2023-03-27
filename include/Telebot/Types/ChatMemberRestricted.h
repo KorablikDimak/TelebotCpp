@@ -32,7 +32,7 @@ namespace Telebot
         bool CanInviteUsers;
         bool CanPinMessages;
         bool CanManageTopics;
-        unsigned int UntilDate;
+        std::uint32_t UntilDate;
     };
 }
 

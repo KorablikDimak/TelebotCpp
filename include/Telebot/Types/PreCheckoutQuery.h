@@ -14,7 +14,7 @@ namespace Telebot
         std::string Id;
         User::Ptr From;
         std::string Currency;
-        int TotalAmount;
+        std::int32_t TotalAmount;
         std::string InvoicePayload;
         std::string ShippingOptionId;
         OrderInfo::Ptr OrderInfo;

@@ -13,9 +13,9 @@ namespace Telebot
 
         std::string fileId;
         std::string fileUniqueId;
-        int width;
-        int height;
-        int fileSize;
+        std::int32_t width;
+        std::int32_t height;
+        std::int32_t fileSize;
     };
 }
 

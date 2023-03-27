@@ -13,7 +13,7 @@ namespace Telebot
 
         std::string FileId;
         std::string FileUniqueId;
-        long long FileSize;
+        std::int64_t FileSize;
         std::string FilePath;
     };
 }

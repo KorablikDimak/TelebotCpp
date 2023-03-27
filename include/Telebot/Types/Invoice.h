@@ -15,7 +15,7 @@ namespace Telebot
         std::string Description;
         std::string StartParameter;
         std::string Currency;
-        int TotalAmount;
+        std::int32_t TotalAmount;
     };
 }
 

@@ -14,8 +14,8 @@ namespace Telebot
 
         Chat::Ptr Chat;
         User::Ptr From;
-        long long UserChatId;
-        int Date;
+        std::int64_t UserChatId;
+        std::int32_t Date;
         std::string Bio;
         ChatInviteLink::Ptr InviteLink;
     };

@@ -20,8 +20,8 @@ namespace Telebot
         std::string FileId;
         std::string FileUniqueId;
         Type Type;
-        int Width;
-        int Height;
+        std::int32_t Width;
+        std::int32_t Height;
         bool IsAnimated;
         bool IsVideo;
         PhotoSize::Ptr Thumb;
@@ -30,7 +30,7 @@ namespace Telebot
         File::Ptr PremiumAnimation;
         MaskPosition::Ptr MaskPosition;
         std::string CustomEmojiId;
-        int FileSize;
+        std::int32_t FileSize;
     };
 }
 

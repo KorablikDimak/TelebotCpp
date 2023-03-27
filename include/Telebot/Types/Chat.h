@@ -19,7 +19,7 @@ namespace Telebot
             Private, Group, Supergroup, Channel
         };
 
-        long long Id;
+        std::int64_t Id;
         Type Type;
         std::string Title;
         std::string Username;
@@ -38,14 +38,14 @@ namespace Telebot
         std::string InviteLink;
         std::shared_ptr<Message> PinnedMessage;
         ChatPermissions::Ptr Permissions;
-        int SlowModeDelay;
-        int MessageAutoDeleteTime;
+        std::int32_t SlowModeDelay;
+        std::int32_t MessageAutoDeleteTime;
         bool HasAggressiveAntiSpamEnabled;
         bool HasHiddenMembers;
         bool HasProtectedContent;
         std::string StickerSetName;
         bool CanSetStickerSet;
-        long long LinkedChatId;
+        std::int64_t LinkedChatId;
         ChatLocation::Ptr Location;
     };
 }

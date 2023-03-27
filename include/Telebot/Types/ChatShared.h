@@ -10,8 +10,8 @@ namespace Telebot
     public:
         typedef std::shared_ptr<ChatShared> Ptr;
 
-        int RequestId;
-        long long UserId;
+        std::int32_t RequestId;
+        std::int64_t UserId;
     };
 }
 

@@ -47,23 +47,23 @@ namespace Telebot
     public:
         typedef std::shared_ptr<Message> Ptr;
 
-        int MessageId;
-        int MessageThreadId;
+        std::int32_t MessageId;
+        std::int32_t MessageThreadId;
         User::Ptr From;
         Chat::Ptr SenderChat;
-        int Ddate;
+        std::int32_t Ddate;
         Chat::Ptr Chat;
         User::Ptr ForwardFrom;
         Chat::Ptr ForwardFromChat;
-        int ForwardFromMessageId;
+        std::int32_t ForwardFromMessageId;
         std::string ForwardSignature;
         std::string ForwardSenderName;
-        int ForwardDate;
+        std::int32_t ForwardDate;
         bool IsTopicMessage;
         bool IsAutomaticForward;
         Message::Ptr ReplyToMessage;
         User::Ptr ViaBot;
-        int EditDate;
+        std::int32_t EditDate;
         bool HasProtectedContent;
         std::string MediaGroupId;
         std::string AuthorSignature;
@@ -95,8 +95,8 @@ namespace Telebot
         bool SupergroupChatCreated;
         bool ChannelChatCreated;
         MessageAutoDeleteTimerChanged::Ptr MessageAutoDeleteTimerChanged;
-        long long MigrateToChatId;
-        long long MigrateFromChatId;
+        std::int64_t MigrateToChatId;
+        std::int64_t MigrateFromChatId;
         Message::Ptr PinnedMessage;
         Invoice::Ptr Invoice;
         SuccessfulPayment::Ptr SuccessfulPayment;

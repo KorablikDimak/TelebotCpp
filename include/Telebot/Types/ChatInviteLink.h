@@ -16,9 +16,9 @@ class ChatInviteLink
         bool IsPrimary;
         bool IsRevoked;
         std::string Name;
-        unsigned int ExpireDate;
-        unsigned int MemberLimit;
-        unsigned int PendingJoinRequestCount;
+        std::uint32_t ExpireDate;
+        std::uint32_t MemberLimit;
+        std::uint32_t PendingJoinRequestCount;
     };
 }
 

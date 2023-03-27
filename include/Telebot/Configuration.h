@@ -34,7 +34,7 @@ namespace Telebot
 
             if (result)
             {
-                for (pugi::xml_attribute attribute: document.child("telebot").attributes())
+                for (pugi::xml_attribute attribute: document.child("client").attributes())
                 {
                     std::string attributeName = attribute.name();
                     boost::algorithm::to_lower(attributeName);

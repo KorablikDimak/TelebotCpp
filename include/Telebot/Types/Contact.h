@@ -14,7 +14,7 @@ namespace Telebot
         std::string PhoneNumber;
         std::string FirstName;
         std::string LastName;
-        long long UserId;
+        std::int64_t UserId;
         std::string Vcard;
     };
 }

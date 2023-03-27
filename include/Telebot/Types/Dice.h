@@ -11,7 +11,7 @@ namespace Telebot
         typedef std::shared_ptr<Dice> Ptr;
 
         std::string Emoji;
-        int Value;
+        std::int32_t Value;
     };
 }
 

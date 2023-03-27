@@ -12,7 +12,7 @@ namespace Telebot
 
         std::string pollId;
         User::Ptr user;
-        std::vector<int> optionIds;
+        std::vector<std::int32_t> optionIds;
     };
 }
 

@@ -10,7 +10,7 @@ namespace Telebot
     public:
         typedef std::shared_ptr<VideoChatScheduled> Ptr;
 
-        int StartDate;
+        std::int32_t StartDate;
     };
 }
 

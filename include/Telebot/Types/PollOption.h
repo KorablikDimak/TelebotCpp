@@ -13,7 +13,7 @@ namespace Telebot
         typedef std::shared_ptr<PollOption> Ptr;
 
         std::string Text;
-        long long VoterCount;
+        std::int64_t VoterCount;
     };
 }
 

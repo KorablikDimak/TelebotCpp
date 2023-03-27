@@ -17,7 +17,7 @@ namespace Telebot
             Status = STATUS;
         }
 
-        int UntilDate;
+        std::int32_t UntilDate;
     };
 }
 

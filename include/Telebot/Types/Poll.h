@@ -14,16 +14,16 @@ public:
     std::string Id;
     std::string Question;
     std::vector<PollOption::Ptr> Options;
-    int TotalVoterCount;
+    std::int32_t TotalVoterCount;
     bool IsClosed;
     bool IsAnonymous;
     std::string Type;
     bool AllowsMultipleAnswers;
-    int CorrectOptionId;
+    std::int32_t CorrectOptionId;
     std::string Explanation;
     std::vector<MessageEntity::Ptr> ExplanationEntities;
-    int OpenPeriod;
-    long long CloseDate;
+    std::int32_t OpenPeriod;
+    std::int64_t CloseDate;
 };
 }
 

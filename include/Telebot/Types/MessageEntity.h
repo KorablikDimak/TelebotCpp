@@ -17,8 +17,8 @@ namespace Telebot
         };
 
         Type Type;
-        int Offset;
-        int Length;
+        std::int32_t Offset;
+        std::int32_t Length;
         std::string Url;
         User::Ptr User;
         std::string Language;

@@ -13,8 +13,8 @@ namespace Telebot
 
         std::string FileId;
         std::string FileUniqueId;
-        int FileSize;
-        int FileDate;
+        std::int32_t FileSize;
+        std::int32_t FileDate;
     };
 }
 

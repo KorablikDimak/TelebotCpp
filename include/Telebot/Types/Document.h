@@ -15,7 +15,7 @@ namespace Telebot
         PhotoSize::Ptr Thumb;
         std::string FileName;
         std::string MimeType;
-        long long FileSize;
+        std::int64_t FileSize;
     };
 }
 

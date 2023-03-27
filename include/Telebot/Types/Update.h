@@ -19,7 +19,7 @@ namespace Telebot
     public:
         typedef std::shared_ptr<Update> Ptr;
 
-        int UpdateId;
+        std::int32_t UpdateId;
         Message::Ptr Message;
         Message::Ptr EditedMessage;
         Message::Ptr ChannelPost;

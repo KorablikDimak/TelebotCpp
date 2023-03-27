@@ -12,7 +12,7 @@ namespace Telebot
 
         User::Ptr Traveler;
         User::Ptr Watcher;
-        int Distance;
+        std::int32_t Distance;
     };
 }
 

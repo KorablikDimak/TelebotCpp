@@ -15,7 +15,7 @@ namespace Telebot
 
         Chat::Ptr Chat;
         User::Ptr From;
-        unsigned int Date;
+        std::uint32_t Date;
         ChatMember::Ptr OldChatMember;
         ChatMember::Ptr NewChatMember;
         ChatInviteLink::Ptr InviteLink;

@@ -10,7 +10,7 @@ namespace Telebot
     public:
         typedef std::shared_ptr<VideoChatEnded> Ptr;
 
-        int Duration;
+        std::int32_t Duration;
     };
 }
 

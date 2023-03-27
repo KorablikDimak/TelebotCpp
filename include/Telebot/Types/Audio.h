@@ -12,12 +12,12 @@ namespace Telebot
 
         std::string FileId;
         std::string FileUniqueId;
-        int Duration;
+        std::int32_t Duration;
         std::string Performer;
         std::string Title;
         std::string FileName;
         std::string MimeType;
-        long long FileSize;
+        std::int64_t FileSize;
         PhotoSize::Ptr Thumb;
     };
 }

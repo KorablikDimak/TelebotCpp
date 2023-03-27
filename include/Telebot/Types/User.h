@@ -12,7 +12,7 @@ namespace Telebot
     public:
         typedef std::shared_ptr<User> Ptr;
 
-        long long Id;
+        std::int64_t Id;
         bool IsBot;
         std::string FirstName;
         std::string LastName;

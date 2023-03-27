@@ -13,9 +13,9 @@ namespace Telebot
         float Longitude;
         float Latitude;
         float HorizontalAccuracy;
-        int LivePeriod;
-        int Heading;
-        int ProximityAlertRadius;
+        std::int32_t LivePeriod;
+        std::int32_t Heading;
+        std::int32_t ProximityAlertRadius;
     };
 }
 
