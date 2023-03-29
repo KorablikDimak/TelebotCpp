@@ -22,10 +22,10 @@ find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 include_directories(include libs src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
-set(Headers include/Telebot/Bot.h include/Telebot/Api.h include/Telebot/HttpContext.h
-        include/Telebot/HttpsClient.h include/Telebot/Configuration.h)
+set(Headers include/Telebot/Bot.h include/Telebot/Api.h include/Telebot/HttpContext.h include/Telebot/HttpsClient.h
+        include/Telebot/EventHandler.h)
 
-set(Source src/Bot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp src/Configuration.cpp)
+set(Source src/Bot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp)
 
 set(Types src/Types/BotCommandScope.cpp src/Types/ChatMember.cpp src/Types/InlineQueryResult.cpp
         src/Types/InputFile.cpp src/Types/InputMedia.cpp src/Types/InputMessageContent.cpp
@@ -33,7 +33,9 @@ set(Types src/Types/BotCommandScope.cpp src/Types/ChatMember.cpp src/Types/Inlin
 
 set(PugiXML libs/pugiconfig.hpp libs/pugixml.hpp libs/pugixml.cpp)
 
-add_library(TelebotCpp SHARED ${Headers} ${Source} ${Types} ${PugiXML})
+set(Niohman_Json libs/json_fwd.hpp libs/json.hpp)
+
+add_library(TelebotCpp SHARED ${Headers} ${Source} ${Types} ${PugiXML} ${Niohman_Json})
 target_link_libraries(TelebotCpp -static ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} )
 
 add_subdirectory(../CInfoLog CInfoLog)
@@ -50,7 +52,7 @@ if (ENABLE_TESTS)
 
     include_directories(tests)
 
-    set(TESTS tests/main.cpp tests/HttpsClientTests.cpp)
+    set(TESTS tests/main.cpp)
 
     add_executable(TelebotCpp_TEST ${TESTS})
     target_link_libraries(TelebotCpp_TEST TelebotCpp gtest pthread)

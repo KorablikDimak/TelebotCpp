@@ -1,5 +1,14 @@
 #include "Telebot/Api.h"
 
+const std::string Telebot::Api::HOST = "api.telegram.org";
+const unsigned int Telebot::Api::HTTP_VERSION = 11;
+
+Telebot::Api::Api(const std::string& token)
+{
+    _token = token;
+    _client = std::make_unique<HttpsClient>();
+}
+
 std::vector<Telebot::Update::Ptr> Telebot::Api::GetUpdates(int offset,
                                                            int limit,
                                                            int timeout,
@@ -29,9 +38,22 @@ Telebot::WebhookInfo::Ptr Telebot::Api::GetWebhookInfo()
 
 }
 
-Telebot::User::Ptr Telebot::Api::GetMe()
+Telebot::User::Ptr Telebot::Api::GetMe() const
 {
+    std::shared_ptr<Telebot::HttpContext> httpContext = std::make_shared<Telebot::HttpContext>();
+    httpContext->Request->method_string("GET");
+    httpContext->Request->set(boost::beast::http::field::host, HOST);
+    httpContext->Request->target("/bot" + _token + "/GetMe");
+    httpContext->Request->version(HTTP_VERSION);
 
+    _client->SendHttps(httpContext);
+    Json json = Json::parse(httpContext->Response->body());
+
+    if (json.at("ok").get<bool>())
+    {
+        json = json.at("result");
+
+    }
 }
 
 bool Telebot::Api::LogOut()

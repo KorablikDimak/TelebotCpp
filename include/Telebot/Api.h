@@ -2,7 +2,9 @@
 #define Telebot_ControllerH
 
 #include <boost/variant.hpp>
+#include <json.hpp>
 
+#include "HttpsClient.h"
 #include "Types/Update.h"
 #include "Types/InputFile.h"
 #include "Types/WebhookInfo.h"
@@ -22,14 +24,24 @@
 #include "Types/PassportElementError.h"
 #include "Types/GameHighScore.h"
 
+typedef nlohmann::json Json;
+
 namespace Telebot
 {
     class Api
     {
+    private:
+        static const std::string HOST;
+        static const unsigned int HTTP_VERSION;
+
     public:
-        Api() = default;
+        std::string _token;
+        std::unique_ptr<HttpsClient> _client;
+
+        explicit Api(const std::string& token);
         ~Api() = default;
 
+    public:
         std::vector<Update::Ptr> GetUpdates(std::int32_t offset = 0,
                                             std::int32_t limit = 100,
                                             std::int32_t timeout = 0,
@@ -47,7 +59,7 @@ namespace Telebot
 
         WebhookInfo::Ptr GetWebhookInfo();
 
-        User::Ptr GetMe();
+        User::Ptr GetMe() const;
 
         bool LogOut();
 
