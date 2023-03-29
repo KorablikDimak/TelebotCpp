@@ -1,8 +1,6 @@
 #ifndef Telebot_ControllerH
 #define Telebot_ControllerH
 
-#include <boost/asio.hpp>
-#include <boost/asio/ssl.hpp>
 #include <boost/variant.hpp>
 
 #include "Types/Update.h"
@@ -17,6 +15,12 @@
 #include "Types/MenuButton.h"
 #include "Types/ChatAdministratorRights.h"
 #include "Types/StickerSet.h"
+#include "Types/InlineQueryResult.h"
+#include "Types/SentWebAppMessage.h"
+#include "Types/LabeledPrice.h"
+#include "Types/ShippingOption.h"
+#include "Types/PassportElementError.h"
+#include "Types/GameHighScore.h"
 
 namespace Telebot
 {
@@ -32,7 +36,7 @@ namespace Telebot
                                             const std::vector<std::string>& allowedUpdates = std::vector<std::string>());
 
         bool SetWebhook(const std::string& url,
-                        InputFile::Ptr certificate = nullptr,
+                        const InputFile::Ptr& certificate = nullptr,
                         std::int32_t maxConnections = 40,
                         const std::vector<std::string>& allowedUpdates = std::vector<std::string>(),
                         const std::string& ipAddress = "",
@@ -49,11 +53,11 @@ namespace Telebot
 
         bool Close();
 
-        Message::Ptr SendMessage(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendMessage(const boost::variant<std::int64_t, std::string>& chatId,
                                  const std::string& text,
                                  bool disableWebPagePreview = false,
                                  std::int32_t replyToMessageId = 0,
-                                 GenericReply::Ptr replyMarkup = nullptr,
+                                 const GenericReply::Ptr& replyMarkup = nullptr,
                                  const std::string& parseMode = "",
                                  bool disableNotification = false,
                                  const std::vector<MessageEntity::Ptr>& entities = std::vector<MessageEntity::Ptr>(),
@@ -61,15 +65,15 @@ namespace Telebot
                                  bool protectContent = false,
                                  std::int32_t messageThreadId = 0);
 
-        Message::Ptr ForwardMessage(boost::variant<std::int64_t, std::string> chatId,
-                                    boost::variant<std::int64_t, std::string> fromChatId,
+        Message::Ptr ForwardMessage(const boost::variant<std::int64_t, std::string>& chatId,
+                                    const boost::variant<std::int64_t, std::string>& fromChatId,
                                     std::int32_t messageId,
                                     bool disableNotification = false,
                                     bool protectContent = false,
                                     std::int32_t messageThreadId = 0);
 
-        MessageId::Ptr CopyMessage(boost::variant<std::int64_t, std::string> chatId,
-                                   boost::variant<std::int64_t, std::string> fromChatId,
+        MessageId::Ptr CopyMessage(const boost::variant<std::int64_t, std::string>& chatId,
+                                   const boost::variant<std::int64_t, std::string>& fromChatId,
                                    std::int32_t messageId,
                                    const std::string& caption = "",
                                    const std::string& parseMode = "",
@@ -81,11 +85,11 @@ namespace Telebot
                                    bool protectContent = false,
                                    std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendPhoto(boost::variant<std::int64_t, std::string> chatId,
-                               boost::variant<InputFile::Ptr, std::string> photo,
+        Message::Ptr SendPhoto(const boost::variant<std::int64_t, std::string>& chatId,
+                               const boost::variant<InputFile::Ptr, std::string>& photo,
                                const std::string& caption = "",
                                std::int32_t replyToMessageId = 0,
-                               GenericReply::Ptr replyMarkup = nullptr,
+                               const GenericReply::Ptr& replyMarkup = nullptr,
                                const std::string& parseMode = "",
                                bool disableNotification = false,
                                const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>(),
@@ -94,15 +98,15 @@ namespace Telebot
                                std::int32_t messageThreadId = 0,
                                bool hasSpoiler = false);
 
-        Message::Ptr SendAudio(boost::variant<std::int64_t, std::string> chatId,
-                               boost::variant<InputFile::Ptr, std::string> audio,
+        Message::Ptr SendAudio(const boost::variant<std::int64_t, std::string>& chatId,
+                               const boost::variant<InputFile::Ptr, std::string>& audio,
                                const std::string& caption = "",
                                std::int32_t duration = 0,
                                const std::string& performer = "",
                                const std::string& title = "",
-                               boost::variant<InputFile::Ptr, std::string> thumb = "",
+                               const boost::variant<InputFile::Ptr, std::string>& thumb = "",
                                std::int32_t replyToMessageId = 0,
-                               GenericReply::Ptr replyMarkup = nullptr,
+                               const GenericReply::Ptr& replyMarkup = nullptr,
                                const std::string& parseMode = "",
                                bool disableNotification = false,
                                const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>(),
@@ -110,12 +114,12 @@ namespace Telebot
                                bool protectContent = false,
                                std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendDocument(boost::variant<std::int64_t, std::string> chatId,
-                                  boost::variant<InputFile::Ptr, std::string> document,
-                                  boost::variant<InputFile::Ptr, std::string> thumb = "",
+        Message::Ptr SendDocument(const boost::variant<std::int64_t, std::string>& chatId,
+                                  const boost::variant<InputFile::Ptr, std::string>& document,
+                                  const boost::variant<InputFile::Ptr, std::string>& thumb = "",
                                   const std::string& caption = "",
                                   std::int32_t replyToMessageId = 0,
-                                  GenericReply::Ptr replyMarkup = nullptr,
+                                  const GenericReply::Ptr& replyMarkup = nullptr,
                                   const std::string& parseMode = "",
                                   bool disableNotification = false,
                                   const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>(),
@@ -124,16 +128,16 @@ namespace Telebot
                                   bool protectContent = false,
                                   std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendVideo(boost::variant<std::int64_t, std::string> chatId,
-                               boost::variant<InputFile::Ptr, std::string> video,
+        Message::Ptr SendVideo(const boost::variant<std::int64_t, std::string>& chatId,
+                               const boost::variant<InputFile::Ptr, std::string>& video,
                                bool supportsStreaming = false,
                                std::int32_t duration = 0,
                                std::int32_t width = 0,
                                std::int32_t height = 0,
-                               boost::variant<InputFile::Ptr, std::string> thumb = "",
+                               const boost::variant<InputFile::Ptr, std::string>& thumb = "",
                                const std::string& caption = "",
                                std::int32_t replyToMessageId = 0,
-                               GenericReply::Ptr replyMarkup = nullptr,
+                               const GenericReply::Ptr& replyMarkup = nullptr,
                                const std::string& parseMode = "",
                                bool disableNotification = false,
                                const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>(),
@@ -142,15 +146,15 @@ namespace Telebot
                                std::int32_t messageThreadId = 0,
                                bool hasSpoiler = false);
 
-        Message::Ptr SendAnimation(boost::variant<std::int64_t, std::string> chatId,
-                                   boost::variant<InputFile::Ptr, std::string> animation,
+        Message::Ptr SendAnimation(const boost::variant<std::int64_t, std::string>& chatId,
+                                   const boost::variant<InputFile::Ptr, std::string>& animation,
                                    std::int32_t duration = 0,
                                    std::int32_t width = 0,
                                    std::int32_t height = 0,
-                                   boost::variant<InputFile::Ptr, std::string> thumb = "",
+                                   const boost::variant<InputFile::Ptr, std::string>& thumb = "",
                                    const std::string& caption = "",
                                    std::int32_t replyToMessageId = 0,
-                                   GenericReply::Ptr replyMarkup = nullptr,
+                                   const GenericReply::Ptr& replyMarkup = nullptr,
                                    const std::string& parseMode = "",
                                    bool disableNotification = false,
                                    const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>(),
@@ -159,12 +163,12 @@ namespace Telebot
                                    std::int32_t messageThreadId = 0,
                                    bool hasSpoiler = false);
 
-        Message::Ptr SendVoice(boost::variant<std::int64_t, std::string> chatId,
-                               boost::variant<InputFile::Ptr, std::string> voice,
+        Message::Ptr SendVoice(const boost::variant<std::int64_t, std::string>& chatId,
+                               const boost::variant<InputFile::Ptr, std::string>& voice,
                                const std::string& caption = "",
                                std::int32_t duration = 0,
                                std::int32_t replyToMessageId = 0,
-                               GenericReply::Ptr replyMarkup = nullptr,
+                               const GenericReply::Ptr& replyMarkup = nullptr,
                                const std::string& parseMode = "",
                                bool disableNotification = false,
                                const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>(),
@@ -172,19 +176,19 @@ namespace Telebot
                                bool protectContent = false,
                                std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendVideoNote(boost::variant<std::int64_t, std::string> chatId,
-                                   boost::variant<InputFile::Ptr, std::string> videoNote,
+        Message::Ptr SendVideoNote(const boost::variant<std::int64_t, std::string>& chatId,
+                                   const boost::variant<InputFile::Ptr, std::string>& videoNote,
                                    std::int64_t replyToMessageId = 0,
                                    bool disableNotification = false,
                                    std::int32_t duration = 0,
                                    std::int32_t length = 0,
-                                   boost::variant<InputFile::Ptr, std::string> thumb = "",
-                                   GenericReply::Ptr replyMarkup = nullptr,
+                                   const boost::variant<InputFile::Ptr, std::string>& thumb = "",
+                                   const GenericReply::Ptr& replyMarkup = nullptr,
                                    bool allowSendingWithoutReply = false,
                                    bool protectContent = false,
                                    std::int32_t messageThreadId = 0);
 
-        std::vector<Message::Ptr> SendMediaGroup(boost::variant<std::int64_t, std::string> chatId,
+        std::vector<Message::Ptr> SendMediaGroup(const boost::variant<std::int64_t, std::string>& chatId,
                                                  const std::vector<InputMedia::Ptr>& media,
                                                  bool disableNotification = false,
                                                  std::int32_t replyToMessageId = 0,
@@ -192,12 +196,12 @@ namespace Telebot
                                                  bool protectContent = false,
                                                  std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendLocation(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendLocation(const boost::variant<std::int64_t, std::string>& chatId,
                                   float latitude,
                                   float longitude,
                                   std::int32_t livePeriod = 0,
                                   std::int32_t replyToMessageId = 0,
-                                  GenericReply::Ptr replyMarkup = nullptr,
+                                  const GenericReply::Ptr& replyMarkup = nullptr,
                                   bool disableNotification = false,
                                   float horizontalAccuracy = 0,
                                   std::int32_t heading = 0,
@@ -206,22 +210,7 @@ namespace Telebot
                                   bool protectContent = false,
                                   std::int32_t messageThreadId = 0);
 
-        Message::Ptr EditMessageLiveLocation(float latitude,
-                                             float longitude,
-                                             boost::variant<std::int64_t, std::string> chatId = "",
-                                             std::int32_t messageId = 0,
-                                             const std::string& inlineMessageId = "",
-                                             InlineKeyboardMarkup::Ptr replyMarkup = std::make_shared<InlineKeyboardMarkup>(),
-                                             float horizontalAccuracy = 0,
-                                             std::int32_t heading = 0,
-                                             std::int32_t proximityAlertRadius = 0);
-
-        Message::Ptr StopMessageLiveLocation(boost::variant<std::int64_t, std::string> chatId = "",
-                                             std::int32_t messageId = 0,
-                                             const std::string& inlineMessageId = "",
-                                             InlineKeyboardMarkup::Ptr replyMarkup = std::make_shared<InlineKeyboardMarkup>());
-
-        Message::Ptr SendVenue(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendVenue(const boost::variant<std::int64_t, std::string>& chatId,
                                float latitude,
                                float longitude,
                                const std::string& title,
@@ -230,31 +219,31 @@ namespace Telebot
                                const std::string& foursquareType = "",
                                bool disableNotification = false,
                                std::int32_t replyToMessageId = 0,
-                               GenericReply::Ptr replyMarkup = nullptr,
+                               const GenericReply::Ptr& replyMarkup = nullptr,
                                const std::string& googlePlaceId = "",
                                const std::string& googlePlaceType = "",
                                bool allowSendingWithoutReply = false,
                                bool protectContent = false,
                                std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendContact(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendContact(const boost::variant<std::int64_t, std::string>& chatId,
                                  const std::string& phoneNumber,
                                  const std::string& firstName,
                                  const std::string& lastName = "",
                                  const std::string& vcard = "",
                                  bool disableNotification = false,
                                  std::int32_t replyToMessageId = 0,
-                                 GenericReply::Ptr replyMarkup = nullptr,
+                                 const GenericReply::Ptr& replyMarkup = nullptr,
                                  bool allowSendingWithoutReply = false,
                                  bool protectContent = false,
                                  std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendPoll(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendPoll(const boost::variant<std::int64_t, std::string>& chatId,
                               const std::string& question,
                               const std::vector<std::string>& options,
                               bool disableNotification = false,
                               std::int32_t replyToMessageId = 0,
-                              GenericReply::Ptr replyMarkup = nullptr,
+                              const GenericReply::Ptr& replyMarkup = nullptr,
                               bool isAnonymous = true,
                               const std::string& type = "",
                               bool allowsMultipleAnswers = false,
@@ -269,10 +258,10 @@ namespace Telebot
                               bool protectContent = false,
                               std::int32_t messageThreadId = 0);
 
-        Message::Ptr SendDice(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendDice(const boost::variant<std::int64_t, std::string>& chatId,
                               bool disableNotification = false,
                               std::int32_t replyToMessageId = 0,
-                              GenericReply::Ptr replyMarkup = nullptr,
+                              const GenericReply::Ptr& replyMarkup = nullptr,
                               const std::string& emoji = "",
                               bool allowSendingWithoutReply = false,
                               bool protectContent = false,
@@ -288,22 +277,22 @@ namespace Telebot
 
         File::Ptr GetFile(const std::string& fileId);
 
-        bool BanChatMember(boost::variant<std::int64_t, std::string> chatId,
+        bool BanChatMember(const boost::variant<std::int64_t, std::string>& chatId,
                            std::int64_t userId,
                            std::int32_t untilDate = 0,
                            bool revokeMessages = true);
 
-        bool UnbanChatMember(boost::variant<std::int64_t, std::string> chatId,
+        bool UnbanChatMember(const boost::variant<std::int64_t, std::string>& chatId,
                              std::int64_t userId,
                              bool onlyIfBanned = false);
 
-        bool RestrictChatMember(boost::variant<std::int64_t, std::string> chatId,
+        bool RestrictChatMember(const boost::variant<std::int64_t, std::string>& chatId,
                                 std::int64_t userId,
-                                ChatPermissions::Ptr permissions,
+                                const ChatPermissions::Ptr& permissions,
                                 std::int64_t untilDate = 0,
                                 bool useIndependentChatPermissions = false);
 
-        bool PromoteChatMember(boost::variant<std::int64_t, std::string> chatId,
+        bool PromoteChatMember(const boost::variant<std::int64_t, std::string>& chatId,
                                std::int64_t userId,
                                bool canChangeInfo = false,
                                bool canPostMessages = false,
@@ -318,114 +307,114 @@ namespace Telebot
                                bool canRestrictMembers = false,
                                bool canManageTopics = false);
 
-        bool SetChatAdministratorCustomTitle(boost::variant<std::int64_t, std::string> chatId,
+        bool SetChatAdministratorCustomTitle(const boost::variant<std::int64_t, std::string>& chatId,
                                              std::int64_t userId,
                                              const std::string& customTitle);
 
-        bool BanChatSenderChat(boost::variant<std::int64_t, std::string> chatId,
+        bool BanChatSenderChat(const boost::variant<std::int64_t, std::string>& chatId,
                                std::int64_t senderChatId);
 
-        bool UnbanChatSenderChat(boost::variant<std::int64_t, std::string> chatId,
+        bool UnbanChatSenderChat(const boost::variant<std::int64_t, std::string>& chatId,
                                  std::int64_t senderChatId);
 
-        bool SetChatPermissions(boost::variant<std::int64_t, std::string> chatId,
-                                ChatPermissions::Ptr permissions,
+        bool SetChatPermissions(const boost::variant<std::int64_t, std::string>& chatId,
+                                const ChatPermissions::Ptr& permissions,
                                 bool useIndependentChatPermissions = false);
 
-        std::string ExportChatInviteLink(boost::variant<std::int64_t, std::string> chatId);
+        std::string ExportChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId);
 
-        ChatInviteLink::Ptr CreateChatInviteLink(boost::variant<std::int64_t, std::string> chatId,
+        ChatInviteLink::Ptr CreateChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId,
                                                  std::int32_t expireDate = 0,
                                                  std::int32_t memberLimit = 0,
                                                  const std::string& name = "",
                                                  bool createsJoinRequest = false);
 
-        ChatInviteLink::Ptr EditChatInviteLink(boost::variant<std::int64_t, std::string> chatId,
+        ChatInviteLink::Ptr EditChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId,
                                                const std::string& inviteLink,
                                                std::int32_t expireDate = 0,
                                                std::int32_t memberLimit = 0,
                                                const std::string& name = "",
                                                bool createsJoinRequest = false);
 
-        ChatInviteLink::Ptr RevokeChatInviteLink(boost::variant<std::int64_t, std::string> chatId,
+        ChatInviteLink::Ptr RevokeChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId,
                                                  const std::string& inviteLink);
 
-        bool ApproveChatJoinRequest(boost::variant<std::int64_t, std::string> chatId,
+        bool ApproveChatJoinRequest(const boost::variant<std::int64_t, std::string>& chatId,
                                     std::int64_t userId);
 
-        bool DeclineChatJoinRequest(boost::variant<std::int64_t, std::string> chatId,
+        bool DeclineChatJoinRequest(const boost::variant<std::int64_t, std::string>& chatId,
                                     std::int64_t userId);
 
-        bool SetChatPhoto(boost::variant<std::int64_t, std::string> chatId,
-                          InputFile::Ptr photo);
+        bool SetChatPhoto(const boost::variant<std::int64_t, std::string>& chatId,
+                          const InputFile::Ptr& photo);
 
-        bool DeleteChatPhoto(boost::variant<std::int64_t, std::string> chatId);
+        bool DeleteChatPhoto(const boost::variant<std::int64_t, std::string>& chatId);
 
-        bool SetChatTitle(boost::variant<std::int64_t, std::string> chatId,
+        bool SetChatTitle(const boost::variant<std::int64_t, std::string>& chatId,
                           const std::string& title);
 
-        bool SetChatDescription(boost::variant<std::int64_t, std::string> chatId,
+        bool SetChatDescription(const boost::variant<std::int64_t, std::string>& chatId,
                                 const std::string& description = "");
 
-        bool PinChatMessage(boost::variant<std::int64_t, std::string> chatId,
+        bool PinChatMessage(const boost::variant<std::int64_t, std::string>& chatId,
                             std::int32_t messageId,
                             bool disableNotification = false);
 
-        bool UnpinChatMessage(boost::variant<std::int64_t, std::string> chatId,
+        bool UnpinChatMessage(const boost::variant<std::int64_t, std::string>& chatId,
                               std::int32_t messageId = 0);
 
-        bool UnpinAllChatMessages(boost::variant<std::int64_t, std::string> chatId);
+        bool UnpinAllChatMessages(const boost::variant<std::int64_t, std::string>& chatId);
 
-        bool LeaveChat(boost::variant<std::int64_t, std::string> chatId);
+        bool LeaveChat(const boost::variant<std::int64_t, std::string>& chatId);
 
-        Chat::Ptr GetChat(boost::variant<std::int64_t, std::string> chatId);
+        Chat::Ptr GetChat(const boost::variant<std::int64_t, std::string>& chatId);
 
-        std::vector<ChatMember::Ptr> GetChatAdministrators(boost::variant<std::int64_t, std::string> chatId);
+        std::vector<ChatMember::Ptr> GetChatAdministrators(const boost::variant<std::int64_t, std::string>& chatId);
 
-        std::int32_t GetChatMemberCount(boost::variant<std::int64_t, std::string> chatId);
+        std::int32_t GetChatMemberCount(const boost::variant<std::int64_t, std::string>& chatId);
 
-        ChatMember::Ptr GetChatMember(boost::variant<std::int64_t, std::string> chatId,
+        ChatMember::Ptr GetChatMember(const boost::variant<std::int64_t, std::string>& chatId,
                                       std::int64_t userId);
 
-        bool SetChatStickerSet(boost::variant<std::int64_t, std::string> chatId,
+        bool SetChatStickerSet(const boost::variant<std::int64_t, std::string>& chatId,
                                const std::string& stickerSetName);
 
-        bool DeleteChatStickerSet(boost::variant<std::int64_t, std::string> chatId);
+        bool DeleteChatStickerSet(const boost::variant<std::int64_t, std::string>& chatId);
 
         std::vector<Sticker::Ptr> GetForumTopicIconStickers();
 
-        ForumTopic::Ptr CreateForumTopic(boost::variant<std::int64_t, std::string> chatId,
+        ForumTopic::Ptr CreateForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
                                          const std::string& name,
                                          std::int32_t iconColor = 0,
                                          const std::string& iconCustomEmojiId = "");
 
-        bool EditForumTopic(boost::variant<std::int64_t, std::string> chatId,
+        bool EditForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
                             std::int32_t messageThreadId,
                             const std::string& name = "",
-                            boost::variant<std::int8_t, std::string> iconCustomEmojiId = 0);
+                            const boost::variant<std::int8_t, std::string>& iconCustomEmojiId = 0);
 
-        bool CloseForumTopic(boost::variant<std::int64_t, std::string> chatId,
+        bool CloseForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
                              std::int32_t messageThreadId);
 
-        bool ReopenForumTopic(boost::variant<std::int64_t, std::string> chatId,
+        bool ReopenForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
                               std::int32_t messageThreadId);
 
-        bool DeleteForumTopic(boost::variant<std::int64_t, std::string> chatId,
+        bool DeleteForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
                               std::int32_t messageThreadId);
 
-        bool UnpinAllForumTopicMessages(boost::variant<std::int64_t, std::string> chatId,
+        bool UnpinAllForumTopicMessages(const boost::variant<std::int64_t, std::string>& chatId,
                                         std::int32_t messageThreadId);
 
-        bool EditGeneralForumTopic(boost::variant<std::int64_t, std::string> chatId,
-                                   std::string name);
+        bool EditGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+                                   const std::string& name);
 
-        bool CloseGeneralForumTopic(boost::variant<std::int64_t, std::string> chatId);
+        bool CloseGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId);
 
-        bool ReopenGeneralForumTopic(boost::variant<std::int64_t, std::string> chatId);
+        bool ReopenGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId);
 
-        bool HideGeneralForumTopic(boost::variant<std::int64_t, std::string> chatId);
+        bool HideGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId);
 
-        bool UnhideGeneralForumTopic(boost::variant<std::int64_t, std::string> chatId);
+        bool UnhideGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId);
 
         bool AnswerCallbackQuery(const std::string& callbackQueryId,
                                  const std::string& text = "",
@@ -434,64 +423,89 @@ namespace Telebot
                                  std::int32_t cacheTime = 0);
 
         bool SetMyCommands(const std::vector<BotCommand::Ptr>& commands,
-                           BotCommandScope::Ptr scope = nullptr,
+                           const BotCommandScope::Ptr& scope = nullptr,
                            const std::string& languageCode = "");
 
-        bool DeleteMyCommands(BotCommandScope::Ptr scope = nullptr,
+        bool DeleteMyCommands(const BotCommandScope::Ptr& scope = nullptr,
                               const std::string& languageCode = "");
 
-        std::vector<BotCommand::Ptr> GetMyCommands(BotCommandScope::Ptr scope = nullptr,
+        std::vector<BotCommand::Ptr> GetMyCommands(const BotCommandScope::Ptr& scope = nullptr,
                                                    const std::string& languageCode = "");
 
+        bool SetMyDescription(const std::string& description = "",
+                              const std::string& languageCode = "");
+
+        std::string GetMyDescription(const std::string& languageCode = "");
+
+        bool SetMyShortDescription(const std::string& shortDescription = "",
+                                   const std::string& languageCode = "");
+
+        std::string GetMyShortDescription(const std::string& languageCode = "");
+
         bool SetChatMenuButton(std::int64_t chatId = 0,
-                               MenuButton::Ptr menuButton = nullptr);
+                               const MenuButton::Ptr& menuButton = nullptr);
 
         MenuButton::Ptr GetChatMenuButton(std::int64_t chatId = 0);
 
-        bool SetMyDefaultAdministratorRights(ChatAdministratorRights::Ptr rights = nullptr,
+        bool SetMyDefaultAdministratorRights(const ChatAdministratorRights::Ptr& rights = nullptr,
                                              bool forChannels = false);
 
         ChatAdministratorRights::Ptr GetMyDefaultAdministratorRights(bool forChannels = false);
 
         Message::Ptr EditMessageText(const std::string& text,
-                                     boost::variant<std::int64_t, std::string> chatId = 0,
+                                     const boost::variant<std::int64_t, std::string>& chatId = 0,
                                      std::int32_t messageId = 0,
                                      const std::string& inlineMessageId = "",
                                      const std::string& parseMode = "",
                                      bool disableWebPagePreview = false,
-                                     GenericReply::Ptr replyMarkup = nullptr,
+                                     const GenericReply::Ptr& replyMarkup = nullptr,
                                      const std::vector<MessageEntity::Ptr>& entities = std::vector<MessageEntity::Ptr>());
 
-        Message::Ptr EditMessageCaption(boost::variant<std::int64_t, std::string> chatId = 0,
+        Message::Ptr EditMessageCaption(const boost::variant<std::int64_t, std::string>& chatId = 0,
                                         std::int32_t messageId = 0,
                                         const std::string& caption = "",
                                         const std::string& inlineMessageId = "",
-                                        GenericReply::Ptr replyMarkup = nullptr,
+                                        const GenericReply::Ptr& replyMarkup = nullptr,
                                         const std::string& parseMode = "",
                                         const std::vector<MessageEntity::Ptr>& captionEntities = std::vector<MessageEntity::Ptr>());
 
-        Message::Ptr EditMessageMedia(InputMedia::Ptr media,
-                                      boost::variant<std::int64_t, std::string> chatId = 0,
+        Message::Ptr EditMessageMedia(const InputMedia::Ptr& media,
+                                      const boost::variant<std::int64_t, std::string>& chatId = 0,
                                       std::int32_t messageId = 0,
                                       const std::string& inlineMessageId = "",
-                                      GenericReply::Ptr replyMarkup = nullptr);
+                                      const GenericReply::Ptr& replyMarkup = nullptr);
 
-        Message::Ptr EditMessageReplyMarkup(boost::variant<std::int64_t, std::string> chatId = 0,
+        Message::Ptr EditMessageLiveLocation(float latitude,
+                                             float longitude,
+                                             const boost::variant<std::int64_t, std::string>& chatId = "",
+                                             std::int32_t messageId = 0,
+                                             const std::string& inlineMessageId = "",
+                                             const InlineKeyboardMarkup::Ptr& replyMarkup = std::make_shared<InlineKeyboardMarkup>(),
+                                             float horizontalAccuracy = 0,
+                                             std::int32_t heading = 0,
+                                             std::int32_t proximityAlertRadius = 0);
+
+        Message::Ptr StopMessageLiveLocation(const boost::variant<std::int64_t, std::string>& chatId = "",
+                                             std::int32_t messageId = 0,
+                                             const std::string& inlineMessageId = "",
+                                             const InlineKeyboardMarkup::Ptr& replyMarkup = std::make_shared<InlineKeyboardMarkup>());
+
+        Message::Ptr EditMessageReplyMarkup(const boost::variant<std::int64_t, std::string>& chatId = 0,
                                             std::int32_t messageId = 0,
                                             const std::string& inlineMessageId = "",
-                                            GenericReply::Ptr replyMarkup = nullptr);
+                                            const GenericReply::Ptr& replyMarkup = nullptr);
 
-        Poll::Ptr StopPoll(boost::variant<std::int64_t, std::string> chatId,
+        Poll::Ptr StopPoll(const boost::variant<std::int64_t, std::string>& chatId,
                            std::int64_t messageId,
-                           InlineKeyboardMarkup::Ptr replyMarkup = std::make_shared<InlineKeyboardMarkup>());
+                           const InlineKeyboardMarkup::Ptr& replyMarkup = std::make_shared<InlineKeyboardMarkup>());
 
-        bool DeleteMessage(boost::variant<std::int64_t, std::string> chatId,
+        bool DeleteMessage(const boost::variant<std::int64_t, std::string>& chatId,
                            std::int32_t messageId);
 
-        Message::Ptr SendSticker(boost::variant<std::int64_t, std::string> chatId,
-                                 boost::variant<InputFile::Ptr, std::string> sticker,
+        Message::Ptr SendSticker(const boost::variant<std::int64_t, std::string>& chatId,
+                                 const boost::variant<InputFile::Ptr, std::string>& sticker,
                                  std::int32_t replyToMessageId = 0,
-                                 GenericReply::Ptr replyMarkup = nullptr,
+                                 const GenericReply::Ptr& replyMarkup = nullptr,
                                  bool disableNotification = false,
                                  bool allowSendingWithoutReply = false,
                                  bool protectContent = false,
@@ -502,34 +516,51 @@ namespace Telebot
         std::vector<Sticker::Ptr> GetCustomEmojiStickers(const std::vector<std::string>& customEmojiIds);
 
         File::Ptr UploadStickerFile(std::int64_t userId,
-                                    InputFile::Ptr pngSticker);
+                                    const InputFile::Ptr& pngSticker);
 
         bool CreateNewStickerSet(std::int64_t userId,
                                  const std::string& name,
                                  const std::string& title,
                                  const std::string& emojis,
-                                 MaskPosition::Ptr maskPosition = nullptr,
-                                 boost::variant<InputFile::Ptr, std::string> pngSticker = "",
-                                 InputFile::Ptr tgsSticker = nullptr,
-                                 InputFile::Ptr webmSticker = nullptr,
+                                 const MaskPosition::Ptr& maskPosition = nullptr,
+                                 const boost::variant<InputFile::Ptr, std::string>& pngSticker = "",
+                                 const InputFile::Ptr& tgsSticker = nullptr,
+                                 const InputFile::Ptr& webmSticker = nullptr,
                                  const std::string& stickerType = "");
 
         bool AddStickerToSet(std::int64_t userId,
                              const std::string& name,
                              const std::string& emojis,
-                             MaskPosition::Ptr maskPosition = nullptr,
-                             boost::variant<InputFile::Ptr, std::string> pngSticker = "",
-                             InputFile::Ptr tgsSticker = nullptr,
-                             InputFile::Ptr webmSticker = nullptr);
+                             const MaskPosition::Ptr& maskPosition = nullptr,
+                             const boost::variant<InputFile::Ptr, std::string>& pngSticker = "",
+                             const InputFile::Ptr& tgsSticker = nullptr,
+                             const InputFile::Ptr& webmSticker = nullptr);
 
         bool SetStickerPositionInSet(const std::string& sticker,
                                      std::int32_t position);
 
         bool DeleteStickerFromSet(const std::string& sticker);
 
-        bool SetStickerSetThumb(const std::string& name,
-                                std::int64_t userId,
-                                boost::variant<InputFile::Ptr, std::string> thumb = "");
+        bool SetStickerEmojiList(const std::string& sticker,
+                                 const std::vector<std::string>& emojiList);
+
+        bool SetStickerKeywords(const std::string& sticker,
+                                const std::vector<std::string>& keywords);
+
+        bool SetStickerMaskPosition(const std::string& sticker,
+                                    const MaskPosition::Ptr& maskPosition = nullptr);
+
+        bool SetStickerTitle(const std::string& name,
+                             const std::string& title);
+
+        bool SetStickerSetThumbnail(const std::string& name,
+                                    std::int64_t userId,
+                                    const boost::variant<InputFile::Ptr, std::string>& thumb = "");
+
+        bool SetCustomEmojiStickerSetThumbnail(const std::string& name,
+                                               const std::string& customEmojiId = "");
+
+        bool DeleteStickerSet(const std::string& name);
 
         bool AnswerInlineQuery(const std::string& inlineQueryId,
                                const std::vector<InlineQueryResult::Ptr>& results,
@@ -540,9 +571,9 @@ namespace Telebot
                                const std::string& switchPmParameter = "");
 
         SentWebAppMessage::Ptr AnswerWebAppQuery(const std::string& webAppQueryId,
-                                                 InlineQueryResult::Ptr result);
+                                                 const InlineQueryResult::Ptr& result);
 
-        Message::Ptr SendInvoice(boost::variant<std::int64_t, std::string> chatId,
+        Message::Ptr SendInvoice(const boost::variant<std::int64_t, std::string>& chatId,
                                  const std::string& title,
                                  const std::string& description,
                                  const std::string& payload,
@@ -562,7 +593,7 @@ namespace Telebot
                                  bool sendEmailToProvider = false,
                                  bool isFlexible = false,
                                  std::int32_t replyToMessageId = 0,
-                                 GenericReply::Ptr replyMarkup = nullptr,
+                                 const GenericReply::Ptr& replyMarkup = nullptr,
                                  bool disableNotification = false,
                                  bool allowSendingWithoutReply = false,
                                  std::int32_t maxTipAmount = 0,
@@ -607,7 +638,7 @@ namespace Telebot
         Message::Ptr SendGame(std::int64_t chatId,
                               const std::string& gameShortName,
                               std::int32_t replyToMessageId = 0,
-                              InlineKeyboardMarkup::Ptr replyMarkup = std::make_shared<InlineKeyboardMarkup>(),
+                              const InlineKeyboardMarkup::Ptr& replyMarkup = std::make_shared<InlineKeyboardMarkup>(),
                               bool disableNotification = false,
                               bool allowSendingWithoutReply = false,
                               bool protectContent = false,
@@ -625,11 +656,6 @@ namespace Telebot
                                                           std::int64_t chatId = 0,
                                                           std::int32_t messageId = 0,
                                                           const std::string& inlineMessageId = "");
-
-        std::string DownloadFile(const std::string& filePath,
-                                 const std::vector<HttpReqArg>& args = std::vector<HttpReqArg>());
-
-        bool BlockedByUser(std::int64_t chatId);
     };
 }
 
