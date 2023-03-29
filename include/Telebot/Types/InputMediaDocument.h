@@ -1,16 +1,16 @@
 #ifndef Telebot_InputMediaDocumentH
 #define Telebot_InputMediaDocumentH
 
-#include "Telebot/Types/InputMedia.h"
+#include "InputMedia.h"
 
 namespace Telebot
 {
     class InputMediaDocument : public InputMedia
     {
     public:
-        static const std::string TYPE;
-
         typedef std::shared_ptr<InputMediaDocument> Ptr;
+
+        static const std::string TYPE;
 
         InputMediaDocument()
         {

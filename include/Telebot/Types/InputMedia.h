@@ -1,11 +1,9 @@
 #ifndef Telebot_InputMediaH
 #define Telebot_InputMediaH
 
-#include <memory>
-#include <string>
 #include <vector>
 
-#include "Telebot/Types/MessageEntity.h"
+#include "MessageEntity.h"
 
 namespace Telebot
 {

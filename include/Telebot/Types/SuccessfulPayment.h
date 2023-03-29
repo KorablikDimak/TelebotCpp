@@ -1,7 +1,7 @@
 #ifndef Telebot_SuccessfulPaymentH
 #define Telebot_SuccessfulPaymentH
 
-#include "Telebot/Types/OrderInfo.h"
+#include "OrderInfo.h"
 
 namespace Telebot
 {

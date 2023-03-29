@@ -1,16 +1,16 @@
 #ifndef Telebot_ChatMemberLeftH
 #define Telebot_ChatMemberLeftH
 
-#include "Telebot/Types/ChatMember.h"
+#include "ChatMember.h"
 
 namespace Telebot
 {
     class ChatMemberLeft : public ChatMember
     {
     public:
-        static const std::string STATUS;
-
         typedef std::shared_ptr<ChatMemberLeft> Ptr;
+
+        static const std::string STATUS;
 
         ChatMemberLeft()
         {

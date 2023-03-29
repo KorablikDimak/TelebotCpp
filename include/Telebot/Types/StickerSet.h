@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "Telebot/Types/Sticker.h"
-#include "Telebot/Types/PhotoSize.h"
+#include "Sticker.h"
+#include "PhotoSize.h"
 
 namespace Telebot
 {

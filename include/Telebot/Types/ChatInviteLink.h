@@ -1,7 +1,7 @@
 #ifndef Telebot_ChatInviteLinkH
 #define Telebot_ChatInviteLinkH
 
-#include "Telebot/Types/User.h"
+#include "User.h"
 
 namespace Telebot
 {

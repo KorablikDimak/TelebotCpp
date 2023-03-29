@@ -1,16 +1,16 @@
 #ifndef Telebot_UpdateH
 #define Telebot_UpdateH
 
-#include "Telebot/Types/Message.h"
-#include "Telebot/Types/InlineQuery.h"
-#include "Telebot/Types/ChosenInlineResult.h"
-#include "Telebot/Types/CallbackQuery.h"
-#include "Telebot/Types/ShippingQuery.h"
-#include "Telebot/Types/PreCheckoutQuery.h"
-#include "Telebot/Types/Poll.h"
-#include "Telebot/Types/PollAnswer.h"
-#include "Telebot/Types/ChatMemberUpdated.h"
-#include "Telebot/Types/ChatJoinRequest.h"
+#include "Message.h"
+#include "InlineQuery.h"
+#include "ChosenInlineResult.h"
+#include "CallbackQuery.h"
+#include "ShippingQuery.h"
+#include "PreCheckoutQuery.h"
+#include "Poll.h"
+#include "PollAnswer.h"
+#include "ChatMemberUpdated.h"
+#include "ChatJoinRequest.h"
 
 namespace Telebot
 {

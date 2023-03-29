@@ -1,7 +1,7 @@
 #ifndef Telebot_PollAnswerH
 #define Telebot_PollAnswerH
 
-#include "Telebot/Types/User.h"
+#include "User.h"
 
 namespace Telebot
 {
@@ -10,9 +10,9 @@ namespace Telebot
     public:
         typedef std::shared_ptr<PollAnswer> Ptr;
 
-        std::string pollId;
-        User::Ptr user;
-        std::vector<std::int32_t> optionIds;
+        std::string PollId;
+        User::Ptr User;
+        std::vector<std::int32_t> OptionIds;
     };
 }
 

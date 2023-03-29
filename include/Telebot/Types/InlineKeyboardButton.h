@@ -1,9 +1,9 @@
 #ifndef Telebot_InlineKeyboardButtonH
 #define Telebot_InlineKeyboardButtonH
 
-#include "Telebot/Types/WebAppInfo.h"
-#include "Telebot/Types/LoginUrl.h"
-#include "Telebot/Types/CallbackGame.h"
+#include "WebAppInfo.h"
+#include "LoginUrl.h"
+#include "CallbackGame.h"
 
 namespace Telebot
 {

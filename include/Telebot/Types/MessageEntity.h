@@ -1,7 +1,7 @@
 #ifndef Telebot_MessageEntityH
 #define Telebot_MessageEntityH
 
-#include "Telebot/Types/User.h"
+#include "User.h"
 
 namespace Telebot
 {

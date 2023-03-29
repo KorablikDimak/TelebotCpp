@@ -1,7 +1,7 @@
 #ifndef Telebot_UserProfilePhotosH
 #define Telebot_UserProfilePhotosH
 
-#include "Telebot/Types/PhotoSize.h"
+#include "PhotoSize.h"
 
 #include <vector>
 

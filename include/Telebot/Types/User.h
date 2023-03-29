@@ -1,7 +1,6 @@
 #ifndef Telebot_UserH
 #define Telebot_UserH
 
-#include <cstdint>
 #include <string>
 #include <memory>
 

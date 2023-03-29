@@ -1,8 +1,8 @@
 #ifndef Telebot_CallbackQueryH
 #define Telebot_CallbackQueryH
 
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/Message.h"
+#include "User.h"
+#include "Message.h"
 
 namespace Telebot
 {

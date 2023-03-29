@@ -1,9 +1,9 @@
 #ifndef Telebot_StickerH
 #define Telebot_StickerH
 
-#include "Telebot/Types/PhotoSize.h"
-#include "Telebot/Types/File.h"
-#include "Telebot/Types/MaskPosition.h"
+#include "PhotoSize.h"
+#include "File.h"
+#include "MaskPosition.h"
 
 namespace Telebot
 {

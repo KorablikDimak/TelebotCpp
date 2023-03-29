@@ -11,11 +11,11 @@ namespace Telebot
     public:
         typedef std::shared_ptr<PhotoSize> Ptr;
 
-        std::string fileId;
-        std::string fileUniqueId;
-        std::int32_t width;
-        std::int32_t height;
-        std::int32_t fileSize;
+        std::string FileId;
+        std::string FileUniqueId;
+        std::int32_t Width;
+        std::int32_t Height;
+        std::int32_t FileSize;
     };
 }
 

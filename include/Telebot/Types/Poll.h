@@ -1,8 +1,8 @@
 #ifndef Telebot_PollH
 #define Telebot_PollH
 
-#include "Telebot/Types/PollOption.h"
-#include "Telebot/Types/MessageEntity.h"
+#include "PollOption.h"
+#include "MessageEntity.h"
 
 namespace Telebot
 {

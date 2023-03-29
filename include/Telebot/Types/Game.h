@@ -1,9 +1,9 @@
 #ifndef Telebot_GameH
 #define Telebot_GameH
 
-#include "Telebot/Types/MessageEntity.h"
-#include "Telebot/Types/Animation.h"
-#include "Telebot/Types/PhotoSize.h"
+#include "MessageEntity.h"
+#include "Animation.h"
+#include "PhotoSize.h"
 
 namespace Telebot
 {

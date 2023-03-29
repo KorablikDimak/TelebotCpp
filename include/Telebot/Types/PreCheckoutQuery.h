@@ -1,8 +1,8 @@
 #ifndef Telebot_PreCheckoutQueryH
 #define Telebot_PreCheckoutQueryH
 
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/OrderInfo.h"
+#include "User.h"
+#include "OrderInfo.h"
 
 namespace Telebot
 {

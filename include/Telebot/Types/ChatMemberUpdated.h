@@ -1,10 +1,10 @@
 #ifndef Telebot_ChatMemberUpdatedH
 #define Telebot_ChatMemberUpdatedH
 
-#include "Telebot/Types/Chat.h"
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/ChatMember.h"
-#include "Telebot/Types/ChatInviteLink.h"
+#include "Chat.h"
+#include "User.h"
+#include "ChatMember.h"
+#include "ChatInviteLink.h"
 
 namespace Telebot
 {

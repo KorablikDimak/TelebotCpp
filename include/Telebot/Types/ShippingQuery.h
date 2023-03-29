@@ -1,8 +1,8 @@
 #ifndef Telebot_ShippingQueryH
 #define Telebot_ShippingQueryH
 
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/ShippingAddress.h"
+#include "User.h"
+#include "ShippingAddress.h"
 
 namespace Telebot
 {

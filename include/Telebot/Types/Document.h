@@ -1,7 +1,7 @@
 #ifndef Telebot_DocumentH
 #define Telebot_DocumentH
 
-#include "Telebot/Types/PhotoSize.h"
+#include "PhotoSize.h"
 
 namespace Telebot
 {

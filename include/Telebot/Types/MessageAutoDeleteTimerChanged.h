@@ -10,7 +10,7 @@ namespace Telebot
     public:
         typedef std::shared_ptr<MessageAutoDeleteTimerChanged> Ptr;
 
-        std::int32_t messageAutoDeleteTime;
+        std::int32_t MessageAutoDeleteTime;
     };
 }
 

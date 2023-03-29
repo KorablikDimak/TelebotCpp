@@ -1,17 +1,17 @@
 #ifndef Telebot_InputMediaVideoH
 #define Telebot_InputMediaVideoH
 
-#include "Telebot/Types/InputMedia.h"
-#include "Telebot/Types/InputFile.h"
+#include "InputMedia.h"
+#include "InputFile.h"
 
 namespace Telebot
 {
     class InputMediaVideo : public InputMedia
     {
     public:
-        static const std::string TYPE;
-
         typedef std::shared_ptr<InputMediaVideo> Ptr;
+
+        static const std::string TYPE;
 
         InputMediaVideo()
         {

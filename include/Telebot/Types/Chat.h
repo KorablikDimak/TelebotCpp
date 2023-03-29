@@ -1,9 +1,9 @@
 #ifndef Telebot_ChatH
 #define Telebot_ChatH
 
-#include "Telebot/Types/ChatPhoto.h"
-#include "Telebot/Types/ChatPermissions.h"
-#include "Telebot/Types/ChatLocation.h"
+#include "ChatPhoto.h"
+#include "ChatPermissions.h"
+#include "ChatLocation.h"
 
 namespace Telebot
 {

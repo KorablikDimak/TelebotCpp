@@ -1,16 +1,16 @@
 #ifndef Telebot_InputMediaAnimationH
 #define Telebot_InputMediaAnimationH
 
-#include "Telebot/Types/InputMedia.h"
+#include "InputMedia.h"
 
 namespace Telebot
 {
     class InputMediaAnimation : public InputMedia
     {
     public:
-        static const std::string TYPE;
-
         typedef std::shared_ptr<InputMediaAnimation> Ptr;
+
+        static const std::string TYPE;
 
         InputMediaAnimation()
         {

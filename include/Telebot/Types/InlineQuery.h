@@ -1,8 +1,8 @@
 #ifndef Telebot_InlineQueryH
 #define Telebot_InlineQueryH
 
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/Location.h"
+#include "User.h"
+#include "Location.h"
 
 namespace Telebot
 {

@@ -1,8 +1,8 @@
 #ifndef Telebot_InlineKeyboardMarkupH
 #define Telebot_InlineKeyboardMarkupH
 
-#include "Telebot/Types/GenericReply.h"
-#include "Telebot/Types/InlineKeyboardButton.h"
+#include "GenericReply.h"
+#include "InlineKeyboardButton.h"
 
 namespace Telebot
 {

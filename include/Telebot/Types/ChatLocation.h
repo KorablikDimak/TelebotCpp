@@ -1,7 +1,7 @@
 #ifndef Telebot_ChatLocationH
 #define Telebot_ChatLocationH
 
-#include "Telebot/Types/Location.h"
+#include "Location.h"
 
 namespace Telebot
 {

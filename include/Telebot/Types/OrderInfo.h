@@ -1,7 +1,7 @@
 #ifndef Telebot_OrderInfoH
 #define Telebot_OrderInfoH
 
-#include "Telebot/Types/ShippingAddress.h"
+#include "ShippingAddress.h"
 
 namespace Telebot
 {

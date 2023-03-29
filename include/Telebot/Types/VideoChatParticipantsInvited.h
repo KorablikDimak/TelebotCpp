@@ -1,7 +1,7 @@
 #ifndef Telebot_VideoChatParticipantsInvitedH
 #define Telebot_VideoChatParticipantsInvitedH
 
-#include "Telebot/Types/User.h"
+#include "User.h"
 
 namespace Telebot
 {

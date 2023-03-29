@@ -1,7 +1,7 @@
 #ifndef Telebot_EncryptedPassportElementH
 #define Telebot_EncryptedPassportElementH
 
-#include "Telebot/Types/PassportFile.h"
+#include "PassportFile.h"
 
 namespace Telebot
 {

@@ -1,7 +1,7 @@
 #ifndef Telebot_ProximityAlertTriggeredH
 #define Telebot_ProximityAlertTriggeredH
 
-#include "Telebot/Types/User.h"
+#include "User.h"
 
 namespace Telebot
 {

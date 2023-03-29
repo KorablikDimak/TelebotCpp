@@ -1,9 +1,9 @@
 #ifndef Telebot_ChatJoinRequestH
 #define Telebot_ChatJoinRequestH
 
-#include "Telebot/Types/Chat.h"
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/ChatInviteLink.h"
+#include "Chat.h"
+#include "User.h"
+#include "ChatInviteLink.h"
 
 namespace Telebot
 {

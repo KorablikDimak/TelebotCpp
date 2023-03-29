@@ -1,16 +1,16 @@
 #ifndef Telebot_BotCommandScopeChatMemberH
 #define Telebot_BotCommandScopeChatMemberH
 
-#include "Telebot/Types/BotCommandScope.h"
+#include "BotCommandScope.h"
 
 namespace Telebot
 {
     class BotCommandScopeChatMember : public BotCommandScope
     {
     public:
-        static const std::string TYPE;
-
         typedef std::shared_ptr<BotCommandScopeChatMember> Ptr;
+
+        static const std::string TYPE;
 
         BotCommandScopeChatMember()
         {

@@ -1,8 +1,8 @@
 #ifndef Telebot_ChosenInlineResultH
 #define Telebot_ChosenInlineResultH
 
-#include "Telebot/Types/User.h"
-#include "Telebot/Types/Location.h"
+#include "User.h"
+#include "Location.h"
 
 namespace Telebot
 {

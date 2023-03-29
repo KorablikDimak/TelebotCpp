@@ -1,17 +1,17 @@
 #ifndef Telebot_MenuButtonWebAppH
 #define Telebot_MenuButtonWebAppH
 
-#include "Telebot/Types/MenuButton.h"
-#include "Telebot/Types/WebAppInfo.h"
+#include "MenuButton.h"
+#include "WebAppInfo.h"
 
 namespace Telebot
 {
     class MenuButtonWebApp : public MenuButton
     {
     public:
-        static const std::string TYPE;
-
         typedef std::shared_ptr<MenuButtonWebApp> Ptr;
+
+        static const std::string TYPE;
 
         MenuButtonWebApp()
         {
