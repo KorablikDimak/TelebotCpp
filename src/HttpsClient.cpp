@@ -1,5 +1,7 @@
 #include "Telebot/HttpsClient.h"
 
+const std::string Telebot::HttpsClient::HTTPS_PORT = "443";
+
 Telebot::HttpsClient::HttpsClient()
 {
     _service = std::make_unique<Service>();

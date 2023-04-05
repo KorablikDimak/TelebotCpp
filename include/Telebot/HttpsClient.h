@@ -21,7 +21,7 @@ namespace Telebot
         std::unique_ptr<Service> _service;
         std::unique_ptr<SslSocket> _sslSocket;
 
-        const std::string HTTPS_PORT = "443";
+        static const std::string HTTPS_PORT;
 
     public:
         HttpsClient();

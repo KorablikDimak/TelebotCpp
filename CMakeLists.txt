@@ -22,21 +22,22 @@ find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 include_directories(include libs src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
-set(Headers include/Telebot/Bot.h include/Telebot/Api.h include/Telebot/HttpContext.h include/Telebot/HttpsClient.h
-        include/Telebot/EventHandler.h)
+set(Headers include/Telebot.h include/Telebot/Api.h include/Telebot/HttpContext.h include/Telebot/HttpsClient.h
+        include/Telebot/IEventHandler.h include/Telebot/Event.h include/Telebot/MethodHandler.h
+        include/Telebot/StaticMethodHandler.h)
 
-set(Source src/Bot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp)
+set(Source src/Telebot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp)
 
 set(Types src/Types/BotCommandScope.cpp src/Types/ChatMember.cpp src/Types/InlineQueryResult.cpp
         src/Types/InputFile.cpp src/Types/InputMedia.cpp src/Types/InputMessageContent.cpp
         src/Types/MenuButton.cpp src/Types/PassportElementError.cpp)
 
-set(PugiXML libs/pugiconfig.hpp libs/pugixml.hpp libs/pugixml.cpp)
+set(PugiXML libs/PugiXml/pugiconfig.hpp libs/pugixml.hpp libs/PugiXml/pugixml.cpp)
 
-set(Niohman_Json libs/json_fwd.hpp libs/json.hpp)
+set(Niohman_Json libs/Json/json_fwd.hpp libs/json.hpp)
 
 add_library(TelebotCpp SHARED ${Headers} ${Source} ${Types} ${PugiXML} ${Niohman_Json})
-target_link_libraries(TelebotCpp -static ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} )
+target_link_libraries(TelebotCpp -static ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
 
 add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)

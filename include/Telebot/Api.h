@@ -34,6 +34,21 @@ namespace Telebot
         static const std::string HOST;
         static const unsigned int HTTP_VERSION;
 
+        template<typename T>
+        std::shared_ptr<T> Get(const std::string& methodName)
+        {
+            std::shared_ptr<Telebot::HttpContext> httpContext = std::make_shared<Telebot::HttpContext>();
+            httpContext->Request->method_string("GET");
+            httpContext->Request->set(boost::beast::http::field::host, HOST);
+            httpContext->Request->target("/bot" + _token + "/" + methodName);
+            httpContext->Request->version(HTTP_VERSION);
+
+            _client->SendHttps(httpContext);
+
+            Json json = Json::parse(httpContext->Response->body());
+            if (json.at("ok").get<bool>()) return std::make_shared<T>(json.at("result"));
+        }
+
     public:
         std::string _token;
         std::unique_ptr<HttpsClient> _client;
@@ -41,7 +56,6 @@ namespace Telebot
         explicit Api(const std::string& token);
         ~Api() = default;
 
-    public:
         std::vector<Update::Ptr> GetUpdates(std::int32_t offset = 0,
                                             std::int32_t limit = 100,
                                             std::int32_t timeout = 0,
@@ -59,7 +73,7 @@ namespace Telebot
 
         WebhookInfo::Ptr GetWebhookInfo();
 
-        User::Ptr GetMe() const;
+        User::Ptr GetMe();
 
         bool LogOut();
 

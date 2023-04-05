@@ -1,26 +1,29 @@
 #ifndef Telebot_BotH
 #define Telebot_BotH
 
-#include <thread>
-
-#include "Api.h"
+#include "Telebot/Api.h"
+#include "Telebot/Event.h"
+#include "Telebot/MethodHandler.h"
+#include "Telebot/StaticMethodHandler.h"
 
 typedef std::map<std::string, std::string> ConfigDictionary;
 
 namespace Telebot
 {
-    class Bot
+    class Telebot
     {
     private:
         std::unique_ptr<Api> _api;
         bool _isProcess;
 
     public:
-        explicit Bot(const std::string& token);
-        ~Bot();
+        explicit Telebot(const std::string& token);
+        ~Telebot();
 
         void Start();
         void Stop();
+
+        Event<const std::string&> OnMessage;
     };
 }
 

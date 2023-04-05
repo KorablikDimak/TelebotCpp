@@ -38,22 +38,9 @@ Telebot::WebhookInfo::Ptr Telebot::Api::GetWebhookInfo()
 
 }
 
-Telebot::User::Ptr Telebot::Api::GetMe() const
+Telebot::User::Ptr Telebot::Api::GetMe()
 {
-    std::shared_ptr<Telebot::HttpContext> httpContext = std::make_shared<Telebot::HttpContext>();
-    httpContext->Request->method_string("GET");
-    httpContext->Request->set(boost::beast::http::field::host, HOST);
-    httpContext->Request->target("/bot" + _token + "/GetMe");
-    httpContext->Request->version(HTTP_VERSION);
-
-    _client->SendHttps(httpContext);
-    Json json = Json::parse(httpContext->Response->body());
-
-    if (json.at("ok").get<bool>())
-    {
-        json = json.at("result");
-
-    }
+    return Get<User>("getMe");
 }
 
 bool Telebot::Api::LogOut()

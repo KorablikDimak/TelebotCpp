@@ -1,6 +1,6 @@
-#include "Telebot/Bot.h"
+#include "Telebot.h"
 
-Telebot::Bot::Bot(const std::string &token)
+Telebot::Telebot::Telebot(const std::string &token)
 {
     _api = std::make_unique<Api>(token);
     _isProcess = true;
@@ -8,17 +8,17 @@ Telebot::Bot::Bot(const std::string &token)
     if (user->IsBot) Start();
 }
 
-Telebot::Bot::~Bot()
+Telebot::Telebot::~Telebot()
 {
-    _isProcess = false;
+    Stop();
 }
 
-void Telebot::Bot::Start()
+void Telebot::Telebot::Start()
 {
     _isProcess = true;
 }
 
-void Telebot::Bot::Stop()
+void Telebot::Telebot::Stop()
 {
     _isProcess = false;
 }

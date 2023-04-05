@@ -1,4 +1,4 @@
-#include "Telebot/types/InputFile.h"
+#include "Telebot/Types/InputFile.h"
 
 #include <fstream>
 #include <sstream>
