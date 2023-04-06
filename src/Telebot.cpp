@@ -3,7 +3,6 @@
 Telebot::Telebot::Telebot(const std::string &token)
 {
     _api = std::make_unique<Api>(token);
-    _isProcess = true;
     User::Ptr user = _api->GetMe();
     if (user->IsBot) Start();
 }
@@ -15,10 +14,10 @@ Telebot::Telebot::~Telebot()
 
 void Telebot::Telebot::Start()
 {
-    _isProcess = true;
+    _isProcess = std::make_unique<CancellationTokenSource>();
 }
 
 void Telebot::Telebot::Stop()
 {
-    _isProcess = false;
+    _isProcess->Cancel();
 }

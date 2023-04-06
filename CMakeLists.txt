@@ -24,9 +24,11 @@ include_directories(include libs src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS
 
 set(Headers include/Telebot.h include/Telebot/Api.h include/Telebot/HttpContext.h include/Telebot/HttpsClient.h
         include/Telebot/IEventHandler.h include/Telebot/Event.h include/Telebot/MethodHandler.h
-        include/Telebot/StaticMethodHandler.h)
+        include/Telebot/StaticMethodHandler.h include/Telebot/CancellationTokenSource.h
+        include/Telebot/CancellationToken.h include/Telebot/JsonMacros.h)
 
-set(Source src/Telebot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp)
+set(Source src/Telebot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp
+        src/CancellationTokenSource.cpp src/CancellationToken.cpp)
 
 set(Types src/Types/BotCommandScope.cpp src/Types/ChatMember.cpp src/Types/InlineQueryResult.cpp
         src/Types/InputFile.cpp src/Types/InputMedia.cpp src/Types/InputMessageContent.cpp

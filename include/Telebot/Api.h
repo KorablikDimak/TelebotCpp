@@ -49,6 +49,22 @@ namespace Telebot
             if (json.at("ok").get<bool>()) return std::make_shared<T>(json.at("result"));
         }
 
+        template<typename T>
+        std::shared_ptr<T> Post(const std::string& methodName, const Json& params)
+        {
+            std::shared_ptr<Telebot::HttpContext> httpContext = std::make_shared<Telebot::HttpContext>();
+            httpContext->Request->method_string("POST");
+            httpContext->Request->set(boost::beast::http::field::host, HOST);
+            httpContext->Request->target("/bot" + _token + "/" + methodName);
+            httpContext->Request->version(HTTP_VERSION);
+            httpContext->Request->body() = params.dump();
+
+            _client->SendHttps(httpContext);
+
+            Json json = Json::parse(httpContext->Response->body());
+            if (json.at("ok").get<bool>()) return std::make_shared<T>(json.at("result"));
+        }
+
     public:
         std::string _token;
         std::unique_ptr<HttpsClient> _client;

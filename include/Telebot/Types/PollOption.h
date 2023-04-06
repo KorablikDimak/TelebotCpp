@@ -1,9 +1,9 @@
 #ifndef Telebot_PollOptionH
 #define Telebot_PollOptionH
 
-#include <memory>
-#include <string>
-#include <vector>
+#include <json.hpp>
+
+typedef nlohmann::json Json;
 
 namespace Telebot
 {
@@ -12,9 +12,15 @@ namespace Telebot
     public:
         typedef std::shared_ptr<PollOption> Ptr;
 
-        std::string Text;
-        std::int64_t VoterCount;
+        std::string text;
+        std::int64_t voter_count;
     };
+
+    void from_json(const Json& json, PollOption& object)
+    {
+        VALUE_FROM_JSON(text)
+        VALUE_FROM_JSON(voter_count)
+    }
 }
 
 #endif

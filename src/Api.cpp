@@ -14,7 +14,13 @@ std::vector<Telebot::Update::Ptr> Telebot::Api::GetUpdates(int offset,
                                                            int timeout,
                                                            const std::vector<std::string>& allowedUpdates)
 {
+    Json json;
+    json["offset"] = offset;
+    json["limit"] = limit;
+    json["timeout"] = timeout;
+    json["allowed_updates"] = allowedUpdates;
 
+    return Post<Update>("getUpdates", json);
 }
 
 bool Telebot::Api::SetWebhook(const std::string &url,

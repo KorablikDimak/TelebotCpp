@@ -35,7 +35,7 @@ namespace Telebot
     }
 }
 
-#define METHOD_HANDLER(object, method) Telebot::CreateMethodHandler(object, method)
-#define THIS_METHOD_HANDLER(method) METHOD_HANDLER(this, method)
+#define METHOD_HANDLER(object, method) Telebot::CreateMethodHandler(object, method);
+#define THIS_METHOD_HANDLER(method) METHOD_HANDLER(this, method);
 
 #endif

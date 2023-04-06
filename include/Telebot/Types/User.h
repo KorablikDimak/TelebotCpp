@@ -1,11 +1,7 @@
 #ifndef Telebot_UserH
 #define Telebot_UserH
 
-#include <string>
-#include <memory>
-#include <json.hpp>
-
-typedef nlohmann::json Json;
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -14,37 +10,33 @@ namespace Telebot
     public:
         typedef std::shared_ptr<User> Ptr;
 
-        std::int64_t Id;
-        bool IsBot;
-        std::string FirstName;
-        std::string LastName;
-        std::string Username;
-        std::string LanguageCode;
-        bool IsPremium;
-        bool AddedToAttachmentMenu;
-        bool CanJoinGroups;
-        bool CanReadAllGroupMessages;
-        bool SupportsInlineQueries;
-
-        User() = default;
-
-        explicit User(const Json& json)
-        {
-            Id = json.value<std::int64_t>("id", 0);
-            IsBot = json.value<bool>("is_bot", false);
-            FirstName = json.value<std::string>("first_name", "");
-            LastName = json.value<std::string>("last_name", "");
-            Username = json.value<std::string>("username", "");
-            LanguageCode = json.value<std::string>("language_code", "");
-            IsPremium = json.value<bool>("is_premium", false);
-            AddedToAttachmentMenu = json.value<bool>("added_to_attachment_menu", false);
-            CanJoinGroups = json.value<bool>("can_join_groups", false);
-            CanReadAllGroupMessages = json.value<bool>("can_read_all_group_messages", false);
-            SupportsInlineQueries = json.value<bool>("supports_inline_queries", false);
-        }
-
-        ~User() = default;
+        std::int64_t id;
+        bool is_bot;
+        std::string first_name;
+        std::string last_name;
+        std::string username;
+        std::string language_code;
+        bool is_premium;
+        bool added_to_attachment_menu;
+        bool can_join_groups;
+        bool can_read_all_group_messages;
+        bool supports_inline_queries;
     };
+
+    void from_json(const Json& json, User& object)
+    {
+        VALUE_FROM_JSON(id)
+        VALUE_FROM_JSON(is_bot)
+        VALUE_FROM_JSON(first_name)
+        VALUE_FROM_JSON(last_name)
+        VALUE_FROM_JSON(username)
+        VALUE_FROM_JSON(language_code)
+        VALUE_FROM_JSON(is_premium)
+        VALUE_FROM_JSON(added_to_attachment_menu)
+        VALUE_FROM_JSON(can_join_groups)
+        VALUE_FROM_JSON(can_read_all_group_messages)
+        VALUE_FROM_JSON(supports_inline_queries)
+    }
 }
 
 #endif

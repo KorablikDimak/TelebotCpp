@@ -11,21 +11,25 @@ namespace Telebot
     class Event
     {
     private:
-        std::list<std::shared_ptr<IEventHandler<TParams...>>> _handlers;
+        std::unique_ptr<std::list<std::shared_ptr<IEventHandler<TParams...>>>> _handlers;
 
     public:
-        Event() = default;
+        Event()
+        {
+            _handlers = std::make_unique<std::list<std::shared_ptr<IEventHandler<TParams...>>>>();
+        }
+
         virtual ~Event() = default;
 
         void operator()(TParams... params)
         {
-            for (std::shared_ptr<IEventHandler<TParams...>> handler : _handlers)
+            for (std::shared_ptr<IEventHandler<TParams...>> handler : *_handlers)
                 handler->Call(params...);
         }
 
         void operator+=(std::shared_ptr<IEventHandler<TParams...>> handler)
         {
-            _handlers.push_back(handler);
+            _handlers->push_back(handler);
         }
     };
 }

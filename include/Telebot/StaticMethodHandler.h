@@ -32,6 +32,6 @@ namespace Telebot
     }
 }
 
-#define STATIC_METHOD_HANDLER(method) Telebot::CreateStaticMethodHandler(method)
+#define STATIC_METHOD_HANDLER(method) Telebot::CreateStaticMethodHandler(method);
 
 #endif

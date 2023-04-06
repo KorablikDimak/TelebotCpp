@@ -6,25 +6,42 @@
 
 namespace Telebot
 {
-class Poll
-{
-public:
-    typedef std::shared_ptr<Poll> Ptr;
+    class Poll
+    {
+    public:
+        typedef std::shared_ptr<Poll> Ptr;
 
-    std::string Id;
-    std::string Question;
-    std::vector<PollOption::Ptr> Options;
-    std::int32_t TotalVoterCount;
-    bool IsClosed;
-    bool IsAnonymous;
-    std::string Type;
-    bool AllowsMultipleAnswers;
-    std::int32_t CorrectOptionId;
-    std::string Explanation;
-    std::vector<MessageEntity::Ptr> ExplanationEntities;
-    std::int32_t OpenPeriod;
-    std::int64_t CloseDate;
-};
+        std::string id;
+        std::string question;
+        std::vector<PollOption::Ptr> options;
+        std::int32_t total_voter_count;
+        bool is_closed;
+        bool is_anonymous;
+        std::string type;
+        bool allows_multiple_answers;
+        std::int32_t correct_optionId;
+        std::string explanation;
+        std::vector<MessageEntity::Ptr> explanation_entities;
+        std::int32_t open_period;
+        std::int64_t close_date;
+    };
+
+    void from_json(const Json& json, Poll& object)
+    {
+        VALUE_FROM_JSON(id)
+        VALUE_FROM_JSON(question)
+        VECTOR_FROM_JSON(options)
+        VALUE_FROM_JSON(total_voter_count)
+        VALUE_FROM_JSON(is_closed)
+        VALUE_FROM_JSON(is_anonymous)
+        VALUE_FROM_JSON(type)
+        VALUE_FROM_JSON(allows_multiple_answers)
+        VALUE_FROM_JSON(correct_optionId)
+        VALUE_FROM_JSON(explanation)
+        VECTOR_FROM_JSON(explanation_entities)
+        VALUE_FROM_JSON(open_period)
+        VALUE_FROM_JSON(close_date)
+    }
 }
 
 #endif

@@ -11,11 +11,19 @@ namespace Telebot
     public:
         typedef std::shared_ptr<ShippingQuery> Ptr;
 
-        std::string Id;
-        User::Ptr From;
-        std::string InvoicePayload;
-        ShippingAddress::Ptr ShippingAddress;
+        std::string id;
+        User::Ptr from;
+        std::string invoice_payload;
+        ShippingAddress::Ptr shipping_address;
     };
+
+    void from_json(const Json& json, ShippingQuery& object)
+    {
+        VALUE_FROM_JSON(id)
+        OBJECT_FROM_JSON(from)
+        VALUE_FROM_JSON(invoice_payload)
+        OBJECT_FROM_JSON(shipping_address)
+    }
 }
 
 #endif
