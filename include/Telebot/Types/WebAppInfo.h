@@ -1,8 +1,7 @@
 #ifndef Telebot_WebAppInfoH
 #define Telebot_WebAppInfoH
 
-#include <memory>
-#include <string>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -11,8 +10,13 @@ namespace Telebot
     public:
         typedef std::shared_ptr<WebAppInfo> Ptr;
 
-        std::string Url;
+        std::string url;
     };
+
+    inline void from_json(const Json& json, WebAppInfo& object)
+    {
+        VALUE_FROM_JSON(url)
+    }
 }
 
 #endif

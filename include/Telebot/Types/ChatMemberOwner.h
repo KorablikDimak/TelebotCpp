@@ -14,7 +14,7 @@ namespace Telebot
 
         ChatMemberOwner()
         {
-            Status = STATUS;
+            status = STATUS;
         }
 
         std::string CustomTitle;

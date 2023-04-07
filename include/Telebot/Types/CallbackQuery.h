@@ -20,7 +20,7 @@ namespace Telebot
         std::string game_short_name;
     };
 
-    void from_json(const Json& json, CallbackQuery& object)
+    inline void from_json(const Json& json, CallbackQuery& object)
     {
         VALUE_FROM_JSON(id);
         OBJECT_FROM_JSON(from);

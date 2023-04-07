@@ -14,7 +14,7 @@ namespace Telebot
 
         ChatMemberBanned()
         {
-            Status = STATUS;
+            status = STATUS;
         }
 
         std::int32_t UntilDate;

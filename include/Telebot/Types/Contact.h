@@ -1,8 +1,7 @@
 #ifndef Telebot_ContactH
 #define Telebot_ContactH
 
-#include <string>
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -11,12 +10,21 @@ namespace Telebot
     public:
         typedef std::shared_ptr<Contact> Ptr;
 
-        std::string PhoneNumber;
-        std::string FirstName;
-        std::string LastName;
-        std::int64_t UserId;
-        std::string Vcard;
+        std::string phone_number;
+        std::string first_name;
+        std::string last_name;
+        std::int64_t user_id;
+        std::string vcard;
     };
+
+    inline void from_json(const Json& json, Contact& object)
+    {
+        VALUE_FROM_JSON(phone_number)
+        VALUE_FROM_JSON(first_name)
+        VALUE_FROM_JSON(last_name)
+        VALUE_FROM_JSON(user_id)
+        VALUE_FROM_JSON(vcard)
+    }
 }
 
 #endif

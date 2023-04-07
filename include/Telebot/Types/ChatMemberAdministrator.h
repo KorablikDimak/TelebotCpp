@@ -14,7 +14,7 @@ namespace Telebot
 
         ChatMemberAdministrator()
         {
-            Status = STATUS;
+            status = STATUS;
         }
 
         bool CanBeEdited;

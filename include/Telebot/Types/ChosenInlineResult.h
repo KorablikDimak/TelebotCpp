@@ -18,7 +18,7 @@ namespace Telebot
         std::string query;
     };
 
-    void from_json(const Json& json, ChosenInlineResult& object)
+    inline void from_json(const Json& json, ChosenInlineResult& object)
     {
         VALUE_FROM_JSON(result_id)
         OBJECT_FROM_JSON(from)

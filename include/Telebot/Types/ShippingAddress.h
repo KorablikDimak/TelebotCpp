@@ -18,7 +18,7 @@ namespace Telebot
         std::string post_code;
     };
 
-    void from_json(const Json& json, ShippingAddress& object)
+    inline void from_json(const Json& json, ShippingAddress& object)
     {
         VALUE_FROM_JSON(country_code)
         VALUE_FROM_JSON(state)

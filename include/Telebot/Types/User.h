@@ -23,7 +23,7 @@ namespace Telebot
         bool supports_inline_queries;
     };
 
-    void from_json(const Json& json, User& object)
+    inline void from_json(const Json& json, User& object)
     {
         VALUE_FROM_JSON(id)
         VALUE_FROM_JSON(is_bot)

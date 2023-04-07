@@ -26,11 +26,11 @@ namespace Telebot
         std::int64_t close_date;
     };
 
-    void from_json(const Json& json, Poll& object)
+    inline void from_json(const Json& json, Poll& object)
     {
         VALUE_FROM_JSON(id)
         VALUE_FROM_JSON(question)
-        VECTOR_FROM_JSON(options)
+        OBJECTS_FROM_JSON(options)
         VALUE_FROM_JSON(total_voter_count)
         VALUE_FROM_JSON(is_closed)
         VALUE_FROM_JSON(is_anonymous)
@@ -38,7 +38,7 @@ namespace Telebot
         VALUE_FROM_JSON(allows_multiple_answers)
         VALUE_FROM_JSON(correct_optionId)
         VALUE_FROM_JSON(explanation)
-        VECTOR_FROM_JSON(explanation_entities)
+        OBJECTS_FROM_JSON(explanation_entities)
         VALUE_FROM_JSON(open_period)
         VALUE_FROM_JSON(close_date)
     }

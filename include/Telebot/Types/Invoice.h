@@ -1,8 +1,7 @@
 #ifndef Telebot_InvoiceH
 #define Telebot_InvoiceH
 
-#include <string>
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -11,12 +10,21 @@ namespace Telebot
     public:
         typedef std::shared_ptr<Invoice> Ptr;
 
-        std::string Title;
-        std::string Description;
-        std::string StartParameter;
-        std::string Currency;
-        std::int32_t TotalAmount;
+        std::string title;
+        std::string description;
+        std::string start_parameter;
+        std::string currency;
+        std::int32_t total_amount;
     };
+
+    inline void from_json(const Json& json, Invoice& object)
+    {
+        VALUE_FROM_JSON(title)
+        VALUE_FROM_JSON(description)
+        VALUE_FROM_JSON(start_parameter)
+        VALUE_FROM_JSON(currency)
+        VALUE_FROM_JSON(total_amount)
+    }
 }
 
 #endif

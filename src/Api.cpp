@@ -9,18 +9,54 @@ Telebot::Api::Api(const std::string& token)
     _client = std::make_unique<HttpsClient>();
 }
 
+Json Telebot::Api::Get(const std::string& methodName)
+{
+    std::shared_ptr<Telebot::HttpContext> httpContext = std::make_shared<Telebot::HttpContext>();
+    httpContext->Request->method_string("GET");
+    httpContext->Request->set(boost::beast::http::field::host, HOST);
+    httpContext->Request->target("/bot" + _token + "/" + methodName);
+    httpContext->Request->version(HTTP_VERSION);
+
+    _client->SendHttps(httpContext);
+    Json json = Json::parse(httpContext->Response->body());
+    if (json.at("ok").get<bool>()) return json.at("result");
+}
+
+Json Telebot::Api::Post(const std::string& methodName, const Json& params)
+{
+    std::shared_ptr<Telebot::HttpContext> httpContext = std::make_shared<Telebot::HttpContext>();
+    httpContext->Request->method_string("POST");
+    httpContext->Request->set(boost::beast::http::field::host, HOST);
+    httpContext->Request->target("/bot" + _token + "/" + methodName);
+    httpContext->Request->version(HTTP_VERSION);
+    httpContext->Request->body() = params.dump();
+
+    _client->SendHttps(httpContext);
+
+    Json json = Json::parse(httpContext->Response->body());
+    if (json.at("ok").get<bool>()) return json.at("result");
+}
+
 std::vector<Telebot::Update::Ptr> Telebot::Api::GetUpdates(int offset,
                                                            int limit,
                                                            int timeout,
                                                            const std::vector<std::string>& allowedUpdates)
 {
-    Json json;
-    json["offset"] = offset;
-    json["limit"] = limit;
-    json["timeout"] = timeout;
-    json["allowed_updates"] = allowedUpdates;
+    Json requestBody;
+    requestBody["offset"] = offset;
+    requestBody["limit"] = limit;
+    requestBody["timeout"] = timeout;
+    requestBody["allowed_updates"] = allowedUpdates;
+    Json responseBody = Post("getUpdates", requestBody);
 
-    return Post<Update>("getUpdates", json);
+    std::vector<Update::Ptr> result;
+    for (const Json& element : responseBody)
+    {
+        Update::Ptr update = std::make_shared<Update>();
+        *update = element.get<Update>();
+        result.push_back(update);
+    }
+    return result;
 }
 
 bool Telebot::Api::SetWebhook(const std::string &url,
@@ -46,7 +82,10 @@ Telebot::WebhookInfo::Ptr Telebot::Api::GetWebhookInfo()
 
 Telebot::User::Ptr Telebot::Api::GetMe()
 {
-    return Get<User>("getMe");
+    Json responseBody = Get("getMe");
+    User::Ptr user = std::make_shared<User>();
+    *user = responseBody.get<User>();
+    return user;
 }
 
 bool Telebot::Api::LogOut()

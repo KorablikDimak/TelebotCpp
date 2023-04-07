@@ -25,7 +25,7 @@ namespace Telebot
         std::string customEmojiId;
     };
 
-    void from_json(const Json& json, MessageEntity& object)
+    inline void from_json(const Json& json, MessageEntity& object)
     {
         VALUE_FROM_JSON(type)
         VALUE_FROM_JSON(offset)

@@ -16,7 +16,7 @@ namespace Telebot
         ShippingAddress::Ptr shipping_address;
     };
 
-    void from_json(const Json& json, OrderInfo& orderInfo)
+    inline void from_json(const Json& json, OrderInfo& object)
     {
         VALUE_FROM_JSON(name)
         VALUE_FROM_JSON(phone_number)

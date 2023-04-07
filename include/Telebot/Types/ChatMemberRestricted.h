@@ -14,7 +14,7 @@ namespace Telebot
 
         ChatMemberRestricted()
         {
-            Status = STATUS;
+            status = STATUS;
         }
 
         bool IsMember;

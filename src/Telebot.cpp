@@ -4,7 +4,7 @@ Telebot::Telebot::Telebot(const std::string &token)
 {
     _api = std::make_unique<Api>(token);
     User::Ptr user = _api->GetMe();
-    if (user->IsBot) Start();
+    if (user->is_bot) Start();
 }
 
 Telebot::Telebot::~Telebot()

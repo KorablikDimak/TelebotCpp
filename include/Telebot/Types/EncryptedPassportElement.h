@@ -10,17 +10,31 @@ namespace Telebot
     public:
         typedef std::shared_ptr<EncryptedPassportElement> Ptr;
 
-        std::string Type;
-        std::string Data;
-        std::string PhoneNumber;
-        std::string Email;
-        std::vector<PassportFile::Ptr> Files;
-        PassportFile::Ptr FrontSide;
-        PassportFile::Ptr ReverseSide;
-        PassportFile::Ptr Selfie;
-        std::vector<PassportFile::Ptr> Translation;
-        std::string Hash;
+        std::string type;
+        std::string data;
+        std::string phone_number;
+        std::string email;
+        std::vector<PassportFile::Ptr> files;
+        PassportFile::Ptr front_side;
+        PassportFile::Ptr reverse_side;
+        PassportFile::Ptr selfie;
+        std::vector<PassportFile::Ptr> translation;
+        std::string hash;
     };
+
+    inline void from_json(const Json& json, EncryptedPassportElement& object)
+    {
+        VALUE_FROM_JSON(type)
+        VALUE_FROM_JSON(data)
+        VALUE_FROM_JSON(phone_number)
+        VALUE_FROM_JSON(email)
+        OBJECTS_FROM_JSON(files)
+        OBJECT_FROM_JSON(front_side)
+        OBJECT_FROM_JSON(reverse_side)
+        OBJECT_FROM_JSON(selfie)
+        OBJECTS_FROM_JSON(translation)
+        VALUE_FROM_JSON(hash)
+    }
 }
 
 #endif

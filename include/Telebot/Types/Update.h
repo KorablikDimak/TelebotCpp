@@ -36,7 +36,7 @@ namespace Telebot
         ChatJoinRequest::Ptr chat_join_request;
     };
 
-    void from_json(const Json& json, Update& object)
+    inline void from_json(const Json& json, Update& object)
     {
         VALUE_FROM_JSON(update_id)
         OBJECT_FROM_JSON(message)

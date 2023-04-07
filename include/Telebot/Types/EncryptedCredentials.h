@@ -1,8 +1,7 @@
 #ifndef Telebot_EncryptedCredentialsH
 #define Telebot_EncryptedCredentialsH
 
-#include <memory>
-#include <string>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -11,10 +10,17 @@ namespace Telebot
     public:
         typedef std::shared_ptr<EncryptedCredentials> Ptr;
 
-        std::string Data;
-        std::string Hash;
-        std::string Secret;
+        std::string data;
+        std::string hash;
+        std::string secret;
     };
+
+    inline void from_json(const Json& json, EncryptedCredentials& object)
+    {
+        VALUE_FROM_JSON(data)
+        VALUE_FROM_JSON(hash)
+        VALUE_FROM_JSON(secret)
+    }
 }
 
 #endif

@@ -10,9 +10,15 @@ namespace Telebot
     public:
         typedef std::shared_ptr<ChatLocation> Ptr;
 
-        Location::Ptr Location;
-        std::string Address;
+        Location::Ptr location;
+        std::string address;
     };
+
+    inline void from_json(const Json& json, ChatLocation& object)
+    {
+        OBJECT_FROM_JSON(location)
+        VALUE_FROM_JSON(address)
+    }
 }
 
 #endif

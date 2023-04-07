@@ -1,7 +1,7 @@
 #ifndef Telebot_ForumTopicClosedH
 #define Telebot_ForumTopicClosedH
 
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -10,6 +10,8 @@ namespace Telebot
     public:
         typedef std::shared_ptr<ForumTopicClosed> Ptr;
     };
+
+    inline void from_json(const Json& json, ForumTopicClosed& object) {}
 }
 
 #endif

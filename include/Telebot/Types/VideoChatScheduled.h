@@ -1,7 +1,7 @@
 #ifndef Telebot_VideoChatScheduledH
 #define Telebot_VideoChatScheduledH
 
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -10,8 +10,13 @@ namespace Telebot
     public:
         typedef std::shared_ptr<VideoChatScheduled> Ptr;
 
-        std::int32_t StartDate;
+        std::int32_t start_date;
     };
+
+    inline void from_json(const Json& json, VideoChatScheduled& object)
+    {
+        VALUE_FROM_JSON(start_date)
+    }
 }
 
 #endif

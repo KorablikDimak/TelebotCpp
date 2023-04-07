@@ -10,8 +10,13 @@ namespace Telebot
     public:
         typedef std::shared_ptr<VideoChatParticipantsInvited> Ptr;
 
-        std::vector<User::Ptr> Users;
+        std::vector<User::Ptr> users;
     };
+
+    inline void from_json(const Json& json, VideoChatParticipantsInvited& object)
+    {
+        OBJECTS_FROM_JSON(users)
+    }
 }
 
 #endif

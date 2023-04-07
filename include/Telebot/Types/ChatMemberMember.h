@@ -14,7 +14,7 @@ namespace Telebot
 
         ChatMemberMember()
         {
-            Status = STATUS;
+            status = STATUS;
         }
     };
 }

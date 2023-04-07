@@ -1,7 +1,7 @@
 #ifndef Telebot_VideoChatEndedH
 #define Telebot_VideoChatEndedH
 
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -10,8 +10,13 @@ namespace Telebot
     public:
         typedef std::shared_ptr<VideoChatEnded> Ptr;
 
-        std::int32_t Duration;
+        std::int32_t duration;
     };
+
+    inline void from_json(const Json& json, VideoChatEnded& object)
+    {
+        VALUE_FROM_JSON(duration)
+    }
 }
 
 #endif

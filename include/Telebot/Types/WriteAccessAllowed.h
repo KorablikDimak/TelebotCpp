@@ -1,7 +1,7 @@
 #ifndef Telebot_WriteAccessAllowedH
 #define Telebot_WriteAccessAllowedH
 
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -10,6 +10,8 @@ namespace Telebot
     public:
         typedef std::shared_ptr<WriteAccessAllowed> Ptr;
     };
+
+    inline void from_json(const Json& json, WriteAccessAllowed& object) {}
 }
 
 #endif

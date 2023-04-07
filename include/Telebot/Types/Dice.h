@@ -1,7 +1,7 @@
 #ifndef Telebot_DiceH
 #define Telebot_DiceH
 
-#include <memory>
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -10,9 +10,15 @@ namespace Telebot
     public:
         typedef std::shared_ptr<Dice> Ptr;
 
-        std::string Emoji;
-        std::int32_t Value;
+        std::string emoji;
+        std::int32_t value;
     };
+
+    inline void from_json(const Json& json, Dice& object)
+    {
+        VALUE_FROM_JSON(emoji)
+        VALUE_FROM_JSON(value)
+    }
 }
 
 #endif

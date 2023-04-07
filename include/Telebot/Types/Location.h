@@ -1,7 +1,7 @@
 #ifndef Telebot_LocationH
 #define Telebot_LocationH
 
-#incude "Telebot/JsonMacros.h"
+#include "Telebot/JsonMacros.h"
 
 namespace Telebot
 {
@@ -18,7 +18,7 @@ namespace Telebot
         std::int32_t proximity_alert_radius;
     };
 
-    void from_json(const Json& json, Location& object)
+    inline void from_json(const Json& json, Location& object)
     {
         VALUE_FROM_JSON(longitude)
         VALUE_FROM_JSON(latitude)
