@@ -6,7 +6,6 @@ const unsigned int Telebot::Api::HTTP_VERSION = 11;
 Telebot::Api::Api(const std::string& token)
 {
     _token = token;
-    _client = std::make_unique<HttpsClient>();
 }
 
 Json Telebot::Api::Get(const std::string& methodName)
@@ -17,8 +16,8 @@ Json Telebot::Api::Get(const std::string& methodName)
     httpContext->Request->target("/bot" + _token + "/" + methodName);
     httpContext->Request->version(HTTP_VERSION);
 
-    _client->SendHttps(httpContext);
-    Json json = Json::parse(httpContext->Response->body());
+    HttpsClient::SendHttpsAsync(httpContext);
+    Json json = Json::parse(httpContext->Response->get().body());
     if (json.at("ok").get<bool>()) return json.at("result");
 }
 
@@ -29,11 +28,12 @@ Json Telebot::Api::Post(const std::string& methodName, const Json& params)
     httpContext->Request->set(boost::beast::http::field::host, HOST);
     httpContext->Request->target("/bot" + _token + "/" + methodName);
     httpContext->Request->version(HTTP_VERSION);
+    httpContext->Request->set(boost::beast::http::field::content_type, "application/json");
     httpContext->Request->body() = params.dump();
+    httpContext->Request->prepare_payload();
 
-    _client->SendHttps(httpContext);
-
-    Json json = Json::parse(httpContext->Response->body());
+    HttpsClient::SendHttpsAsync(httpContext);
+    Json json = Json::parse(httpContext->Response->get().body());
     if (json.at("ok").get<bool>()) return json.at("result");
 }
 

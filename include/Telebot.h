@@ -1,8 +1,6 @@
 #ifndef Telebot_BotH
 #define Telebot_BotH
 
-#include <thread>
-
 #include "Telebot/CancellationTokenSource.h"
 #include "Telebot/Api.h"
 #include "Telebot/Event.h"
@@ -15,16 +13,25 @@ namespace Telebot
     {
     private:
         std::unique_ptr<Api> _api;
-        std::unique_ptr<CancellationTokenSource> _isProcess;
+        std::unique_ptr<CancellationTokenSource> _cancellationTokenSource;
+        std::future<void> _acceptor;
+
+        static const std::int32_t LIMIT;
+        std::int32_t _timeout;
+
+        void Accept();
 
     public:
         explicit Telebot(const std::string& token);
         ~Telebot();
 
         void Start();
+        void StartAsync();
         void Stop();
 
-        Event<const std::string&> OnMessage;
+        void SetTimeout(std::int32_t timeout);
+
+        Event<const Message::Ptr&> OnMessage;
     };
 }
 

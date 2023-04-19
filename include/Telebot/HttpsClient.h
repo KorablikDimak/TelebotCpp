@@ -1,6 +1,7 @@
 #ifndef Telebot_HttpClientH
 #define Telebot_HttpClientH
 
+#include <future>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/beast/core/flat_buffer.hpp>
@@ -18,16 +19,13 @@ namespace Telebot
     class HttpsClient
     {
     private:
-        std::unique_ptr<Service> _service;
-        std::unique_ptr<SslSocket> _sslSocket;
-
         static const std::string HTTPS_PORT;
 
     public:
-        HttpsClient();
+        HttpsClient() = default;
         ~HttpsClient() = default;
 
-        void SendHttps(const std::shared_ptr<HttpContext>& context);
+        static void SendHttpsAsync(const std::shared_ptr<HttpContext>& context);
     };
 }
 

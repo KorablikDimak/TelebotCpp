@@ -2,21 +2,35 @@
 
 const std::string Telebot::HttpsClient::HTTPS_PORT = "443";
 
-Telebot::HttpsClient::HttpsClient()
+void Telebot::HttpsClient::SendHttpsAsync(const std::shared_ptr<HttpContext>& context)
 {
-    _service = std::make_unique<Service>();
+    boost::asio::io_service service;
+    Service::work work(service);
+    std::thread thread([&service](){ service.run(); });
+
     SslContext sslContext(SslContext::sslv23_client);
-    _sslSocket = std::make_unique<SslSocket>(*_service, sslContext);
-}
-
-void Telebot::HttpsClient::SendHttps(const std::shared_ptr<HttpContext>& context)
-{
-    Resolver resolver(*_service);
+    std::shared_ptr<SslSocket> sslSocket = std::make_shared<SslSocket>(service, sslContext);
+    Resolver resolver(service);
     auto ip = resolver.resolve((*context->Request)[boost::beast::http::field::host], HTTPS_PORT);
-    boost::asio::connect(_sslSocket->lowest_layer(), ip);
-    _sslSocket->handshake(boost::asio::ssl::stream_base::handshake_type::client);
 
-    boost::beast::http::write(*_sslSocket, *context->Request);
+    auto onConnect = boost::asio::async_connect(sslSocket->lowest_layer(), ip, boost::asio::use_future);
+    onConnect.get();
+
+    auto onHandshake = sslSocket->async_handshake(boost::asio::ssl::stream_base::handshake_type::client,
+                                                  boost::asio::use_future);
+    onHandshake.get();
+
+    auto onWrite = boost::beast::http::async_write(*sslSocket, *context->Request, boost::asio::use_future);
+    onWrite.get();
+
     boost::beast::flat_buffer buffer;
-    boost::beast::http::read(*_sslSocket, buffer, *context->Response);
+    while (!context->Response->is_done())
+    {
+        auto onRead = boost::beast::http::async_read_some(*sslSocket, buffer, *context->Response,
+                                                               boost::asio::use_future);
+        onRead.get();
+    }
+
+    service.stop();
+    thread.join();
 }

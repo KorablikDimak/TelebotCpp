@@ -7055,7 +7055,7 @@ namespace pugi
 		case status_bad_start_element: return "Error parsing start element tag";
 		case status_bad_attribute: return "Error parsing element attribute";
 		case status_bad_end_element: return "Error parsing end element tag";
-		case status_end_element_mismatch: return "Start-end tags mismatch";
+		case status_end_element_mismatch: return "StartAsync-end tags mismatch";
 
 		case status_append_invalid_root: return "Unable to append nodes: root is not an element or document";
 

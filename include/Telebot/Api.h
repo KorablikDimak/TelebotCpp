@@ -34,7 +34,6 @@ namespace Telebot
         static const unsigned int HTTP_VERSION;
 
         std::string _token;
-        std::unique_ptr<HttpsClient> _client;
 
         Json Get(const std::string& methodName);
         Json Post(const std::string& methodName, const Json& params);

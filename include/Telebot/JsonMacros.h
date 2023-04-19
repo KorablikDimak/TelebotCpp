@@ -20,13 +20,19 @@ namespace Telebot
         }
 
     #define OBJECT_FROM_JSON(field) \
-    if (json.contains(#field)) *object.field = json.at(#field).get<std::remove_reference<decltype(*object.field)>::type>();
+    if (json.contains(#field)) \
+    { \
+        if (object.field.get() == nullptr) \
+            object.field = std::make_shared<std::remove_reference<decltype(*object.field)>::type>(); \
+        *object.field = json.at(#field).get<std::remove_reference<decltype(*object.field)>::type>(); \
+    }
 
     #define OBJECTS_FROM_JSON(field) \
     if (json.contains(#field)) \
         for (const Json& element : json.at(#field)) \
         { \
-            decltype(object.field)::value_type elementPtr = decltype(object.field)::value_type(); \
+            decltype(object.field)::value_type elementPtr; \
+            elementPtr = std::make_shared<std::remove_reference<decltype(*elementPtr)>::type>(); \
             *elementPtr = element.get<std::remove_reference<decltype(*elementPtr)>::type>(); \
             object.field.push_back(elementPtr); \
         }

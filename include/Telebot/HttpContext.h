@@ -5,7 +5,7 @@
 #include <boost/beast/http.hpp>
 
 typedef boost::beast::http::request<boost::beast::http::string_body> HttpRequest;
-typedef boost::beast::http::response<boost::beast::http::string_body> HttpResponse;
+typedef boost::beast::http::response_parser<boost::beast::http::string_body> HttpResponse;
 
 namespace Telebot
 {

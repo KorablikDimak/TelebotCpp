@@ -31,6 +31,11 @@ namespace Telebot
         {
             _handlers->push_back(handler);
         }
+
+        bool IsEmpty()
+        {
+            return _handlers->empty();
+        }
     };
 }
 
