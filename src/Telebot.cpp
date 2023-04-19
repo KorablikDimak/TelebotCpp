@@ -67,3 +67,8 @@ void Telebot::Telebot::SetTimeout(std::int32_t timeout)
     if (timeout < 0 || timeout > 100) return;
     _timeout = timeout;
 }
+
+void Telebot::Telebot::SendMessage(std::int64_t chatId, const std::string& text)
+{
+
+}

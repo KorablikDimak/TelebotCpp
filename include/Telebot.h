@@ -31,6 +31,8 @@ namespace Telebot
 
         void SetTimeout(std::int32_t timeout);
 
+        void SendMessage(std::int64_t chatId, const std::string& text);
+
         Event<const Message::Ptr&> OnMessage;
     };
 }

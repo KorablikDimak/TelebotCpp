@@ -98,7 +98,7 @@ bool Telebot::Api::Close()
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendMessage(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendMessage(std::int64_t chatId,
                                                 const std::string& text,
                                                 bool disableWebPagePreview,
                                                 std::int32_t replyToMessageId,
@@ -113,8 +113,8 @@ Telebot::Message::Ptr Telebot::Api::SendMessage(const boost::variant<std::int64_
 
 }
 
-Telebot::Message::Ptr Telebot::Api::ForwardMessage(const boost::variant<std::int64_t, std::string>& chatId,
-                                                   const boost::variant<std::int64_t, std::string>& fromChatId,
+Telebot::Message::Ptr Telebot::Api::ForwardMessage(std::int64_t chatId,
+                                                   std::int64_t fromChatId,
                                                    std::int32_t messageId,
                                                    bool disableNotification,
                                                    bool protectContent,
@@ -123,8 +123,8 @@ Telebot::Message::Ptr Telebot::Api::ForwardMessage(const boost::variant<std::int
 
 }
 
-Telebot::MessageId::Ptr Telebot::Api::CopyMessage(const boost::variant<std::int64_t, std::string>& chatId,
-                                                  const boost::variant<std::int64_t, std::string>& fromChatId,
+Telebot::MessageId::Ptr Telebot::Api::CopyMessage(std::int64_t chatId,
+                                                  std::int64_t fromChatId,
                                                   std::int32_t messageId,
                                                   const std::string& caption,
                                                   const std::string& parseMode,
@@ -139,11 +139,11 @@ Telebot::MessageId::Ptr Telebot::Api::CopyMessage(const boost::variant<std::int6
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendPhoto(const boost::variant<std::int64_t, std::string>& chatId,
-                                              const boost::variant<InputFile::Ptr, std::string>& photo,
+Telebot::Message::Ptr Telebot::Api::SendPhoto(std::int64_t chatId,
+                                              InputFile::Ptr photo,
                                               const std::string& caption,
                                               std::int32_t replyToMessageId,
-                                              const Telebot::GenericReply::Ptr& replyMarkup,
+                                              const GenericReply::Ptr& replyMarkup,
                                               const std::string& parseMode,
                                               bool disableNotification,
                                               const std::vector<MessageEntity::Ptr>& captionEntities,
@@ -155,15 +155,15 @@ Telebot::Message::Ptr Telebot::Api::SendPhoto(const boost::variant<std::int64_t,
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendAudio(const boost::variant<std::int64_t, std::string>& chatId,
-                                              const boost::variant<InputFile::Ptr, std::string>& audio,
+Telebot::Message::Ptr Telebot::Api::SendAudio(std::int64_t chatId,
+                                              InputFile::Ptr audio,
                                               const std::string& caption,
                                               std::int32_t duration,
                                               const std::string& performer,
                                               const std::string& title,
-                                              const boost::variant<InputFile::Ptr, std::string>& thumb,
+                                              InputFile::Ptr thumb,
                                               std::int32_t replyToMessageId,
-                                              const Telebot::GenericReply::Ptr& replyMarkup,
+                                              const GenericReply::Ptr& replyMarkup,
                                               const std::string& parseMode,
                                               bool disableNotification,
                                               const std::vector<MessageEntity::Ptr>& captionEntities,
@@ -174,12 +174,12 @@ Telebot::Message::Ptr Telebot::Api::SendAudio(const boost::variant<std::int64_t,
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendDocument(const boost::variant<std::int64_t, std::string>& chatId,
-                                                 const boost::variant<InputFile::Ptr, std::string>& document,
-                                                 const boost::variant<InputFile::Ptr, std::string>& thumb,
+Telebot::Message::Ptr Telebot::Api::SendDocument(std::int64_t chatId,
+                                                 InputFile::Ptr document,
+                                                 InputFile::Ptr thumb,
                                                  const std::string& caption,
                                                  std::int32_t replyToMessageId,
-                                                 const Telebot::GenericReply::Ptr& replyMarkup,
+                                                 const GenericReply::Ptr& replyMarkup,
                                                  const std::string& parseMode,
                                                  bool disableNotification,
                                                  const std::vector<MessageEntity::Ptr>& captionEntities,
@@ -191,16 +191,16 @@ Telebot::Message::Ptr Telebot::Api::SendDocument(const boost::variant<std::int64
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendVideo(const boost::variant<std::int64_t, std::string>& chatId,
-                                              const boost::variant<InputFile::Ptr, std::string>& video,
+Telebot::Message::Ptr Telebot::Api::SendVideo(std::int64_t chatId,
+                                              InputFile::Ptr video,
                                               bool supportsStreaming,
                                               std::int32_t duration,
                                               std::int32_t width,
                                               std::int32_t height,
-                                              const boost::variant<InputFile::Ptr, std::string>& thumb,
+                                              InputFile::Ptr thumb,
                                               const std::string &caption,
                                               std::int32_t replyToMessageId,
-                                              const Telebot::GenericReply::Ptr& replyMarkup,
+                                              const GenericReply::Ptr& replyMarkup,
                                               const std::string &parseMode,
                                               bool disableNotification,
                                               const std::vector<MessageEntity::Ptr>& captionEntities,
@@ -212,15 +212,15 @@ Telebot::Message::Ptr Telebot::Api::SendVideo(const boost::variant<std::int64_t,
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendAnimation(const boost::variant<std::int64_t, std::string>& chatId,
-                                                  const boost::variant<InputFile::Ptr, std::string>& animation,
+Telebot::Message::Ptr Telebot::Api::SendAnimation(std::int64_t chatId,
+                                                  InputFile::Ptr animation,
                                                   std::int32_t duration,
                                                   std::int32_t width,
                                                   std::int32_t height,
-                                                  const boost::variant<InputFile::Ptr, std::string>& thumb,
+                                                  InputFile::Ptr thumb,
                                                   const std::string& caption,
                                                   std::int32_t replyToMessageId,
-                                                  const Telebot::GenericReply::Ptr& replyMarkup,
+                                                  const GenericReply::Ptr& replyMarkup,
                                                   const std::string &parseMode,
                                                   bool disableNotification,
                                                   const std::vector<MessageEntity::Ptr>& captionEntities,
@@ -232,12 +232,12 @@ Telebot::Message::Ptr Telebot::Api::SendAnimation(const boost::variant<std::int6
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendVoice(const boost::variant<std::int64_t, std::string>& chatId,
-                                              const boost::variant<InputFile::Ptr, std::string>& voice,
+Telebot::Message::Ptr Telebot::Api::SendVoice(std::int64_t chatId,
+                                              InputFile::Ptr voice,
                                               const std::string &caption,
                                               std::int32_t duration,
                                               std::int32_t replyToMessageId,
-                                              const Telebot::GenericReply::Ptr& replyMarkup,
+                                              const GenericReply::Ptr& replyMarkup,
                                               const std::string& parseMode,
                                               bool disableNotification,
                                               const std::vector<MessageEntity::Ptr>& captionEntities,
@@ -248,14 +248,14 @@ Telebot::Message::Ptr Telebot::Api::SendVoice(const boost::variant<std::int64_t,
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendVideoNote(const boost::variant<std::int64_t, std::string>& chatId,
-                                                  const boost::variant<InputFile::Ptr, std::string>& videoNote,
+Telebot::Message::Ptr Telebot::Api::SendVideoNote(std::int64_t chatId,
+                                                  InputFile::Ptr videoNote,
                                                   std::int64_t replyToMessageId,
                                                   bool disableNotification,
                                                   std::int32_t duration,
                                                   std::int32_t length,
-                                                  const boost::variant<InputFile::Ptr, std::string>& thumb,
-                                                  const Telebot::GenericReply::Ptr& replyMarkup,
+                                                  const InputFile::Ptr thumb,
+                                                  const GenericReply::Ptr& replyMarkup,
                                                   bool allowSendingWithoutReply,
                                                   bool protectContent,
                                                   std::int32_t messageThreadId)
@@ -263,7 +263,7 @@ Telebot::Message::Ptr Telebot::Api::SendVideoNote(const boost::variant<std::int6
 
 }
 
-std::vector<Telebot::Message::Ptr> Telebot::Api::SendMediaGroup(const boost::variant<std::int64_t, std::string>& chatId,
+std::vector<Telebot::Message::Ptr> Telebot::Api::SendMediaGroup(std::int64_t chatId,
                                                                 const std::vector<InputMedia::Ptr>& media,
                                                                 bool disableNotification,
                                                                 std::int32_t replyToMessageId,
@@ -274,12 +274,12 @@ std::vector<Telebot::Message::Ptr> Telebot::Api::SendMediaGroup(const boost::var
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendLocation(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendLocation(std::int64_t chatId,
                                                  float latitude,
                                                  float longitude,
                                                  std::int32_t livePeriod,
                                                  std::int32_t replyToMessageId,
-                                                 const Telebot::GenericReply::Ptr& replyMarkup,
+                                                 const GenericReply::Ptr& replyMarkup,
                                                  bool disableNotification,
                                                  float horizontalAccuracy,
                                                  std::int32_t heading,
@@ -291,7 +291,7 @@ Telebot::Message::Ptr Telebot::Api::SendLocation(const boost::variant<std::int64
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendVenue(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendVenue(std::int64_t chatId,
                                               float latitude,
                                               float longitude,
                                               const std::string& title,
@@ -300,7 +300,7 @@ Telebot::Message::Ptr Telebot::Api::SendVenue(const boost::variant<std::int64_t,
                                               const std::string& foursquareType,
                                               bool disableNotification,
                                               std::int32_t replyToMessageId,
-                                              const Telebot::GenericReply::Ptr& replyMarkup,
+                                              const GenericReply::Ptr& replyMarkup,
                                               const std::string& googlePlaceId,
                                               const std::string& googlePlaceType,
                                               bool allowSendingWithoutReply,
@@ -310,14 +310,14 @@ Telebot::Message::Ptr Telebot::Api::SendVenue(const boost::variant<std::int64_t,
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendContact(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendContact(std::int64_t chatId,
                                                 const std::string& phoneNumber,
                                                 const std::string& firstName,
                                                 const std::string& lastName,
                                                 const std::string& vcard,
                                                 bool disableNotification,
                                                 std::int32_t replyToMessageId,
-                                                const Telebot::GenericReply::Ptr& replyMarkup,
+                                                const GenericReply::Ptr& replyMarkup,
                                                 bool allowSendingWithoutReply,
                                                 bool protectContent,
                                                 std::int32_t messageThreadId)
@@ -325,12 +325,12 @@ Telebot::Message::Ptr Telebot::Api::SendContact(const boost::variant<std::int64_
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendPoll(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendPoll(std::int64_t chatId,
                                              const std::string& question,
                                              const std::vector<std::string>& options,
                                              bool disableNotification,
                                              std::int32_t replyToMessageId,
-                                             const Telebot::GenericReply::Ptr& replyMarkup,
+                                             const GenericReply::Ptr& replyMarkup,
                                              bool isAnonymous,
                                              const std::string& type,
                                              bool allowsMultipleAnswers,
@@ -348,10 +348,10 @@ Telebot::Message::Ptr Telebot::Api::SendPoll(const boost::variant<std::int64_t, 
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendDice(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendDice(const std::int64_t chatId,
                                              bool disableNotification,
                                              std::int32_t replyToMessageId,
-                                             const Telebot::GenericReply::Ptr& replyMarkup,
+                                             const GenericReply::Ptr& replyMarkup,
                                              const std::string& emoji,
                                              bool allowSendingWithoutReply,
                                              bool protectContent,
@@ -379,7 +379,7 @@ Telebot::File::Ptr Telebot::Api::GetFile(const std::string& fileId)
 
 }
 
-bool Telebot::Api::BanChatMember(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::BanChatMember(std::int64_t chatId,
                                  std::int64_t userId,
                                  std::int32_t untilDate,
                                  bool revokeMessages)
@@ -387,23 +387,23 @@ bool Telebot::Api::BanChatMember(const boost::variant<std::int64_t, std::string>
 
 }
 
-bool Telebot::Api::UnbanChatMember(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::UnbanChatMember(std::int64_t chatId,
                                    std::int64_t userId,
                                    bool onlyIfBanned)
 {
 
 }
 
-bool Telebot::Api::RestrictChatMember(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::RestrictChatMember(std::int64_t chatId,
                                       std::int64_t userId,
-                                      const Telebot::ChatPermissions::Ptr& permissions,
+                                      const ChatPermissions::Ptr& permissions,
                                       std::int64_t untilDate,
                                       bool useIndependentChatPermissions)
 {
 
 }
 
-bool Telebot::Api::PromoteChatMember(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::PromoteChatMember(std::int64_t chatId,
                                      std::int64_t userId,
                                      bool canChangeInfo,
                                      bool canPostMessages,
@@ -421,38 +421,38 @@ bool Telebot::Api::PromoteChatMember(const boost::variant<std::int64_t, std::str
 
 }
 
-bool Telebot::Api::SetChatAdministratorCustomTitle(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::SetChatAdministratorCustomTitle(std::int64_t chatId,
                                                    std::int64_t userId,
                                                    const std::string& customTitle)
 {
 
 }
 
-bool Telebot::Api::BanChatSenderChat(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::BanChatSenderChat(std::int64_t chatId,
                                      std::int64_t senderChatId)
 {
 
 }
 
-bool Telebot::Api::UnbanChatSenderChat(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::UnbanChatSenderChat(std::int64_t chatId,
                                        std::int64_t senderChatId)
 {
 
 }
 
-bool Telebot::Api::SetChatPermissions(const boost::variant<std::int64_t, std::string>& chatId,
-                                      const Telebot::ChatPermissions::Ptr& permissions,
+bool Telebot::Api::SetChatPermissions(std::int64_t chatId,
+                                      const ChatPermissions::Ptr& permissions,
                                       bool useIndependentChatPermissions)
 {
 
 }
 
-std::string Telebot::Api::ExportChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId)
+std::string Telebot::Api::ExportChatInviteLink(std::int64_t chatId)
 {
 
 }
 
-Telebot::ChatInviteLink::Ptr Telebot::Api::CreateChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::ChatInviteLink::Ptr Telebot::Api::CreateChatInviteLink(std::int64_t chatId,
                                                                 std::int32_t expireDate,
                                                                 std::int32_t memberLimit,
                                                                 const std::string& name,
@@ -461,7 +461,7 @@ Telebot::ChatInviteLink::Ptr Telebot::Api::CreateChatInviteLink(const boost::var
 
 }
 
-Telebot::ChatInviteLink::Ptr Telebot::Api::EditChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::ChatInviteLink::Ptr Telebot::Api::EditChatInviteLink(std::int64_t chatId,
                                                               const std::string& inviteLink,
                                                               std::int32_t expireDate,
                                                               std::int32_t memberLimit,
@@ -471,100 +471,98 @@ Telebot::ChatInviteLink::Ptr Telebot::Api::EditChatInviteLink(const boost::varia
 
 }
 
-Telebot::ChatInviteLink::Ptr Telebot::Api::RevokeChatInviteLink(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::ChatInviteLink::Ptr Telebot::Api::RevokeChatInviteLink(std::int64_t chatId,
                                                                 const std::string& inviteLink)
 {
 
 }
 
-bool Telebot::Api::ApproveChatJoinRequest(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::ApproveChatJoinRequest(std::int64_t chatId,
                                           std::int64_t userId)
 {
 
 }
 
-bool Telebot::Api::DeclineChatJoinRequest(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::DeclineChatJoinRequest(std::int64_t chatId,
                                           std::int64_t userId)
 {
 
 }
 
-bool Telebot::Api::SetChatPhoto(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::SetChatPhoto(std::int64_t chatId,
                                 const InputFile::Ptr& photo)
 {
 
 }
 
-bool Telebot::Api::DeleteChatPhoto(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::DeleteChatPhoto(std::int64_t chatId)
 {
 
 }
 
-bool Telebot::Api::SetChatTitle(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::SetChatTitle(std::int64_t chatId,
                                 const std::string& title)
 {
 
 }
 
-bool Telebot::Api::SetChatDescription(const boost::variant<std::int64_t,
-                                      std::string>& chatId,
+bool Telebot::Api::SetChatDescription(std::int64_t chatId,
                                       const std::string& description)
 {
 
 }
 
-bool Telebot::Api::PinChatMessage(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::PinChatMessage(std::int64_t chatId,
                                   std::int32_t messageId,
                                   bool disableNotification)
 {
 
 }
 
-bool Telebot::Api::UnpinChatMessage(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::UnpinChatMessage(std::int64_t chatId,
                                     std::int32_t messageId)
 {
 
 }
 
-bool Telebot::Api::UnpinAllChatMessages(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::UnpinAllChatMessages(std::int64_t chatId)
 {
 
 }
 
-bool Telebot::Api::LeaveChat(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::LeaveChat(std::int64_t chatId)
 {
 
 }
 
-Telebot::Chat::Ptr Telebot::Api::GetChat(const boost::variant<std::int64_t, std::string>& chatId)
+Telebot::Chat::Ptr Telebot::Api::GetChat(std::int64_t chatId)
 {
 
 }
 
-std::vector<Telebot::ChatMember::Ptr>
-Telebot::Api::GetChatAdministrators(const boost::variant<std::int64_t, std::string>& chatId)
+std::vector<Telebot::ChatMember::Ptr> Telebot::Api::GetChatAdministrators(std::int64_t chatId)
 {
 
 }
 
-std::int32_t Telebot::Api::GetChatMemberCount(const boost::variant<std::int64_t, std::string>& chatId)
+std::int32_t Telebot::Api::GetChatMemberCount(std::int64_t chatId)
 {
 
 }
 
-Telebot::ChatMember::Ptr Telebot::Api::GetChatMember(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::ChatMember::Ptr Telebot::Api::GetChatMember(std::int64_t chatId,
                                                      std::int64_t userId)
 {
 
 }
 
-bool Telebot::Api::SetChatStickerSet(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::SetChatStickerSet(std::int64_t chatId,
                                      const std::string& stickerSetName)
 {
 
 }
 
-bool Telebot::Api::DeleteChatStickerSet(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::DeleteChatStickerSet(std::int64_t chatId)
 {
 
 }
@@ -574,7 +572,7 @@ std::vector<Telebot::Sticker::Ptr> Telebot::Api::GetForumTopicIconStickers()
 
 }
 
-Telebot::ForumTopic::Ptr Telebot::Api::CreateForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::ForumTopic::Ptr Telebot::Api::CreateForumTopic(std::int64_t chatId,
                                                const std::string& name,
                                                std::int32_t iconColor,
                                                const std::string& iconCustomEmojiId)
@@ -582,60 +580,60 @@ Telebot::ForumTopic::Ptr Telebot::Api::CreateForumTopic(const boost::variant<std
 
 }
 
-bool Telebot::Api::EditForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::EditForumTopic(std::int64_t chatId,
                                   std::int32_t messageThreadId,
                                   const std::string& name,
-                                  const boost::variant<std::int8_t, std::string>& iconCustomEmojiId)
+                                  std::int8_t iconCustomEmojiId)
 {
 
 }
 
-bool Telebot::Api::CloseForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::CloseForumTopic(std::int64_t chatId,
                                    std::int32_t messageThreadId)
 {
 
 }
 
-bool Telebot::Api::ReopenForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::ReopenForumTopic(std::int64_t chatId,
                                     std::int32_t messageThreadId)
 {
 
 }
 
-bool Telebot::Api::DeleteForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::DeleteForumTopic(std::int64_t chatId,
                                     std::int32_t messageThreadId)
 {
 
 }
 
-bool Telebot::Api::UnpinAllForumTopicMessages(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::UnpinAllForumTopicMessages(std::int64_t chatId,
                                               std::int32_t messageThreadId)
 {
 
 }
 
-bool Telebot::Api::EditGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::EditGeneralForumTopic(std::int64_t chatId,
                                          const std::string& name)
 {
 
 }
 
-bool Telebot::Api::CloseGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::CloseGeneralForumTopic(std::int64_t chatId)
 {
 
 }
 
-bool Telebot::Api::ReopenGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::ReopenGeneralForumTopic(std::int64_t chatId)
 {
 
 }
 
-bool Telebot::Api::HideGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::HideGeneralForumTopic(std::int64_t chatId)
 {
 
 }
 
-bool Telebot::Api::UnhideGeneralForumTopic(const boost::variant<std::int64_t, std::string>& chatId)
+bool Telebot::Api::UnhideGeneralForumTopic(std::int64_t chatId)
 {
 
 }
@@ -713,22 +711,22 @@ Telebot::ChatAdministratorRights::Ptr Telebot::Api::GetMyDefaultAdministratorRig
 }
 
 Telebot::Message::Ptr Telebot::Api::EditMessageText(const std::string& text,
-                                                    const boost::variant<std::int64_t, std::string>& chatId,
+                                                    std::int64_t chatId,
                                                     std::int32_t messageId,
                                                     const std::string& inlineMessageId,
                                                     const std::string& parseMode,
                                                     bool disableWebPagePreview,
-                                                    const Telebot::GenericReply::Ptr& replyMarkup,
+                                                    const GenericReply::Ptr& replyMarkup,
                                                     const std::vector<MessageEntity::Ptr>& entities)
 {
 
 }
 
-Telebot::Message::Ptr Telebot::Api::EditMessageCaption(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::EditMessageCaption(std::int64_t chatId,
                                                        std::int32_t messageId,
                                                        const std::string& caption,
                                                        const std::string& inlineMessageId,
-                                                       const Telebot::GenericReply::Ptr& replyMarkup,
+                                                       const GenericReply::Ptr& replyMarkup,
                                                        const std::string& parseMode,
                                                        const std::vector<MessageEntity::Ptr>& captionEntities)
 {
@@ -736,7 +734,7 @@ Telebot::Message::Ptr Telebot::Api::EditMessageCaption(const boost::variant<std:
 }
 
 Telebot::Message::Ptr Telebot::Api::EditMessageMedia(const InputMedia::Ptr& media,
-                                                     const boost::variant<std::int64_t, std::string>& chatId,
+                                                     const std::int64_t chatId,
                                                      std::int32_t messageId,
                                                      const std::string& inlineMessageId,
                                                      const Telebot::GenericReply::Ptr& replyMarkup)
@@ -746,10 +744,10 @@ Telebot::Message::Ptr Telebot::Api::EditMessageMedia(const InputMedia::Ptr& medi
 
 Telebot::Message::Ptr Telebot::Api::EditMessageLiveLocation(float latitude,
                                                             float longitude,
-                                                            const boost::variant<std::int64_t, std::string>& chatId,
+                                                            const std::int64_t chatId,
                                                             std::int32_t messageId,
                                                             const std::string& inlineMessageId,
-                                                            const Telebot::InlineKeyboardMarkup::Ptr& replyMarkup,
+                                                            const InlineKeyboardMarkup::Ptr& replyMarkup,
                                                             float horizontalAccuracy,
                                                             std::int32_t heading,
                                                             std::int32_t proximityAlertRadius)
@@ -757,39 +755,39 @@ Telebot::Message::Ptr Telebot::Api::EditMessageLiveLocation(float latitude,
 
 }
 
-Telebot::Message::Ptr Telebot::Api::StopMessageLiveLocation(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::StopMessageLiveLocation(const std::int64_t chatId,
                                                             std::int32_t messageId,
                                                             const std::string& inlineMessageId,
-                                                            const Telebot::InlineKeyboardMarkup::Ptr& replyMarkup)
+                                                            const InlineKeyboardMarkup::Ptr& replyMarkup)
 {
 
 }
 
-Telebot::Message::Ptr Telebot::Api::EditMessageReplyMarkup(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::EditMessageReplyMarkup(const std::int64_t chatId,
                                                            std::int32_t messageId,
                                                            const std::string& inlineMessageId,
-                                                           const Telebot::GenericReply::Ptr& replyMarkup)
+                                                           const GenericReply::Ptr& replyMarkup)
 {
 
 }
 
-Telebot::Poll::Ptr Telebot::Api::StopPoll(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Poll::Ptr Telebot::Api::StopPoll(std::int64_t chatId,
                                           std::int64_t messageId,
-                                          const Telebot::InlineKeyboardMarkup::Ptr& replyMarkup)
+                                          const InlineKeyboardMarkup::Ptr& replyMarkup)
 {
 
 }
 
-bool Telebot::Api::DeleteMessage(const boost::variant<std::int64_t, std::string>& chatId,
+bool Telebot::Api::DeleteMessage(std::int64_t chatId,
                                  std::int32_t messageId)
 {
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendSticker(const boost::variant<std::int64_t, std::string>& chatId,
-                                                const boost::variant<InputFile::Ptr, std::string>& sticker,
+Telebot::Message::Ptr Telebot::Api::SendSticker(std::int64_t chatId,
+                                                InputFile::Ptr sticker,
                                                 std::int32_t replyToMessageId,
-                                                const Telebot::GenericReply::Ptr& replyMarkup,
+                                                const GenericReply::Ptr& replyMarkup,
                                                 bool disableNotification,
                                                 bool allowSendingWithoutReply,
                                                 bool protectContent,
@@ -808,7 +806,8 @@ std::vector<Telebot::Sticker::Ptr> Telebot::Api::GetCustomEmojiStickers(const st
 
 }
 
-Telebot::File::Ptr Telebot::Api::UploadStickerFile(std::int64_t userId, const InputFile::Ptr& pngSticker)
+Telebot::File::Ptr Telebot::Api::UploadStickerFile(std::int64_t userId,
+                                                   const InputFile::Ptr& pngSticker)
 {
 
 }
@@ -818,7 +817,7 @@ bool Telebot::Api::CreateNewStickerSet(std::int64_t userId,
                                        const std::string& title,
                                        const std::string& emojis,
                                        const MaskPosition::Ptr& maskPosition,
-                                       const boost::variant<InputFile::Ptr, std::string>& pngSticker,
+                                       const InputFile::Ptr pngSticker,
                                        const InputFile::Ptr& tgsSticker,
                                        const InputFile::Ptr& webmSticker,
                                        const std::string& stickerType)
@@ -830,7 +829,7 @@ bool Telebot::Api::AddStickerToSet(std::int64_t userId,
                                    const std::string& name,
                                    const std::string& emojis,
                                    const MaskPosition::Ptr& maskPosition,
-                                   const boost::variant<InputFile::Ptr, std::string>& pngSticker,
+                                   const InputFile::Ptr pngSticker,
                                    const InputFile::Ptr& tgsSticker,
                                    const InputFile::Ptr& webmSticker)
 {
@@ -874,7 +873,7 @@ bool Telebot::Api::SetStickerTitle(const std::string& name,
 
 bool Telebot::Api::SetStickerSetThumbnail(const std::string& name,
                                           std::int64_t userId,
-                                          const boost::variant<InputFile::Ptr, std::string>& thumb)
+                                          const InputFile::Ptr thumb)
 {
 
 }
@@ -907,7 +906,7 @@ Telebot::SentWebAppMessage::Ptr Telebot::Api::AnswerWebAppQuery(const std::strin
 
 }
 
-Telebot::Message::Ptr Telebot::Api::SendInvoice(const boost::variant<std::int64_t, std::string>& chatId,
+Telebot::Message::Ptr Telebot::Api::SendInvoice(std::int64_t chatId,
                                                 const std::string& title,
                                                 const std::string& description,
                                                 const std::string& payload,
@@ -944,7 +943,7 @@ std::string Telebot::Api::CreateInvoiceLink(const std::string& title,
                                             const std::string& payload,
                                             const std::string& providerToken,
                                             const std::string& currency,
-                                            const std::vector<Telebot::LabeledPrice::Ptr>& prices,
+                                            const std::vector<LabeledPrice::Ptr>& prices,
                                             std::int32_t maxTipAmount,
                                             const std::vector<std::int32_t>& suggestedTipAmounts,
                                             const std::string& providerData,
