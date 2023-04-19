@@ -1,8 +1,6 @@
 #ifndef Telebot_ApiH
 #define Telebot_ApiH
 
-#include <boost/variant.hpp>
-
 #include "HttpsClient.h"
 #include "Types/Update.h"
 #include "Types/InputFile.h"
