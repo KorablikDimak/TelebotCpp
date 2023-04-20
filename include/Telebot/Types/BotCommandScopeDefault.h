@@ -14,7 +14,7 @@ namespace Telebot
 
         BotCommandScopeDefault()
         {
-            Type = TYPE;
+            type = TYPE;
         }
     };
 }

@@ -83,6 +83,7 @@ Telebot::WebhookInfo::Ptr Telebot::Api::GetWebhookInfo()
 Telebot::User::Ptr Telebot::Api::GetMe()
 {
     Json responseBody = Get("getMe");
+
     User::Ptr user = std::make_shared<User>();
     *user = responseBody.get<User>();
     return user;
@@ -102,7 +103,7 @@ Telebot::Message::Ptr Telebot::Api::SendMessage(std::int64_t chatId,
                                                 const std::string& text,
                                                 bool disableWebPagePreview,
                                                 std::int32_t replyToMessageId,
-                                                const Telebot::GenericReply::Ptr& replyMarkup,
+                                                const GenericReply::Ptr& replyMarkup,
                                                 const std::string& parseMode,
                                                 bool disableNotification,
                                                 const std::vector<MessageEntity::Ptr>& entities,
@@ -110,7 +111,14 @@ Telebot::Message::Ptr Telebot::Api::SendMessage(std::int64_t chatId,
                                                 bool protectContent,
                                                 std::int32_t messageThreadId)
 {
+    Json requestBody;
+    requestBody["chat_id"] = chatId;
+    requestBody["text"] = text;
+    Json responseBody = Post("sendMessage", requestBody);
 
+    Message::Ptr message = std::make_shared<Message>();
+    *message = responseBody.get<Message>();
+    return message;
 }
 
 Telebot::Message::Ptr Telebot::Api::ForwardMessage(std::int64_t chatId,
@@ -140,7 +148,7 @@ Telebot::MessageId::Ptr Telebot::Api::CopyMessage(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendPhoto(std::int64_t chatId,
-                                              InputFile::Ptr photo,
+                                              const InputFile::Ptr& photo,
                                               const std::string& caption,
                                               std::int32_t replyToMessageId,
                                               const GenericReply::Ptr& replyMarkup,
@@ -156,12 +164,12 @@ Telebot::Message::Ptr Telebot::Api::SendPhoto(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendAudio(std::int64_t chatId,
-                                              InputFile::Ptr audio,
+                                              const InputFile::Ptr& audio,
                                               const std::string& caption,
                                               std::int32_t duration,
                                               const std::string& performer,
                                               const std::string& title,
-                                              InputFile::Ptr thumb,
+                                              const InputFile::Ptr& thumb,
                                               std::int32_t replyToMessageId,
                                               const GenericReply::Ptr& replyMarkup,
                                               const std::string& parseMode,
@@ -175,8 +183,8 @@ Telebot::Message::Ptr Telebot::Api::SendAudio(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendDocument(std::int64_t chatId,
-                                                 InputFile::Ptr document,
-                                                 InputFile::Ptr thumb,
+                                                 const InputFile::Ptr& document,
+                                                 const InputFile::Ptr& thumb,
                                                  const std::string& caption,
                                                  std::int32_t replyToMessageId,
                                                  const GenericReply::Ptr& replyMarkup,
@@ -192,12 +200,12 @@ Telebot::Message::Ptr Telebot::Api::SendDocument(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendVideo(std::int64_t chatId,
-                                              InputFile::Ptr video,
+                                              const InputFile::Ptr& video,
                                               bool supportsStreaming,
                                               std::int32_t duration,
                                               std::int32_t width,
                                               std::int32_t height,
-                                              InputFile::Ptr thumb,
+                                              const InputFile::Ptr& thumb,
                                               const std::string &caption,
                                               std::int32_t replyToMessageId,
                                               const GenericReply::Ptr& replyMarkup,
@@ -213,11 +221,11 @@ Telebot::Message::Ptr Telebot::Api::SendVideo(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendAnimation(std::int64_t chatId,
-                                                  InputFile::Ptr animation,
+                                                  const InputFile::Ptr& animation,
                                                   std::int32_t duration,
                                                   std::int32_t width,
                                                   std::int32_t height,
-                                                  InputFile::Ptr thumb,
+                                                  const InputFile::Ptr& thumb,
                                                   const std::string& caption,
                                                   std::int32_t replyToMessageId,
                                                   const GenericReply::Ptr& replyMarkup,
@@ -233,8 +241,8 @@ Telebot::Message::Ptr Telebot::Api::SendAnimation(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendVoice(std::int64_t chatId,
-                                              InputFile::Ptr voice,
-                                              const std::string &caption,
+                                              const InputFile::Ptr& voice,
+                                              const std::string& caption,
                                               std::int32_t duration,
                                               std::int32_t replyToMessageId,
                                               const GenericReply::Ptr& replyMarkup,
@@ -249,12 +257,12 @@ Telebot::Message::Ptr Telebot::Api::SendVoice(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendVideoNote(std::int64_t chatId,
-                                                  InputFile::Ptr videoNote,
+                                                  const InputFile::Ptr& videoNote,
                                                   std::int64_t replyToMessageId,
                                                   bool disableNotification,
                                                   std::int32_t duration,
                                                   std::int32_t length,
-                                                  const InputFile::Ptr thumb,
+                                                  const InputFile::Ptr& thumb,
                                                   const GenericReply::Ptr& replyMarkup,
                                                   bool allowSendingWithoutReply,
                                                   bool protectContent,
@@ -651,7 +659,13 @@ bool Telebot::Api::SetMyCommands(const std::vector<BotCommand::Ptr>& commands,
                                  const BotCommandScope::Ptr& scope,
                                  const std::string& languageCode)
 {
+    Json requestBody;
+    requestBody["commands"] = commands;
+    if (scope.get() != nullptr) requestBody["scope"] = scope;
+    if (!languageCode.empty()) requestBody["language_code"] = languageCode;
+    Json responseBody = Post("setMyCommands", requestBody);
 
+    return responseBody.get<bool>();
 }
 
 bool Telebot::Api::DeleteMyCommands(const BotCommandScope::Ptr& scope,
@@ -785,7 +799,7 @@ bool Telebot::Api::DeleteMessage(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::Api::SendSticker(std::int64_t chatId,
-                                                InputFile::Ptr sticker,
+                                                const InputFile::Ptr& sticker,
                                                 std::int32_t replyToMessageId,
                                                 const GenericReply::Ptr& replyMarkup,
                                                 bool disableNotification,
@@ -817,7 +831,7 @@ bool Telebot::Api::CreateNewStickerSet(std::int64_t userId,
                                        const std::string& title,
                                        const std::string& emojis,
                                        const MaskPosition::Ptr& maskPosition,
-                                       const InputFile::Ptr pngSticker,
+                                       const InputFile::Ptr& pngSticker,
                                        const InputFile::Ptr& tgsSticker,
                                        const InputFile::Ptr& webmSticker,
                                        const std::string& stickerType)
@@ -829,7 +843,7 @@ bool Telebot::Api::AddStickerToSet(std::int64_t userId,
                                    const std::string& name,
                                    const std::string& emojis,
                                    const MaskPosition::Ptr& maskPosition,
-                                   const InputFile::Ptr pngSticker,
+                                   const InputFile::Ptr& pngSticker,
                                    const InputFile::Ptr& tgsSticker,
                                    const InputFile::Ptr& webmSticker)
 {
@@ -873,7 +887,7 @@ bool Telebot::Api::SetStickerTitle(const std::string& name,
 
 bool Telebot::Api::SetStickerSetThumbnail(const std::string& name,
                                           std::int64_t userId,
-                                          const InputFile::Ptr thumb)
+                                          const InputFile::Ptr& thumb)
 {
 
 }

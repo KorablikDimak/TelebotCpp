@@ -14,7 +14,7 @@ namespace Telebot
 
         BotCommandScopeAllGroupChats()
         {
-            Type = TYPE;
+            type = TYPE;
         }
     };
 }

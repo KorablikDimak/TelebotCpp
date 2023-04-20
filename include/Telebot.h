@@ -7,6 +7,8 @@
 #include "Telebot/MethodHandler.h"
 #include "Telebot/StaticMethodHandler.h"
 
+typedef std::shared_ptr<Telebot::Event<const Telebot::Message::Ptr&>> MessageEvent;
+
 namespace Telebot
 {
     class Telebot
@@ -31,9 +33,20 @@ namespace Telebot
 
         void SetTimeout(std::int32_t timeout);
 
-        void SendMessage(std::int64_t chatId, const std::string& text);
+        std::future<Message::Ptr> SendMessageAsync(std::int64_t chatId, const std::string& text);
+        std::future<bool> SetCommandAsync(const std::string& command, const std::string& description);
+        std::future<bool> SetCommandAsync(const BotCommand::Ptr& command);
+        std::future<bool> SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands);
 
-        Event<const Message::Ptr&> OnMessage;
+    private:
+        MessageEvent _onAnyMessage;
+        std::map<std::string, MessageEvent> _onMessage;
+        std::map<std::string, MessageEvent> _onCommand;
+
+    public:
+        MessageEvent OnAnyMessage();
+        MessageEvent OnMessage(const std::string& message);
+        MessageEvent OnCommand(const std::string& command);
     };
 }
 

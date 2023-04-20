@@ -14,7 +14,7 @@ namespace Telebot
 
         BotCommandScopeAllPrivateChats()
         {
-            Type = TYPE;
+            type = TYPE;
         }
     };
 }

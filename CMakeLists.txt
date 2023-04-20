@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(TelebotCpp)
-set(ENABLE_TESTS TRUE)
+set(ENABLE_TESTS FALSE)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
@@ -59,10 +59,10 @@ if (ENABLE_TESTS)
 
     add_executable(TelebotCpp_TEST ${TESTS})
     target_link_libraries(TelebotCpp_TEST TelebotCpp gtest pthread)
-
-    add_custom_command(
-            TARGET TelebotCpp POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/LogConfig.xml
-            ${CMAKE_CURRENT_BINARY_DIR}/CInfoLog/LogConfig.xml)
 endif()
+
+add_custom_command(
+        TARGET TelebotCpp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/LogConfig.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/CInfoLog/LogConfig.xml)

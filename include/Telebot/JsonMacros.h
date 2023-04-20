@@ -36,6 +36,13 @@ namespace Telebot
             *elementPtr = element.get<std::remove_reference<decltype(*elementPtr)>::type>(); \
             object.field.push_back(elementPtr); \
         }
+
+    #define VALUE_TO_JSON(field) \
+    json[#field] = object->field;
+
+    #define OBJECT_TO_JSON(field) \
+    if (object->field.get() != nullptr) \
+        json[#field] = object->field;
 }
 
 #endif

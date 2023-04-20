@@ -14,7 +14,7 @@ namespace Telebot
 
         BotCommandScopeChatMember()
         {
-            Type = TYPE;
+            type = TYPE;
         }
 
         std::int64_t ChatId;

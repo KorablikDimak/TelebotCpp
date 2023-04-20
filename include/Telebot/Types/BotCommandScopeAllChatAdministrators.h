@@ -14,7 +14,7 @@ namespace Telebot
 
         BotCommandScopeAllChatAdministrators()
         {
-            Type = TYPE;
+            type = TYPE;
         }
     };
 }
