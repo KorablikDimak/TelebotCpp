@@ -1,7 +1,7 @@
 #ifndef Telebot_BotCommandH
 #define Telebot_BotCommandH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {
@@ -30,7 +30,7 @@ namespace Telebot
         VALUE_FROM_JSON(description)
     }
 
-    inline void to_json(Json& json, const BotCommand::Ptr& object)
+    inline void to_json(Json& json, const BotCommand& object)
     {
         VALUE_TO_JSON(command)
         VALUE_TO_JSON(description)

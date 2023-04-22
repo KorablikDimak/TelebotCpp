@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(TelebotCpp)
-set(ENABLE_TESTS FALSE)
+set(ENABLE_TESTS TRUE)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 
 set(OPENSSL_USE_STATIC_LIBS TRUE)
@@ -22,47 +23,75 @@ find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 include_directories(include libs src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
-set(Headers include/Telebot.h include/Telebot/Api.h include/Telebot/HttpContext.h include/Telebot/HttpsClient.h
-        include/Telebot/IEventHandler.h include/Telebot/Event.h include/Telebot/MethodHandler.h
-        include/Telebot/StaticMethodHandler.h include/Telebot/CancellationTokenSource.h
-        include/Telebot/CancellationToken.h include/Telebot/JsonMacros.h)
+set(CommonHeaders include/Common/HttpContext.h include/Common/HttpsClient.h include/Common/IEventHandler.h
+        include/Common/Event.h include/Common/MethodHandler.h include/Common/StaticMethodHandler.h
+        include/Common/CancellationTokenSource.h include/Common/CancellationToken.h)
 
-set(Source src/Telebot.cpp src/Api.cpp src/HttpContext.cpp src/HttpsClient.cpp
-        src/CancellationTokenSource.cpp src/CancellationToken.cpp)
-
-set(Types src/Types/BotCommandScope.cpp src/Types/ChatMember.cpp src/Types/InlineQueryResult.cpp
-        src/Types/InputFile.cpp src/Types/InputMedia.cpp src/Types/InputMessageContent.cpp
-        src/Types/MenuButton.cpp src/Types/PassportElementError.cpp)
+set(CommonSource src/Common/HttpContext.cpp src/Common/HttpsClient.cpp src/Common/CancellationTokenSource.cpp
+        src/Common/CancellationToken.cpp)
 
 set(PugiXML libs/PugiXml/pugiconfig.hpp libs/pugixml.hpp libs/PugiXml/pugixml.cpp)
 
 set(Niohman_Json libs/Json/json_fwd.hpp libs/json.hpp)
 
-add_library(TelebotCpp SHARED ${Headers} ${Source} ${Types} ${PugiXML} ${Niohman_Json})
-target_link_libraries(TelebotCpp -static ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
+add_library(Common SHARED ${CommonHeaders} ${CommonSource} ${PugiXML} ${Niohman_Json})
+target_link_libraries(Common ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
+
+set(TelebotHeaders include/Bot.h include/Telebot/BotApi.h include/Common/JsonMacros.h)
+
+set(TelebotSource src/Telebot/Bot.cpp src/Telebot/BotApi.cpp)
+
+set(TelebotTypes src/Telebot/Types/BotCommandScope.cpp src/Telebot/Types/ChatMember.cpp
+        src/Telebot/Types/InlineQueryResult.cpp src/Telebot/Types/InputFile.cpp src/Telebot/Types/InputMedia.cpp
+        src/Telebot/Types/InputMessageContent.cpp src/Telebot/Types/MenuButton.cpp
+        src/Telebot/Types/PassportElementError.cpp)
+
+add_library(Telebot SHARED ${TelebotHeaders} ${TelebotSource} ${TelebotTypes})
+target_link_libraries(Telebot Common)
+
+set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/ChatGpt.h)
+
+set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/ChatGpt.cpp)
+
+set(OpenAITypes include/OpenAI/Types/ChatRequestBody.h include/OpenAI/Types/ChatResponseBody.h
+        include/OpenAI/Types/Usage.h)
+
+add_library(OpenAI SHARED ${OpenAIHeaders} ${OpenAISource} ${OpenAITypes})
+target_link_libraries(OpenAI Common)
 
 add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)
 
 set(MyBotHeaders)
+
 set(MyBotSource MyBot/main.cpp)
 
 add_executable(MyBot ${MyBotHeaders} ${MyBotSource})
-target_link_libraries(MyBot TelebotCpp CInfoLog)
+target_link_libraries(MyBot Telebot OpenAI CInfoLog)
 
 if (ENABLE_TESTS)
     add_subdirectory(../GoogleTest gtest)
 
     include_directories(tests)
 
-    set(TESTS tests/main.cpp)
+    set(Common_TESTS tests/Common/main.cpp)
 
-    add_executable(TelebotCpp_TEST ${TESTS})
-    target_link_libraries(TelebotCpp_TEST TelebotCpp gtest pthread)
+    add_executable(Common_TEST ${Common_TESTS})
+    target_link_libraries(Common_TEST Common gtest pthread)
+
+    set(Telebot_TESTS tests/Telebot/main.cpp)
+
+    add_executable(Telebot_TEST ${Telebot_TESTS})
+    target_link_libraries(Telebot_TEST Telebot gtest pthread)
+
+    set(OpenAI_TESTS tests/OpenAI/main.cpp)
+
+    add_executable(OpenAI_TEST ${OpenAI_TESTS})
+    target_link_libraries(OpenAI_TEST OpenAI gtest pthread)
 endif()
 
 add_custom_command(
-        TARGET TelebotCpp POST_BUILD
+        TARGET MyBot POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/LogConfig.xml
         ${CMAKE_CURRENT_BINARY_DIR}/CInfoLog/LogConfig.xml)

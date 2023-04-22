@@ -1,9 +1,9 @@
-#ifndef Telebot_EventHandlerH
-#define Telebot_EventHandlerH
+#ifndef Common_EventHandlerH
+#define Common_EventHandlerH
 
 #include <memory>
 
-namespace Telebot
+namespace Common
 {
     template<typename ...TParams>
     class IEventHandler

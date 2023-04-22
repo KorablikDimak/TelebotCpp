@@ -1,7 +1,7 @@
 #ifndef Telebot_CallbackGameH
 #define Telebot_CallbackGameH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

@@ -1,7 +1,7 @@
 #ifndef Telebot_VideoChatEndedH
 #define Telebot_VideoChatEndedH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

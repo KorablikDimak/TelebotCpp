@@ -1,6 +1,6 @@
-#include "Telebot/HttpContext.h"
+#include "Common/HttpContext.h"
 
-Telebot::HttpContext::HttpContext()
+Common::HttpContext::HttpContext()
 {
     Request = std::make_unique<HttpRequest>();
     Response = std::make_unique<HttpResponse>();

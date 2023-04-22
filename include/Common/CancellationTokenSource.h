@@ -1,9 +1,9 @@
-#ifndef Telebot_CancellationTokenSourceH
-#define Telebot_CancellationTokenSourceH
+#ifndef Common_CancellationTokenSourceH
+#define Common_CancellationTokenSourceH
 
 #include "CancellationToken.h"
 
-namespace Telebot
+namespace Common
 {
     class CancellationTokenSource
     {

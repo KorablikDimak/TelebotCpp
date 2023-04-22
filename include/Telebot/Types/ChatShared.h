@@ -1,7 +1,7 @@
 #ifndef Telebot_ChatSharedH
 #define Telebot_ChatSharedH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

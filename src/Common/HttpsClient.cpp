@@ -1,8 +1,8 @@
-#include "Telebot/HttpsClient.h"
+#include "Common/HttpsClient.h"
 
-const std::string Telebot::HttpsClient::HTTPS_PORT = "443";
+const std::string Common::HttpsClient::HTTPS_PORT = "443";
 
-void Telebot::HttpsClient::SendHttpsAsync(const std::shared_ptr<HttpContext>& context)
+void Common::HttpsClient::SendHttpsAsync(const HttpContext::Ptr& context)
 {
     boost::asio::io_service service;
     Service::work work(service);

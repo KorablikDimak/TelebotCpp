@@ -1,7 +1,7 @@
 #ifndef Telebot_PassportFileH
 #define Telebot_PassportFileH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

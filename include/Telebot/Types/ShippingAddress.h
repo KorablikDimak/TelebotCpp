@@ -1,7 +1,7 @@
 #ifndef Telebot_ShippingAddressH
 #define Telebot_ShippingAddressH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

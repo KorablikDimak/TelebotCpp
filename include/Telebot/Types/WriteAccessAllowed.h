@@ -1,7 +1,7 @@
 #ifndef Telebot_WriteAccessAllowedH
 #define Telebot_WriteAccessAllowedH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

@@ -1,7 +1,7 @@
-#ifndef Telebot_CancellationTokenH
-#define Telebot_CancellationTokenH
+#ifndef Common_CancellationTokenH
+#define Common_CancellationTokenH
 
-namespace Telebot
+namespace Common
 {
     class CancellationToken
     {

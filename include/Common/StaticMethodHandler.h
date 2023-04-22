@@ -1,9 +1,9 @@
-#ifndef Telebot_StaticMethodHandlerH
-#define Telebot_StaticMethodHandlerH
+#ifndef Common_StaticMethodHandlerH
+#define Common_StaticMethodHandlerH
 
 #include "IEventHandler.h"
 
-namespace Telebot
+namespace Common
 {
     template<typename ...TParams>
     class StaticMethodHandler : public IEventHandler<TParams...>
@@ -32,6 +32,6 @@ namespace Telebot
     }
 }
 
-#define STATIC_METHOD_HANDLER(method) Telebot::CreateStaticMethodHandler(method);
+#define STATIC_METHOD_HANDLER(method) Common::CreateStaticMethodHandler(method);
 
 #endif

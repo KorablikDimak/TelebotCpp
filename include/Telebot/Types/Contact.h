@@ -1,7 +1,7 @@
 #ifndef Telebot_ContactH
 #define Telebot_ContactH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

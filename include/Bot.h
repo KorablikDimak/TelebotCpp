@@ -1,21 +1,19 @@
-#ifndef Telebot_BotH
-#define Telebot_BotH
+#ifndef Telebot_TelebotH
+#define Telebot_TelebotH
 
-#include "Telebot/CancellationTokenSource.h"
-#include "Telebot/Api.h"
-#include "Telebot/Event.h"
-#include "Telebot/MethodHandler.h"
-#include "Telebot/StaticMethodHandler.h"
+#include "Common/Event.h"
+#include "Common/CancellationTokenSource.h"
+#include "Telebot/BotApi.h"
 
-typedef std::shared_ptr<Telebot::Event<const Telebot::Message::Ptr&>> MessageEvent;
+typedef std::shared_ptr<Common::Event<const Telebot::Message::Ptr&>> MessageEvent;
 
 namespace Telebot
 {
-    class Telebot
+    class Bot
     {
     private:
-        std::unique_ptr<Api> _api;
-        std::unique_ptr<CancellationTokenSource> _cancellationTokenSource;
+        std::unique_ptr<BotApi> _api;
+        std::unique_ptr<Common::CancellationTokenSource> _cancellationTokenSource;
         std::future<void> _acceptor;
 
         static const std::int32_t LIMIT;
@@ -24,8 +22,8 @@ namespace Telebot
         void Accept();
 
     public:
-        explicit Telebot(const std::string& token);
-        ~Telebot();
+        explicit Bot(const std::string& token);
+        ~Bot();
 
         void Start();
         void StartAsync();

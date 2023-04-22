@@ -1,5 +1,5 @@
-#ifndef Telebot_HttpClientH
-#define Telebot_HttpClientH
+#ifndef Common_HttpsClientH
+#define Common_HttpsClientH
 
 #include <future>
 #include <boost/asio.hpp>
@@ -14,7 +14,7 @@ typedef boost::asio::ip::tcp::socket Socket;
 typedef boost::asio::ssl::stream<Socket> SslSocket;
 typedef boost::asio::ip::tcp::resolver Resolver;
 
-namespace Telebot
+namespace Common
 {
     class HttpsClient
     {
@@ -25,7 +25,7 @@ namespace Telebot
         HttpsClient() = default;
         ~HttpsClient() = default;
 
-        static void SendHttpsAsync(const std::shared_ptr<HttpContext>& context);
+        static void SendHttpsAsync(const HttpContext::Ptr& context);
     };
 }
 

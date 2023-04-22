@@ -1,11 +1,11 @@
-#ifndef Telebot_EventH
-#define Telebot_EventH
+#ifndef Common_EventH
+#define Common_EventH
 
 #include <list>
 
 #include "IEventHandler.h"
 
-namespace Telebot
+namespace Common
 {
     template<typename ...TParams>
     class Event
@@ -19,7 +19,7 @@ namespace Telebot
             _handlers = std::make_unique<std::list<std::shared_ptr<IEventHandler<TParams...>>>>();
         }
 
-        virtual ~Event() = default;
+        ~Event() = default;
 
         void operator()(TParams... params)
         {

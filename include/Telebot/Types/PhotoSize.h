@@ -1,7 +1,7 @@
 #ifndef Telebot_PhotoSizeH
 #define Telebot_PhotoSizeH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

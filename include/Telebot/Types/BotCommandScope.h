@@ -1,7 +1,7 @@
 #ifndef Telebot_BotCommandScopeH
 #define Telebot_BotCommandScopeH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {
@@ -16,7 +16,7 @@ namespace Telebot
         std::string type;
     };
 
-    inline void to_json(Json& json, const BotCommandScope::Ptr& object)
+    inline void to_json(Json& json, const BotCommandScope& object)
     {
         VALUE_TO_JSON(type)
     }

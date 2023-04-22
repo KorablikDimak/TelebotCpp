@@ -1,7 +1,7 @@
 #ifndef Telebot_WebAppInfoH
 #define Telebot_WebAppInfoH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

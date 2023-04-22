@@ -1,9 +1,9 @@
-#ifndef Telebot_MethodHandlerH
-#define Telebot_MethodHandlerH
+#ifndef Common_MethodHandlerH
+#define Common_MethodHandlerH
 
 #include "IEventHandler.h"
 
-namespace Telebot
+namespace Common
 {
     template<typename TObject, typename ...TParams>
     class MethodHandler : public IEventHandler<TParams...>
@@ -35,7 +35,7 @@ namespace Telebot
     }
 }
 
-#define METHOD_HANDLER(object, method) Telebot::CreateMethodHandler(object, method);
+#define METHOD_HANDLER(object, method) Common::CreateMethodHandler(object, method);
 #define THIS_METHOD_HANDLER(method) METHOD_HANDLER(this, method);
 
 #endif

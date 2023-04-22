@@ -1,7 +1,7 @@
 #ifndef Telebot_ForumTopicClosedH
 #define Telebot_ForumTopicClosedH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

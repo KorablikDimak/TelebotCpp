@@ -1,7 +1,7 @@
 #ifndef Telebot_GeneralForumTopicUnhiddenH
 #define Telebot_GeneralForumTopicUnhiddenH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

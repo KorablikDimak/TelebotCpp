@@ -1,7 +1,7 @@
 #ifndef Telebot_MaskPositionH
 #define Telebot_MaskPositionH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {

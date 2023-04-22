@@ -1,7 +1,7 @@
-#ifndef Telebot_ApiH
-#define Telebot_ApiH
+#ifndef Telebot_BotApiH
+#define Telebot_BotApiH
 
-#include "HttpsClient.h"
+#include "Common/HttpsClient.h"
 #include "Types/Update.h"
 #include "Types/InputFile.h"
 #include "Types/WebhookInfo.h"
@@ -21,11 +21,9 @@
 #include "Types/PassportElementError.h"
 #include "Types/GameHighScore.h"
 
-typedef nlohmann::json Json;
-
 namespace Telebot
 {
-    class Api
+    class BotApi
     {
     private:
         static const std::string HOST;
@@ -37,8 +35,8 @@ namespace Telebot
         Json Post(const std::string& methodName, const Json& params);
 
     public:
-        explicit Api(const std::string& token);
-        ~Api() = default;
+        explicit BotApi(const std::string& token);
+        ~BotApi() = default;
 
         std::vector<Update::Ptr> GetUpdates(std::int32_t offset = 0,
                                             std::int32_t limit = 100,

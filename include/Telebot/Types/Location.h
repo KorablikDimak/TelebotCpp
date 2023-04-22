@@ -1,7 +1,7 @@
 #ifndef Telebot_LocationH
 #define Telebot_LocationH
 
-#include "Telebot/JsonMacros.h"
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {
