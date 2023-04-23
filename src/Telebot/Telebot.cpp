@@ -1,10 +1,10 @@
-#include "Bot.h"
+#include "Telebot.h"
 
-const std::int32_t Telebot::Bot::LIMIT = 100;
+const std::int32_t Telebot::Telebot::LIMIT = 100;
 
-Telebot::Bot::Bot(const std::string &token)
+Telebot::Telebot::Telebot(const std::string &token)
 {
-    _api = std::make_unique<BotApi>(token);
+    _api = std::make_unique<TelebotApi>(token);
     _timeout = 10;
     _onAnyMessage = std::make_shared<Common::Event<const Message::Ptr&>>();
 
@@ -12,12 +12,12 @@ Telebot::Bot::Bot(const std::string &token)
     if (!user->is_bot) throw std::runtime_error("user is not bot");
 }
 
-Telebot::Bot::~Bot()
+Telebot::Telebot::~Telebot()
 {
     Stop();
 }
 
-void Telebot::Bot::Accept()
+void Telebot::Telebot::Accept()
 {
     std::int32_t offset = 0;
     std::vector<std::string> allowedUpdates;
@@ -52,7 +52,7 @@ void Telebot::Bot::Accept()
     }
 }
 
-void Telebot::Bot::Start()
+void Telebot::Telebot::Start()
 {
     if (_cancellationTokenSource == nullptr || _cancellationTokenSource->Token()->IsCancellationRequested())
     {
@@ -61,16 +61,16 @@ void Telebot::Bot::Start()
     }
 }
 
-void Telebot::Bot::StartAsync()
+void Telebot::Telebot::StartAsync()
 {
     if (_cancellationTokenSource == nullptr || _cancellationTokenSource->Token()->IsCancellationRequested())
     {
         _cancellationTokenSource = std::make_unique<Common::CancellationTokenSource>();
-        _acceptor = std::async(std::launch::async, &Bot::Accept, this);
+        _acceptor = std::async(std::launch::async, &Telebot::Accept, this);
     }
 }
 
-void Telebot::Bot::Stop()
+void Telebot::Telebot::Stop()
 {
     if (_cancellationTokenSource != nullptr && !_cancellationTokenSource->Token()->IsCancellationRequested())
     {
@@ -79,18 +79,18 @@ void Telebot::Bot::Stop()
     }
 }
 
-void Telebot::Bot::SetTimeout(std::int32_t timeout)
+void Telebot::Telebot::SetTimeout(std::int32_t timeout)
 {
     if (timeout < 0 || timeout > 100) return;
     _timeout = timeout;
 }
 
-std::future<Telebot::Message::Ptr> Telebot::Bot::SendMessageAsync(std::int64_t chatId, const std::string& text)
+std::future<Telebot::Message::Ptr> Telebot::Telebot::SendMessageAsync(std::int64_t chatId, const std::string& text)
 {
     return std::async(std::launch::async, [this, &chatId, text](){ return _api->SendMessage(chatId, text); });
 }
 
-std::future<bool> Telebot::Bot::SetCommandAsync(const std::string& command, const std::string& description)
+std::future<bool> Telebot::Telebot::SetCommandAsync(const std::string& command, const std::string& description)
 {
     BotCommand::Ptr commandPtr = std::make_shared<BotCommand>(command, description);
     std::shared_ptr<std::vector<BotCommand::Ptr>> commands = std::make_shared<std::vector<BotCommand::Ptr>>();
@@ -98,31 +98,31 @@ std::future<bool> Telebot::Bot::SetCommandAsync(const std::string& command, cons
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
 }
 
-std::future<bool> Telebot::Bot::SetCommandAsync(const BotCommand::Ptr& command)
+std::future<bool> Telebot::Telebot::SetCommandAsync(const BotCommand::Ptr& command)
 {
     std::shared_ptr<std::vector<BotCommand::Ptr>> commands = std::make_shared<std::vector<BotCommand::Ptr>>();
     commands->push_back(command);
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
 }
 
-std::future<bool> Telebot::Bot::SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands)
+std::future<bool> Telebot::Telebot::SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands)
 {
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(commands); });
 }
 
-MessageEvent Telebot::Bot::OnAnyMessage()
+MessageEvent Telebot::Telebot::OnAnyMessage()
 {
     return _onAnyMessage;
 }
 
-MessageEvent Telebot::Bot::OnMessage(const std::string& message)
+MessageEvent Telebot::Telebot::OnMessage(const std::string& message)
 {
     if (_onMessage.find(message) == _onMessage.end())
         _onMessage.insert(std::make_pair(message, std::make_shared<Common::Event<const Message::Ptr&>>()));
     return _onMessage[message];
 }
 
-MessageEvent Telebot::Bot::OnCommand(const std::string& command)
+MessageEvent Telebot::Telebot::OnCommand(const std::string& command)
 {
     if (_onCommand.find(command) == _onCommand.end())
         _onCommand.insert(std::make_pair(command, std::make_shared<Common::Event<const Message::Ptr&>>()));

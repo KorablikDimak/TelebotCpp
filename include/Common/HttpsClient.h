@@ -25,7 +25,7 @@ namespace Common
         HttpsClient() = default;
         ~HttpsClient() = default;
 
-        static void SendHttpsAsync(const HttpContext::Ptr& context);
+        static void SendHttpsAsync(const HttpContext::Ptr& context, bool useSNI = false);
     };
 }
 

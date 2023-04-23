@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "Common/JsonMacros.h"
+#include "Message.h"
 
 namespace OpenAI
 {
@@ -13,31 +13,29 @@ namespace OpenAI
         typedef std::shared_ptr<ChatRequestBody> Ptr;
 
         std::string model;
-        std::string role;
-        std::string content;
-        std::string name;
+        std::vector<Message::Ptr> messages;
         float temperature;
         float top_p;
-        int n;
+        unsigned char n;
         bool stream;
         std::string stop;
-        int max_tokens;
+        std::int16_t max_tokens;
         float presence_penalty;
         float frequency_penalty;
         std::map<std::string, signed char> logit_bias; // do not use!
         std::string user;
     };
 
-    inline void to_json(Json& json, const ChatRequestBody& object)
+    inline void to_json(Json& json, const ChatRequestBody::Ptr& object)
     {
         VALUE_TO_JSON(model)
-        json["messages"] = { {"role", object.role}, {"content", object.content}, {"name", object.name} };
+        OBJECTS_TO_JSON(messages)
         VALUE_TO_JSON(temperature)
         VALUE_TO_JSON(top_p)
         VALUE_TO_JSON(n)
         VALUE_TO_JSON(stream)
-        VALUE_TO_JSON(stop)
-        VALUE_TO_JSON(max_tokens)
+        if (!object->stop.empty()) VALUE_TO_JSON(stop)
+        if (object->max_tokens != 0) VALUE_TO_JSON(max_tokens)
         VALUE_TO_JSON(presence_penalty)
         VALUE_TO_JSON(frequency_penalty)
         // logit_bias

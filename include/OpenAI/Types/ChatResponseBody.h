@@ -36,7 +36,7 @@ namespace OpenAI
                 object.content = json.at("choices")[0].at("message").value<std::string>("content", "");
                 object.name = json.at("choices")[0].at("message").value<std::string>("name", "");
             }
-            object.finish_reason = json.at("choices")[1].value<std::string>("finish_reason", "");
+            object.finish_reason = json.at("choices")[0].value<std::string>("finish_reason", "");
         }
 
         OBJECT_FROM_JSON(usage)

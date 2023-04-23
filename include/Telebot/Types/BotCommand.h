@@ -30,7 +30,7 @@ namespace Telebot
         VALUE_FROM_JSON(description)
     }
 
-    inline void to_json(Json& json, const BotCommand& object)
+    inline void to_json(Json& json, const BotCommand::Ptr& object)
     {
         VALUE_TO_JSON(command)
         VALUE_TO_JSON(description)

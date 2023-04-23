@@ -36,10 +36,16 @@ if (json.contains(#field)) \
     }
 
 #define VALUE_TO_JSON(field) \
-json[#field] = object.field;
+json[#field] = object->field;
 
 #define OBJECT_TO_JSON(field) \
-if (object.field.get() != nullptr) \
-    json[#field] = object.field;
+if (object->field.get() != nullptr) \
+    json[#field] = object->field;
+
+#define OBJECTS_TO_JSON(field) \
+for (auto element : object->field) \
+{ \
+    json[#field].push_back(element); \
+}
 
 #endif

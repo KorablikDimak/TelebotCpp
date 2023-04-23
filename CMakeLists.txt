@@ -21,7 +21,7 @@ set(BOOST_INCLUDEDIR "../boost_1_78_0")
 set(BOOST_LIBRARYDIR "../boost_1_78_0/stage/lib")
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
-include_directories(include libs src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+include_directories(include libs MyBot src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ../CInfoLog/include)
 
 set(CommonHeaders include/Common/HttpContext.h include/Common/HttpsClient.h include/Common/IEventHandler.h
         include/Common/Event.h include/Common/MethodHandler.h include/Common/StaticMethodHandler.h
@@ -37,9 +37,9 @@ set(Niohman_Json libs/Json/json_fwd.hpp libs/json.hpp)
 add_library(Common SHARED ${CommonHeaders} ${CommonSource} ${PugiXML} ${Niohman_Json})
 target_link_libraries(Common ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
 
-set(TelebotHeaders include/Bot.h include/Telebot/BotApi.h include/Common/JsonMacros.h)
+set(TelebotHeaders include/Telebot.h include/Telebot/TelebotApi.h include/Common/JsonMacros.h)
 
-set(TelebotSource src/Telebot/Bot.cpp src/Telebot/BotApi.cpp)
+set(TelebotSource src/Telebot/Telebot.cpp src/Telebot/TelebotApi.cpp)
 
 set(TelebotTypes src/Telebot/Types/BotCommandScope.cpp src/Telebot/Types/ChatMember.cpp
         src/Telebot/Types/InlineQueryResult.cpp src/Telebot/Types/InputFile.cpp src/Telebot/Types/InputMedia.cpp
@@ -54,7 +54,7 @@ set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/Cha
 set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/ChatGpt.cpp)
 
 set(OpenAITypes include/OpenAI/Types/ChatRequestBody.h include/OpenAI/Types/ChatResponseBody.h
-        include/OpenAI/Types/Usage.h)
+        include/OpenAI/Types/Usage.h include/OpenAI/Types/Message.h)
 
 add_library(OpenAI SHARED ${OpenAIHeaders} ${OpenAISource} ${OpenAITypes})
 target_link_libraries(OpenAI Common)
@@ -62,9 +62,9 @@ target_link_libraries(OpenAI Common)
 add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)
 
-set(MyBotHeaders)
+set(MyBotHeaders MyBot/MyBot.h)
 
-set(MyBotSource MyBot/main.cpp)
+set(MyBotSource MyBot/main.cpp MyBot/MyBot.cpp)
 
 add_executable(MyBot ${MyBotHeaders} ${MyBotSource})
 target_link_libraries(MyBot Telebot OpenAI CInfoLog)

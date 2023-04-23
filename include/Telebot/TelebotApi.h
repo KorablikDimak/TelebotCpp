@@ -23,7 +23,7 @@
 
 namespace Telebot
 {
-    class BotApi
+    class TelebotApi
     {
     private:
         static const std::string HOST;
@@ -35,8 +35,8 @@ namespace Telebot
         Json Post(const std::string& methodName, const Json& params);
 
     public:
-        explicit BotApi(const std::string& token);
-        ~BotApi() = default;
+        explicit TelebotApi(const std::string& token);
+        ~TelebotApi() = default;
 
         std::vector<Update::Ptr> GetUpdates(std::int32_t offset = 0,
                                             std::int32_t limit = 100,

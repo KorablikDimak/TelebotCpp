@@ -13,6 +13,8 @@ namespace OpenAI
     public:
         explicit OpenAI(const std::string& token);
         ~OpenAI() = default;
+
+        ChatGpt::Ptr StartChatGptSession(const std::string& name, const std::string& user = "");
     };
 }
 

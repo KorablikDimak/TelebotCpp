@@ -3,16 +3,16 @@
 
 #include "Common/Event.h"
 #include "Common/CancellationTokenSource.h"
-#include "Telebot/BotApi.h"
+#include "Telebot/TelebotApi.h"
 
 typedef std::shared_ptr<Common::Event<const Telebot::Message::Ptr&>> MessageEvent;
 
 namespace Telebot
 {
-    class Bot
+    class Telebot
     {
     private:
-        std::unique_ptr<BotApi> _api;
+        std::unique_ptr<TelebotApi> _api;
         std::unique_ptr<Common::CancellationTokenSource> _cancellationTokenSource;
         std::future<void> _acceptor;
 
@@ -22,8 +22,8 @@ namespace Telebot
         void Accept();
 
     public:
-        explicit Bot(const std::string& token);
-        ~Bot();
+        explicit Telebot(const std::string& token);
+        ~Telebot();
 
         void Start();
         void StartAsync();
