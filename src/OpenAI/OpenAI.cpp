@@ -5,7 +5,7 @@ OpenAI::OpenAI::OpenAI(const std::string &token)
     _api = std::make_shared<OpenAIApi>(token);
 }
 
-OpenAI::ChatGpt::Ptr OpenAI::OpenAI::StartChatGptSession(const std::string& name, const std::string& user)
+OpenAI::GptModel::Ptr OpenAI::OpenAI::GptTurboSession(const std::string& user, const std::string& name, Role role)
 {
-    return std::make_shared<ChatGpt>(_api, name, user);
+    return GptModel::Ptr(new GptTurbo(_api, user, name, role));
 }

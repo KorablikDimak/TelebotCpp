@@ -19,7 +19,7 @@ namespace OpenAI
     {
         VALUE_TO_JSON(role)
         VALUE_TO_JSON(content)
-        VALUE_TO_JSON(name)
+        if (!object->name.empty()) VALUE_TO_JSON(name)
     }
 }
 

@@ -7,10 +7,10 @@
 
 namespace OpenAI
 {
-    class ChatRequestBody
+    class ChatCompletionsRequest
     {
     public:
-        typedef std::shared_ptr<ChatRequestBody> Ptr;
+        typedef std::shared_ptr<ChatCompletionsRequest> Ptr;
 
         std::string model;
         std::vector<Message::Ptr> messages;
@@ -26,7 +26,7 @@ namespace OpenAI
         std::string user;
     };
 
-    inline void to_json(Json& json, const ChatRequestBody::Ptr& object)
+    inline void to_json(Json& json, const ChatCompletionsRequest::Ptr& object)
     {
         VALUE_TO_JSON(model)
         OBJECTS_TO_JSON(messages)
@@ -39,7 +39,7 @@ namespace OpenAI
         VALUE_TO_JSON(presence_penalty)
         VALUE_TO_JSON(frequency_penalty)
         // logit_bias
-        VALUE_TO_JSON(user)
+        if (!object->user.empty()) VALUE_TO_JSON(user)
     }
 }
 

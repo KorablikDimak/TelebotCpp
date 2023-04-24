@@ -2,8 +2,8 @@
 #define OpenAI_OpenAIApiH
 
 #include "Common/HttpsClient.h"
-#include "Types/ChatRequestBody.h"
-#include "Types/ChatResponseBody.h"
+#include "Types/ChatCompletionsRequest.h"
+#include "Types/ChatCompletionsResponse.h"
 
 namespace OpenAI
 {
@@ -24,7 +24,7 @@ namespace OpenAI
         explicit OpenAIApi(const std::string& token);
         ~OpenAIApi() = default;
 
-        ChatResponseBody::Ptr ChatCompletions(const ChatRequestBody::Ptr& requestBody);
+        ChatCompletionsResponse::Ptr ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest);
     };
 }
 

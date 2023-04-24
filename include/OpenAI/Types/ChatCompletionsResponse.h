@@ -5,10 +5,10 @@
 
 namespace OpenAI
 {
-    class ChatResponseBody
+    class ChatCompletionsResponse
     {
     public:
-        typedef std::shared_ptr<ChatResponseBody> Ptr;
+        typedef std::shared_ptr<ChatCompletionsResponse> Ptr;
 
         std::string id;
         std::string object;
@@ -21,7 +21,7 @@ namespace OpenAI
         Usage::Ptr usage;
     };
 
-    inline void from_json(const Json& json, ChatResponseBody& object)
+    inline void from_json(const Json& json, ChatCompletionsResponse& object)
     {
         VALUE_FROM_JSON(id)
         VALUE_FROM_JSON(object)

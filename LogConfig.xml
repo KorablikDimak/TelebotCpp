@@ -22,7 +22,7 @@
         ConsoleSender:
         Saves the string in its original form, replacing {param name} with param value.
         -->
-        <target logsender="Console" minlevel="Info"
+        <target logsender="Console" minlevel="Trace"
                 layout="{hour}:{minute}:{second}:{millisecond} | {level} | {message}"/>
     </targets>
 </logger>

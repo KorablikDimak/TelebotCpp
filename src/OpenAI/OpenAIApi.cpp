@@ -35,15 +35,14 @@ Json OpenAI::OpenAIApi::Post(const std::string& methodName, const Json& params)
     httpContext->Request->prepare_payload();
 
     Common::HttpsClient::SendHttpsAsync(httpContext, true);
-    std::string f = httpContext->Response->get().body();
     return Json::parse(httpContext->Response->get().body());
 }
 
-OpenAI::ChatResponseBody::Ptr OpenAI::OpenAIApi::ChatCompletions(const ChatRequestBody::Ptr& requestBody)
+OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest)
 {
-    Json json = requestBody;
-    json = Post("chat/completions", json);
-    ChatResponseBody::Ptr responseBody = std::make_shared<ChatResponseBody>();
-    *responseBody = json.get<ChatResponseBody>();
-    return responseBody;
+    Json requestBody = completionsRequest;
+    Json responseBody = Post("chat/completions", requestBody);
+    ChatCompletionsResponse::Ptr completionsResponse = std::make_shared<ChatCompletionsResponse>();
+    *completionsResponse = responseBody.get<ChatCompletionsResponse>();
+    return completionsResponse;
 }

@@ -1,7 +1,7 @@
 #ifndef OpenAI_OpenAIH
 #define OpenAI_OpenAIH
 
-#include "OpenAI/ChatGpt.h"
+#include "OpenAI/GptTurbo.h"
 
 namespace OpenAI
 {
@@ -14,7 +14,7 @@ namespace OpenAI
         explicit OpenAI(const std::string& token);
         ~OpenAI() = default;
 
-        ChatGpt::Ptr StartChatGptSession(const std::string& name, const std::string& user = "");
+        GptModel::Ptr GptTurboSession(const std::string& user = "", const std::string& name = "", Role role = Role::User);
     };
 }
 
