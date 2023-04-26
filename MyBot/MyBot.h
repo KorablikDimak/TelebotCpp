@@ -22,11 +22,17 @@ namespace MyBot
         static const std::string OPENAI_USER;
         std::map<std::int64_t, OpenAI::GptModel::Ptr> _gptTurboSessions;
 
+        void Accept();
+
     public:
         typedef std::shared_ptr<MyBot> Ptr;
 
         explicit MyBot(const std::string& botToken, const std::string& openAIToken);
         ~MyBot();
+
+        void Start();
+        void StartAsync();
+        void Stop();
 
         void GptSession(const Telebot::Message::Ptr& message);
         void Chat(const Telebot::Message::Ptr& message);
@@ -59,7 +65,7 @@ namespace MyBot
                     if (!thread.valid()) newThreads.push_back(std::move(thread));
                 threads.swap(newThreads);
                 lock.unlock();
-                std::this_thread::sleep_for(std::chrono::seconds(10));
+                std::this_thread::sleep_for(std::chrono::seconds(5));
             }
         }
     };

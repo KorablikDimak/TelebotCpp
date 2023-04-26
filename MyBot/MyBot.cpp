@@ -11,22 +11,47 @@ MyBot::MyBot::MyBot(const std::string& botToken, const std::string& openAIToken)
     auto factory = CInfoLog::LoggerFactory(LOG_CONFIG_PATH);
     _logger = factory.CreateLogger();
 
-    auto setCommandGptResult = _bot->SetCommandAsync("gpt", "start chat gpt session");
-    if (!setCommandGptResult.get()) throw std::runtime_error("set command failed");
-
     *_bot->OnCommand("gpt") += THIS_METHOD_HANDLER(&MyBot::GptSession)
     *_bot->OnAnyMessage() += THIS_METHOD_HANDLER(&MyBot::Chat)
-
-    _queueControllerTokenSource = std::make_unique<Common::CancellationTokenSource>();
-    _queueController = std::async(std::launch::async, [this](){ ControlQueue(); });
-    _queueThreadsChecker = std::async(std::launch::async, [this](){ CheckThreads(_queueThreads, _queueThreadsMutex); });
-    _telebotThreadsChecker = std::async(std::launch::async, [this](){ CheckThreads(_telebotThreads, _telebotThreadsMutex); });
-
-    _bot->Start();
 }
 
 MyBot::MyBot::~MyBot()
 {
+    Stop();
+}
+
+void MyBot::MyBot::Accept()
+{
+    auto setCommandGptResult = _bot->SetCommandAsync("gpt", "start chat gpt session");
+    _queueController = std::async(std::launch::async, [this](){ ControlQueue(); });
+    _queueThreadsChecker = std::async(std::launch::async, [this](){ CheckThreads(_queueThreads, _queueThreadsMutex); });
+    _telebotThreadsChecker = std::async(std::launch::async, [this](){ CheckThreads(_telebotThreads, _telebotThreadsMutex); });
+    if (!setCommandGptResult.get()) throw std::runtime_error("set command failed");
+}
+
+void MyBot::MyBot::Start()
+{
+    if (_queueControllerTokenSource == nullptr || _queueControllerTokenSource->Token()->IsCancellationRequested())
+    {
+        _queueControllerTokenSource = std::make_unique<Common::CancellationTokenSource>();
+        Accept();
+        _bot->Start();
+    }
+}
+
+void MyBot::MyBot::StartAsync()
+{
+    if (_queueControllerTokenSource == nullptr || _queueControllerTokenSource->Token()->IsCancellationRequested())
+    {
+        _queueControllerTokenSource = std::make_unique<Common::CancellationTokenSource>();
+        Accept();
+        _bot->StartAsync();
+    }
+}
+
+void MyBot::MyBot::Stop()
+{
+    if (_queueControllerTokenSource == nullptr || _queueControllerTokenSource->Token()->IsCancellationRequested()) return;
     _queueControllerTokenSource->Cancel();
 
     std::unique_lock<std::mutex> queueLock(_queueThreadsMutex);
@@ -45,10 +70,15 @@ MyBot::MyBot::~MyBot()
 void MyBot::MyBot::GptSession(const Telebot::Message::Ptr& message)
 {
     std::int64_t id = message->from->id;
+
     if (_gptTurboSessions.find(id) == _gptTurboSessions.end())
     {
         OpenAI::GptModel::Ptr chatGpt = _openAI->GptTurboSession(std::to_string(id), OPENAI_USER, OpenAI::Role::User);
         _gptTurboSessions.insert(std::make_pair(id, chatGpt));
+    }
+    else
+    {
+        _gptTurboSessions[id] = _openAI->GptTurboSession(std::to_string(id), OPENAI_USER, OpenAI::Role::User);
     }
 
     auto onSend = _bot->SendMessageAsync(id, "Hello! How can I assist you today?");

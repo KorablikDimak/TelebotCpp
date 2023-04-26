@@ -13,7 +13,7 @@ namespace Telebot
     {
     private:
         std::unique_ptr<TelebotApi> _api;
-        std::unique_ptr<Common::CancellationTokenSource> _cancellationTokenSource;
+        std::unique_ptr<Common::CancellationTokenSource> _acceptorTokenSource;
         std::future<void> _acceptor;
 
         static const std::int32_t LIMIT;

@@ -7,9 +7,6 @@ Telebot::Telebot::Telebot(const std::string &token)
     _api = std::make_unique<TelebotApi>(token);
     _timeout = 10;
     _onAnyMessage = std::make_shared<Common::Event<const Message::Ptr&>>();
-
-    User::Ptr user = _api->GetMe();
-    if (!user->is_bot) throw std::runtime_error("user is not bot");
 }
 
 Telebot::Telebot::~Telebot()
@@ -23,7 +20,7 @@ void Telebot::Telebot::Accept()
     std::vector<std::string> allowedUpdates;
     allowedUpdates.emplace_back("message");
 
-    while (!_cancellationTokenSource->Token()->IsCancellationRequested())
+    while (!_acceptorTokenSource->Token()->IsCancellationRequested())
     {
         std::vector<Update::Ptr> updates = _api->GetUpdates(offset, LIMIT, _timeout, allowedUpdates);
         if (updates.empty()) continue;
@@ -54,29 +51,31 @@ void Telebot::Telebot::Accept()
 
 void Telebot::Telebot::Start()
 {
-    if (_cancellationTokenSource == nullptr || _cancellationTokenSource->Token()->IsCancellationRequested())
+    if (_acceptorTokenSource == nullptr || _acceptorTokenSource->Token()->IsCancellationRequested())
     {
-        _cancellationTokenSource = std::make_unique<Common::CancellationTokenSource>();
+        _acceptorTokenSource = std::make_unique<Common::CancellationTokenSource>();
+        User::Ptr user = _api->GetMe();
+        if (!user->is_bot) throw std::runtime_error("user is not bot");
         Accept();
     }
 }
 
 void Telebot::Telebot::StartAsync()
 {
-    if (_cancellationTokenSource == nullptr || _cancellationTokenSource->Token()->IsCancellationRequested())
+    if (_acceptorTokenSource == nullptr || _acceptorTokenSource->Token()->IsCancellationRequested())
     {
-        _cancellationTokenSource = std::make_unique<Common::CancellationTokenSource>();
+        _acceptorTokenSource = std::make_unique<Common::CancellationTokenSource>();
+        User::Ptr user = _api->GetMe();
+        if (!user->is_bot) throw std::runtime_error("user is not bot");
         _acceptor = std::async(std::launch::async, [this](){ Accept(); });
     }
 }
 
 void Telebot::Telebot::Stop()
 {
-    if (_cancellationTokenSource != nullptr && !_cancellationTokenSource->Token()->IsCancellationRequested())
-    {
-        _cancellationTokenSource->Cancel();
-        _acceptor.wait();
-    }
+    if (_acceptorTokenSource == nullptr || _acceptorTokenSource->Token()->IsCancellationRequested()) return;
+    _acceptorTokenSource->Cancel();
+    _acceptor.wait();
 }
 
 void Telebot::Telebot::SetTimeout(std::int32_t timeout)
