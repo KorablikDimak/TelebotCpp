@@ -1,6 +1,8 @@
 #ifndef OpenAI_GptTurboH
 #define OpenAI_GptTurboH
 
+#include <queue>
+
 #include "GptModel.h"
 
 namespace OpenAI
@@ -13,9 +15,14 @@ namespace OpenAI
     class GptTurbo : public GptModel
     {
     private:
-        std::string _role;
-        std::string _name;
+        static const std::string MODEL_NAME;
+        static const unsigned char CONTEXT_SIZE;
+
+        std::list<std::string> _context;
+
         std::string _user;
+        std::string _name;
+        std::string _role;
 
         float _temperature;
         float _top_p;

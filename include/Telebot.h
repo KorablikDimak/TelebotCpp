@@ -31,7 +31,7 @@ namespace Telebot
 
         void SetTimeout(std::int32_t timeout);
 
-        std::future<Message::Ptr> SendMessageAsync(std::int64_t chatId, const std::string& text);
+        std::future<Message::Ptr> SendMessageAsync(const std::int64_t& chatId, const std::string& text);
         std::future<bool> SetCommandAsync(const std::string& command, const std::string& description);
         std::future<bool> SetCommandAsync(const BotCommand::Ptr& command);
         std::future<bool> SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands);

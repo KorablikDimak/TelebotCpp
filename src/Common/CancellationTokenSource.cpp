@@ -2,13 +2,13 @@
 
 Common::CancellationTokenSource::CancellationTokenSource()
 {
-    _cancellationRequest = new bool(false);
-    _token = new CancellationToken(_cancellationRequest);
+    _cancellationRequest.store(new bool(false));
+    _token = new CancellationToken(_cancellationRequest.load());
 }
 
 Common::CancellationTokenSource::~CancellationTokenSource()
 {
-    delete _cancellationRequest;
+    delete _cancellationRequest.load();
     delete _token;
 }
 
@@ -19,5 +19,5 @@ Common::CancellationToken* Common::CancellationTokenSource::Token() const
 
 void Common::CancellationTokenSource::Cancel()
 {
-    *_cancellationRequest = true;
+    *_cancellationRequest.load() = true;
 }

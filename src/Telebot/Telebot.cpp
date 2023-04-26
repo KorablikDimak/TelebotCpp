@@ -66,7 +66,7 @@ void Telebot::Telebot::StartAsync()
     if (_cancellationTokenSource == nullptr || _cancellationTokenSource->Token()->IsCancellationRequested())
     {
         _cancellationTokenSource = std::make_unique<Common::CancellationTokenSource>();
-        _acceptor = std::async(std::launch::async, &Telebot::Accept, this);
+        _acceptor = std::async(std::launch::async, [this](){ Accept(); });
     }
 }
 
@@ -75,7 +75,7 @@ void Telebot::Telebot::Stop()
     if (_cancellationTokenSource != nullptr && !_cancellationTokenSource->Token()->IsCancellationRequested())
     {
         _cancellationTokenSource->Cancel();
-        if (_acceptor.valid()) _acceptor.get();
+        _acceptor.wait();
     }
 }
 
@@ -85,10 +85,9 @@ void Telebot::Telebot::SetTimeout(std::int32_t timeout)
     _timeout = timeout;
 }
 
-std::future<Telebot::Message::Ptr> Telebot::Telebot::SendMessageAsync(std::int64_t chatId, const std::string& text)
+std::future<Telebot::Message::Ptr> Telebot::Telebot::SendMessageAsync(const std::int64_t& chatId, const std::string& text)
 {
-    auto onSend = std::async(std::launch::async, [this, &chatId, text](){ return _api->SendMessage(chatId, text); });
-    return onSend;
+    return std::async(std::launch::async, [this, chatId, text](){ return _api->SendMessage(chatId, text); });
 }
 
 std::future<bool> Telebot::Telebot::SetCommandAsync(const std::string& command, const std::string& description)
@@ -96,22 +95,19 @@ std::future<bool> Telebot::Telebot::SetCommandAsync(const std::string& command, 
     BotCommand::Ptr commandPtr = std::make_shared<BotCommand>(command, description);
     std::shared_ptr<std::vector<BotCommand::Ptr>> commands = std::make_shared<std::vector<BotCommand::Ptr>>();
     commands->push_back(commandPtr);
-    auto onSet = std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
-    return onSet;
+    return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
 }
 
 std::future<bool> Telebot::Telebot::SetCommandAsync(const BotCommand::Ptr& command)
 {
     std::shared_ptr<std::vector<BotCommand::Ptr>> commands = std::make_shared<std::vector<BotCommand::Ptr>>();
     commands->push_back(command);
-    auto onSet = std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
-    return onSet;
+    return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
 }
 
 std::future<bool> Telebot::Telebot::SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands)
 {
-    auto onSet = std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(commands); });
-    return onSet;
+    return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(commands); });
 }
 
 MessageEvent Telebot::Telebot::OnAnyMessage()

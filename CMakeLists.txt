@@ -49,9 +49,9 @@ set(TelebotTypes src/Telebot/Types/BotCommandScope.cpp src/Telebot/Types/ChatMem
 add_library(Telebot SHARED ${TelebotHeaders} ${TelebotSource} ${TelebotTypes})
 target_link_libraries(Telebot Common)
 
-set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/GptModel.h src/OpenAI/GptTurbo.cpp include/OpenAI/GptTurbo.h)
+set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/GptModel.h include/OpenAI/GptTurbo.h)
 
-set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/GptModel.cpp src/OpenAI/GptTurbo.cpp include/OpenAI/GptTurbo.h)
+set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/GptModel.cpp src/OpenAI/GptTurbo.cpp)
 
 set(OpenAITypes include/OpenAI/Types/ChatCompletionsRequest.h include/OpenAI/Types/ChatCompletionsResponse.h
         include/OpenAI/Types/Usage.h include/OpenAI/Types/Message.h)

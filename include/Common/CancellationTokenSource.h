@@ -8,7 +8,7 @@ namespace Common
     class CancellationTokenSource
     {
     private:
-        bool* _cancellationRequest;
+        std::atomic<bool*> _cancellationRequest;
         CancellationToken* _token;
 
     public:

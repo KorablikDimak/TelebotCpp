@@ -1,12 +1,14 @@
 #ifndef Common_CancellationTokenH
 #define Common_CancellationTokenH
 
+#include <atomic>
+
 namespace Common
 {
     class CancellationToken
     {
     private:
-        bool* _isCancellationRequested;
+        std::atomic<bool*> _isCancellationRequested;
 
     public:
         explicit CancellationToken(bool* cancellationRequest);
