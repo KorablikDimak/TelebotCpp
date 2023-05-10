@@ -10,9 +10,9 @@ namespace OpenAI
     public:
         typedef std::shared_ptr<Usage> Ptr;
 
-        std::int16_t prompt_tokens;
-        std::int16_t completion_tokens;
-        std::int16_t total_tokens;
+        std::int32_t prompt_tokens;
+        std::int32_t completion_tokens;
+        std::int32_t total_tokens;
     };
 
     inline void from_json(const Json& json, Usage& object)

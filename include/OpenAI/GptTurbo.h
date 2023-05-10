@@ -38,7 +38,7 @@ namespace OpenAI
                           const std::string& name = "", Role role = Role::User);
         ~GptTurbo() override = default;
 
-        std::string Chat(const std::string& content) override;
+        std::pair<std::string, int> Chat(const std::string& content) override;
     };
 }
 

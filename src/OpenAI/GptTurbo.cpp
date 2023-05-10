@@ -33,7 +33,7 @@ OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, c
     _frequency_penalty = 0;
 }
 
-std::string OpenAI::GptTurbo::Chat(const std::string& content)
+std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content)
 {
     Message::Ptr message = std::make_shared<Message>();
     message->role = _role;
@@ -64,5 +64,6 @@ std::string OpenAI::GptTurbo::Chat(const std::string& content)
     chatRequestBody->user = _user;
 
     ChatCompletionsResponse::Ptr chatResponseBody = _api->ChatCompletions(chatRequestBody);
-    return chatResponseBody->content;
+    std::pair<std::string, int> result = std::make_pair(chatResponseBody->content, chatResponseBody->usage->total_tokens);
+    return result;
 }

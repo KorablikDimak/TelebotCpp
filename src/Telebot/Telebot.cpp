@@ -104,6 +104,17 @@ std::future<bool> Telebot::Telebot::SetCommandAsync(const BotCommand::Ptr& comma
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(*commands); });
 }
 
+std::future<bool> Telebot::Telebot::SetCommandsAsync(const std::vector<std::pair<std::string, std::string>>& commands)
+{
+    std::shared_ptr<std::vector<BotCommand::Ptr>> commandsPtr = std::make_shared<std::vector<BotCommand::Ptr>>();
+    for (const auto& command : commands)
+    {
+        BotCommand::Ptr commandPtr = std::make_shared<BotCommand>(command.first, command.second);
+        commandsPtr->push_back(commandPtr);
+    }
+    return std::async(std::launch::async, [this, commandsPtr](){ return _api->SetMyCommands(*commandsPtr); });
+}
+
 std::future<bool> Telebot::Telebot::SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands)
 {
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(commands); });

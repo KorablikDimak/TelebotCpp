@@ -10,18 +10,21 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archi
 
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 set(OPENSSL_MSVC_STATIC_RT TRUE)
-set(OPENSSL_ROOT_DIR "../OpenSSL")
+set(OPENSSL_ROOT_DIR ../OpenSSL)
 find_package(OpenSSL REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-set(BOOST_ROOT "../boost_1_78_0")
-set(BOOST_INCLUDEDIR "../boost_1_78_0")
-set(BOOST_LIBRARYDIR "../boost_1_78_0/stage/lib")
+set(BOOST_ROOT ../boost_1_78_0)
+set(BOOST_INCLUDEDIR ../boost_1_78_0)
+set(BOOST_LIBRARYDIR ../boost_1_78_0/stage/lib)
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
-include_directories(include libs MyBot src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ../CInfoLog/include)
+find_package(PostgreSQL REQUIRED)
+
+include_directories(include libs MyBot src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ../CInfoLog/include
+        ${PostgreSQL_INCLUDE_DIR} ../libpqxx-7.7.5/include)
 
 set(CommonHeaders include/Common/HttpContext.h include/Common/HttpsClient.h include/Common/IEventHandler.h
         include/Common/Event.h include/Common/MethodHandler.h include/Common/StaticMethodHandler.h
@@ -61,13 +64,14 @@ target_link_libraries(OpenAI Common)
 
 add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)
+add_subdirectory(../libpqxx-7.7.5 pqxx)
 
-set(MyBotHeaders MyBot/MyBot.h)
+set(MyBotHeaders MyBot/MyBot.h include/Db/DbPool.h include/Db/DbConnection.h MyBot/User.h)
 
-set(MyBotSource MyBot/main.cpp MyBot/MyBot.cpp)
+set(MyBotSource MyBot/main.cpp MyBot/MyBot.cpp src/Db/DbPool.cpp src/Db/DbConnection.cpp)
 
 add_executable(MyBot ${MyBotHeaders} ${MyBotSource})
-target_link_libraries(MyBot Telebot OpenAI CInfoLog)
+target_link_libraries(MyBot Telebot OpenAI CInfoLog ${PostgreSQL_LIBRARIES} pqxx)
 
 if (ENABLE_TESTS)
     add_subdirectory(../GoogleTest gtest)

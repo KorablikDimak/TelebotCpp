@@ -34,6 +34,7 @@ namespace Telebot
         std::future<Message::Ptr> SendMessageAsync(const std::int64_t& chatId, const std::string& text);
         std::future<bool> SetCommandAsync(const std::string& command, const std::string& description);
         std::future<bool> SetCommandAsync(const BotCommand::Ptr& command);
+        std::future<bool> SetCommandsAsync(const std::vector<std::pair<std::string, std::string>>& commands);
         std::future<bool> SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands);
 
     private:

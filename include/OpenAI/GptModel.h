@@ -17,7 +17,7 @@ namespace OpenAI
         GptModel() = default;
         virtual ~GptModel() = default;
 
-        virtual std::string Chat(const std::string& content) = 0;
+        virtual std::pair<std::string, int> Chat(const std::string& content) = 0;
         std::string GetModelName();
     };
 }
