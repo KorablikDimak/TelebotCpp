@@ -20,8 +20,8 @@ namespace DbProvider
         ~DbConnection() = default;
 
         template<typename TResult, typename ...TParams>
-        std::future<TResult> StartTransaction(std::function<TResult(pqxx::work&, TParams...)> transaction,
-                                              TParams... params)
+        std::future<TResult> TransactAsync(std::function<TResult(pqxx::work&, TParams...)> transaction,
+                                           TParams... params)
         {
             return std::async(std::launch::async, [this, transaction](auto&&... args)->TResult
             {

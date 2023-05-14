@@ -5,19 +5,17 @@
 
 namespace OpenAI
 {
-    class GptModel
+    class OpenAiModel
     {
     protected:
         OpenAIApi::Ptr _api;
         std::string _modelName;
 
     public:
-        typedef std::shared_ptr<GptModel> Ptr;
+        typedef std::shared_ptr<OpenAiModel> Ptr;
 
-        GptModel() = default;
-        virtual ~GptModel() = default;
-
-        virtual std::pair<std::string, int> Chat(const std::string& content) = 0;
+        OpenAiModel() = default;
+        virtual ~OpenAiModel() = default;
         std::string GetModelName();
     };
 }

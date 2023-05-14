@@ -1,6 +1,9 @@
 #ifndef Telebot_BotApiH
 #define Telebot_BotApiH
 
+#include <boost/filesystem.hpp>
+#include <fstream>
+
 #include "Common/HttpsClient.h"
 #include "Types/Update.h"
 #include "Types/InputFile.h"
@@ -284,6 +287,8 @@ namespace Telebot
                                                     std::int32_t limit = 100);
 
         File::Ptr GetFile(const std::string& fileId);
+
+        std::string DownloadFile(const File::Ptr& file, const std::string& toDirectory);
 
         bool BanChatMember(std::int64_t chatId,
                            std::int64_t userId,

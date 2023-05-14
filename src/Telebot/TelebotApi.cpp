@@ -10,7 +10,7 @@ Telebot::TelebotApi::TelebotApi(const std::string& token)
 
 Json Telebot::TelebotApi::Get(const std::string& methodName)
 {
-    Common::HttpContext::Ptr httpContext = std::make_shared<Common::HttpContext>();
+    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("GET");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -23,7 +23,7 @@ Json Telebot::TelebotApi::Get(const std::string& methodName)
 
 Json Telebot::TelebotApi::Post(const std::string& methodName, const Json& params)
 {
-    Common::HttpContext::Ptr httpContext = std::make_shared<Common::HttpContext>();
+    auto httpContext = std::make_shared<Common::HttpContext<StringBody, StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("POST");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -385,7 +385,30 @@ Telebot::UserProfilePhotos::Ptr Telebot::TelebotApi::GetUserProfilePhotos(std::i
 
 Telebot::File::Ptr Telebot::TelebotApi::GetFile(const std::string& fileId)
 {
+    Json requestBody;
+    requestBody["file_id"] = fileId;
+    Json responseBody = Post("getFile", requestBody);
 
+    File::Ptr file = std::make_shared<File>();
+    *file = responseBody.get<File>();
+    return file;
+}
+
+std::string Telebot::TelebotApi::DownloadFile(const File::Ptr& file, const std::string& toDirectory)
+{
+    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, FileBody>>();
+    httpContext->Request->version(HTTP_VERSION);
+    httpContext->Request->method_string("GET");
+    httpContext->Request->set(boost::beast::http::field::host, HOST);
+    httpContext->Request->target("/file/bot" + _token + "/" + file->file_path);
+
+    boost::filesystem::path path(file->file_path);
+    std::string filePath = toDirectory + "/" + file->file_unique_id + path.extension().string();
+    boost::beast::error_code ec;
+    httpContext->Response->get().body().open(filePath.c_str(), boost::beast::file_mode::write, ec);
+
+    Common::HttpsClient::SendHttpsAsync(httpContext);
+    return filePath;
 }
 
 bool Telebot::TelebotApi::BanChatMember(std::int64_t chatId,

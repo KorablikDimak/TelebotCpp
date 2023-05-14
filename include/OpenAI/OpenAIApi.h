@@ -1,9 +1,13 @@
 #ifndef OpenAI_OpenAIApiH
 #define OpenAI_OpenAIApiH
 
+#include <boost/process.hpp>
+
 #include "Common/HttpsClient.h"
 #include "Types/ChatCompletionsRequest.h"
 #include "Types/ChatCompletionsResponse.h"
+#include "Types/TranscriptionsRequest.h"
+#include "Types/FileInfo.h"
 
 namespace OpenAI
 {
@@ -25,6 +29,9 @@ namespace OpenAI
         ~OpenAIApi() = default;
 
         ChatCompletionsResponse::Ptr ChatCompletions(const ChatCompletionsRequest::Ptr& completionsRequest);
+        FileInfo::Ptr UploadFile(const std::string& filePath);
+        FileInfo::Ptr DeleteFile(const std::string& fileId);
+        std::string CreateTranscription(const TranscriptionsRequest::Ptr& transcriptionsRequest);
     };
 }
 

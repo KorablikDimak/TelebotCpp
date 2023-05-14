@@ -2,6 +2,7 @@
 #define DbProvider_DbPoolH
 
 #include <queue>
+#include <mutex>
 #include <thread>
 #include <chrono>
 #include <pqxx/pqxx>

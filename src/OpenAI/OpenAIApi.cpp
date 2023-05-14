@@ -10,7 +10,7 @@ OpenAI::OpenAIApi::OpenAIApi(const std::string& token)
 
 Json OpenAI::OpenAIApi::Get(const std::string& methodName)
 {
-    Common::HttpContext::Ptr httpContext = std::make_shared<Common::HttpContext>();
+    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("GET");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -23,7 +23,7 @@ Json OpenAI::OpenAIApi::Get(const std::string& methodName)
 
 Json OpenAI::OpenAIApi::Post(const std::string& methodName, const Json& params)
 {
-    Common::HttpContext::Ptr httpContext = std::make_shared<Common::HttpContext>();
+    auto httpContext = std::make_shared<Common::HttpContext<StringBody, StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("POST");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -45,4 +45,50 @@ OpenAI::ChatCompletionsResponse::Ptr OpenAI::OpenAIApi::ChatCompletions(const Ch
     ChatCompletionsResponse::Ptr completionsResponse = std::make_shared<ChatCompletionsResponse>();
     *completionsResponse = responseBody.get<ChatCompletionsResponse>();
     return completionsResponse;
+}
+
+OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::UploadFile(const std::string& filePath)
+{
+
+}
+
+OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::DeleteFile(const std::string& fileId)
+{
+    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, StringBody>>();
+    httpContext->Request->version(HTTP_VERSION);
+    httpContext->Request->method_string("DELETE");
+    httpContext->Request->set(boost::beast::http::field::host, HOST);
+    httpContext->Request->target("/v1/files/" + fileId);
+    httpContext->Request->set(boost::beast::http::field::authorization, "Bearer " + _token);
+
+    Common::HttpsClient::SendHttpsAsync(httpContext, true);
+    Json responseBody = Json::parse(httpContext->Response->get().body());
+
+    FileInfo::Ptr fileInfo = std::make_shared<FileInfo>();
+    *fileInfo = responseBody.get<FileInfo>();
+    return fileInfo;
+}
+
+std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::Ptr& transcriptionsRequest)
+{
+    std::string command = "curl https://" + HOST + "/v1/audio/transcriptions"
+                          " -H \"Authorization: Bearer " + _token + "\""
+                          " -H \"Content-Type: multipart/form-data\""
+                          " -F file=\"@" + transcriptionsRequest->file + "\""
+                          " -F model=\"" + transcriptionsRequest->model + "\"";
+    if (!transcriptionsRequest->prompt.empty())
+        command = command + " -F prompt=\"" + transcriptionsRequest->prompt + "\"";
+    if (!transcriptionsRequest->response_format.empty())
+        command = command + " -F response_format=\"" + transcriptionsRequest->response_format + "\"";
+
+    boost::process::ipstream stream;
+    boost::process::child process(command, boost::process::std_out > stream);
+    std::stringstream ss;
+    std::string line;
+    while (std::getline(stream, line)) ss << line << std::endl;
+    std::string output = ss.str();
+    process.wait();
+
+    Json responseBody = Json::parse(output);
+    return responseBody.at("text").get<std::string>();
 }

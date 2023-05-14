@@ -4,6 +4,7 @@ project(TelebotCpp)
 set(ENABLE_TESTS TRUE)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og")
 set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
@@ -30,8 +31,7 @@ set(CommonHeaders include/Common/HttpContext.h include/Common/HttpsClient.h incl
         include/Common/Event.h include/Common/MethodHandler.h include/Common/StaticMethodHandler.h
         include/Common/CancellationTokenSource.h include/Common/CancellationToken.h)
 
-set(CommonSource src/Common/HttpContext.cpp src/Common/HttpsClient.cpp src/Common/CancellationTokenSource.cpp
-        src/Common/CancellationToken.cpp)
+set(CommonSource src/Common/CancellationTokenSource.cpp src/Common/CancellationToken.cpp)
 
 set(PugiXML libs/PugiXml/pugiconfig.hpp libs/pugixml.hpp libs/PugiXml/pugixml.cpp)
 
@@ -52,12 +52,15 @@ set(TelebotTypes src/Telebot/Types/BotCommandScope.cpp src/Telebot/Types/ChatMem
 add_library(Telebot SHARED ${TelebotHeaders} ${TelebotSource} ${TelebotTypes})
 target_link_libraries(Telebot Common)
 
-set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/GptModel.h include/OpenAI/GptTurbo.h)
+set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/OpenAiModel.h include/OpenAI/GptTurbo.h
+        include/OpenAI/Whisper.h)
 
-set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/GptModel.cpp src/OpenAI/GptTurbo.cpp)
+set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/OpenAiModel.cpp src/OpenAI/GptTurbo.cpp
+        src/OpenAI/Whisper.cpp)
 
 set(OpenAITypes include/OpenAI/Types/ChatCompletionsRequest.h include/OpenAI/Types/ChatCompletionsResponse.h
-        include/OpenAI/Types/Usage.h include/OpenAI/Types/Message.h)
+        include/OpenAI/Types/Usage.h include/OpenAI/Types/Message.h include/OpenAI/Types/TranscriptionsRequest.h
+        include/OpenAI/Types/FileInfo.h)
 
 add_library(OpenAI SHARED ${OpenAIHeaders} ${OpenAISource} ${OpenAITypes})
 target_link_libraries(OpenAI Common)

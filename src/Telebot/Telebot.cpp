@@ -7,6 +7,7 @@ Telebot::Telebot::Telebot(const std::string &token)
     _api = std::make_unique<TelebotApi>(token);
     _timeout = 10;
     _onAnyMessage = std::make_shared<Common::Event<const Message::Ptr&>>();
+    _onVoice = std::make_shared<Common::Event<const Message::Ptr&>>();
 }
 
 Telebot::Telebot::~Telebot()
@@ -27,7 +28,9 @@ void Telebot::Telebot::Accept()
 
         for (const Update::Ptr& update : updates)
         {
-            if (update->message.get() != nullptr)
+            if (update->message.get() == nullptr) continue;
+
+            if (!update->message->text.empty())
             {
                 if (update->message->text[0] == '/')
                 {
@@ -36,12 +39,15 @@ void Telebot::Telebot::Accept()
                 }
                 else
                 {
-                    (*_onAnyMessage)(update->message);
-
                     if (_onMessage.find(update->message->text) != _onMessage.end())
                         (*_onMessage[update->message->text])(update->message);
-                }
 
+                    (*_onAnyMessage)(update->message);
+                }
+            }
+            else if (update->message->voice.get() != nullptr)
+            {
+                (*_onVoice)(update->message);
             }
         }
 
@@ -120,6 +126,15 @@ std::future<bool> Telebot::Telebot::SetCommandsAsync(const std::vector<BotComman
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(commands); });
 }
 
+std::future<std::string> Telebot::Telebot::LoadFileAsync(const std::string& fileId, const std::string& toDirectory)
+{
+    return std::async(std::launch::async, [this, fileId, toDirectory]()
+    {
+        File::Ptr file = _api->GetFile(fileId);
+        return _api->DownloadFile(file, toDirectory);
+    });
+}
+
 MessageEvent Telebot::Telebot::OnAnyMessage()
 {
     return _onAnyMessage;
@@ -137,4 +152,9 @@ MessageEvent Telebot::Telebot::OnCommand(const std::string& command)
     if (_onCommand.find(command) == _onCommand.end())
         _onCommand.insert(std::make_pair(command, std::make_shared<Common::Event<const Message::Ptr&>>()));
     return _onCommand[command];
+}
+
+MessageEvent Telebot::Telebot::OnVoice()
+{
+    return _onVoice;
 }

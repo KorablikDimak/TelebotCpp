@@ -3,7 +3,7 @@
 
 #include <queue>
 
-#include "GptModel.h"
+#include "OpenAiModel.h"
 
 namespace OpenAI
 {
@@ -12,7 +12,7 @@ namespace OpenAI
         System, User, Assistant
     };
 
-    class GptTurbo : public GptModel
+    class GptTurbo : public OpenAiModel
     {
     private:
         static const std::string MODEL_NAME;
@@ -38,7 +38,7 @@ namespace OpenAI
                           const std::string& name = "", Role role = Role::User);
         ~GptTurbo() override = default;
 
-        std::pair<std::string, int> Chat(const std::string& content) override;
+        std::pair<std::string, int> Chat(const std::string& content);
     };
 }
 

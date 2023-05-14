@@ -36,16 +36,19 @@ namespace Telebot
         std::future<bool> SetCommandAsync(const BotCommand::Ptr& command);
         std::future<bool> SetCommandsAsync(const std::vector<std::pair<std::string, std::string>>& commands);
         std::future<bool> SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands);
+        std::future<std::string> LoadFileAsync(const std::string& fileId, const std::string& toDirectory);
 
     private:
         MessageEvent _onAnyMessage;
         std::map<std::string, MessageEvent> _onMessage;
         std::map<std::string, MessageEvent> _onCommand;
+        MessageEvent _onVoice;
 
     public:
         MessageEvent OnAnyMessage();
         MessageEvent OnMessage(const std::string& message);
         MessageEvent OnCommand(const std::string& command);
+        MessageEvent OnVoice();
     };
 }
 
