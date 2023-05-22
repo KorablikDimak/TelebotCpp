@@ -15,14 +15,14 @@
         Saves the string in its original form, replacing {param name} with param value.
         You can use the same parameters in the 'filepath' as in 'layout'.
         -->
-        <target logsender="File" minlevel="Error" filepath="{basedir}\logs\release\{dd}-{mm}-{yyyy}.txt"
+        <target logsender="File" minlevel="ErrorTrace" filepath="{basedir}\logs\release\{dd}-{mm}-{yyyy}.txt"
                 layout="{hour}:{minute}:{second}:{millisecond} | {level} | {message}"/>
 
         <!--
         ConsoleSender:
         Saves the string in its original form, replacing {param name} with param value.
         -->
-        <target logsender="Console" minlevel="Error"
+        <target logsender="Console" minlevel="ErrorTrace"
                 layout="{hour}:{minute}:{second}:{millisecond} | {level} | {message}"/>
     </targets>
 </logger>

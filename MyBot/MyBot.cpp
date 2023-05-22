@@ -216,7 +216,7 @@ void MyBot::MyBot::Stop()
     _commonChecker.wait();
 }
 
-void MyBot::MyBot::ChangeLogger(const std::string& logConfigPath)
+void MyBot::MyBot::SetLogger(const std::string& logConfigPath)
 {
     _logger = std::make_shared<CInfoLog::Logger>(logConfigPath);
 }

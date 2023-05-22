@@ -29,9 +29,11 @@ include_directories(include libs MyBot src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUD
 
 set(CommonHeaders include/Common/HttpContext.h include/Common/HttpsClient.h include/Common/IEventHandler.h
         include/Common/Event.h include/Common/MethodHandler.h include/Common/StaticMethodHandler.h
-        include/Common/CancellationTokenSource.h include/Common/CancellationToken.h)
+        include/Common/CancellationTokenSource.h include/Common/CancellationToken.h include/Common/ErrorTrace.h
+        include/Common/ErrorInfo.h include/Common/ErrorCode.h)
 
-set(CommonSource src/Common/CancellationTokenSource.cpp src/Common/CancellationToken.cpp)
+set(CommonSource src/Common/CancellationTokenSource.cpp src/Common/CancellationToken.cpp src/Common/ErrorTrace.cpp
+        src/Common/ErrorInfo.cpp)
 
 set(PugiXML libs/PugiXml/pugiconfig.hpp libs/pugixml.hpp libs/PugiXml/pugixml.cpp)
 

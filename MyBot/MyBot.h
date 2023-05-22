@@ -76,7 +76,7 @@ namespace MyBot
         void StartAsync();
         void Stop();
 
-        void ChangeLogger(const std::string& logConfigPath);
+        void SetLogger(const std::string& logConfigPath);
 
         void GptSession(const Telebot::Message::Ptr& message);
         void WhisperSession(const Telebot::Message::Ptr& message);
