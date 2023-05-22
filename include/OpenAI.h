@@ -15,8 +15,8 @@ namespace OpenAI
         explicit OpenAI(const std::string& token);
         ~OpenAI() = default;
 
-        OpenAiModel::Ptr GptTurboSession(const std::string& user = "", const std::string& name = "", Role role = Role::User);
-        OpenAiModel::Ptr WhisperSession();
+        OpenAIModel::Ptr GptTurboSession(const std::string& user = "", const std::string& name = "", Role role = Role::User);
+        OpenAIModel::Ptr WhisperSession();
     };
 }
 

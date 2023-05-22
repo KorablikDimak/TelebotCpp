@@ -14,7 +14,6 @@ namespace MyBot
     private:
         static const std::string FILE_DIRECTORY;
         static const unsigned char POOL_MAX_SIZE;
-        static const std::string LOG_CONFIG_PATH;
         static const std::string OPENAI_USER;
         static const unsigned short REQUESTS_PER_MINUTE_LIMIT;
 
@@ -24,7 +23,7 @@ namespace MyBot
         CInfoLog::Logger::Ptr _logger;
         std::atomic<unsigned short> _requestsPerLastMinute;
         std::unique_ptr<Common::CancellationTokenSource> _cancellationTokenSource;
-        std::map<std::int64_t, OpenAI::OpenAiModel::Ptr> _openAiSessions;
+        std::map<std::int64_t, OpenAI::OpenAIModel::Ptr> _openAiSessions;
 
         void Accept();
 
@@ -70,12 +69,14 @@ namespace MyBot
     public:
         typedef std::shared_ptr<MyBot> Ptr;
 
-        explicit MyBot(const std::string& botToken, const std::string& openAIToken, const std::string& dbConnectionString);
+        explicit MyBot(const std::map<std::string, std::string>& args);
         ~MyBot();
 
         void Start();
         void StartAsync();
         void Stop();
+
+        void ChangeLogger(const std::string& logConfigPath);
 
         void GptSession(const Telebot::Message::Ptr& message);
         void WhisperSession(const Telebot::Message::Ptr& message);
@@ -88,9 +89,9 @@ namespace MyBot
         bool UserHasTokens(std::int64_t userId);
 
         template<typename TResult>
-        std::future<TResult> AddToQueue(std::function<TResult(const OpenAI::OpenAiModel::Ptr&,
+        std::future<TResult> AddToQueue(std::function<TResult(const OpenAI::OpenAIModel::Ptr&,
                                                               const Telebot::Message::Ptr&)> task,
-                                        const OpenAI::OpenAiModel::Ptr& model,
+                                        const OpenAI::OpenAIModel::Ptr& model,
                                         const Telebot::Message::Ptr& message)
         {
             return std::async(std::launch::async, [this, task, model, message]()->TResult

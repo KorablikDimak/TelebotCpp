@@ -3,7 +3,7 @@
 
 #include <queue>
 
-#include "OpenAiModel.h"
+#include "OpenAIModel.h"
 
 namespace OpenAI
 {
@@ -12,7 +12,7 @@ namespace OpenAI
         System, User, Assistant
     };
 
-    class GptTurbo : public OpenAiModel
+    class GptTurbo : public OpenAIModel
     {
     private:
         static const std::string MODEL_NAME;

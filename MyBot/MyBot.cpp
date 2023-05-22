@@ -2,17 +2,14 @@
 
 const std::string MyBot::MyBot::FILE_DIRECTORY = "root/files";
 const unsigned char MyBot::MyBot::POOL_MAX_SIZE = 3;
-const std::string MyBot::MyBot::LOG_CONFIG_PATH = "LogConfig.xml";
 const std::string MyBot::MyBot::OPENAI_USER = "TelegramBot";
 const unsigned short MyBot::MyBot::REQUESTS_PER_MINUTE_LIMIT = 3;
 
-MyBot::MyBot::MyBot(const std::string& botToken, const std::string& openAIToken, const std::string& dbConnectionString)
+MyBot::MyBot::MyBot(const std::map<std::string, std::string>& args)
 {
-    _bot = std::make_unique<Telebot::Telebot>(botToken);
-    _openAI = std::make_unique<OpenAI::OpenAI>(openAIToken);
-    _dbConnection = std::make_unique<DbProvider::DbConnection>(dbConnectionString, POOL_MAX_SIZE);
-    auto factory = CInfoLog::LoggerFactory(LOG_CONFIG_PATH);
-    _logger = factory.CreateLogger();
+    _bot = std::make_unique<Telebot::Telebot>(args.at("bottoken"));
+    _openAI = std::make_unique<OpenAI::OpenAI>(args.at("openaitoken"));
+    _dbConnection = std::make_unique<DbProvider::DbConnection>(args.at("connectionstring"), POOL_MAX_SIZE);
     _requestsPerLastMinute = 0;
 
     *_bot->OnCommand("gpt") += THIS_METHOD_HANDLER(&MyBot::GptSession)
@@ -219,13 +216,18 @@ void MyBot::MyBot::Stop()
     _commonChecker.wait();
 }
 
+void MyBot::MyBot::ChangeLogger(const std::string& logConfigPath)
+{
+    _logger = std::make_shared<CInfoLog::Logger>(logConfigPath);
+}
+
 void MyBot::MyBot::WhisperSession(const Telebot::Message::Ptr& message)
 {
     auto session = std::async(std::launch::async, [this, message]()
     {
         std::int64_t id = message->from->id;
         if (!IsUser(id).get()) AddUser(id).get();
-        OpenAI::OpenAiModel::Ptr whisper = _openAI->WhisperSession();
+        OpenAI::OpenAIModel::Ptr whisper = _openAI->WhisperSession();
 
         if (_openAiSessions.find(id) == _openAiSessions.end()) _openAiSessions.insert(std::make_pair(id, whisper));
         else _openAiSessions[id] = whisper;
@@ -243,7 +245,7 @@ void MyBot::MyBot::GptSession(const Telebot::Message::Ptr& message)
     {
         std::int64_t id = message->from->id;
         if (!IsUser(id).get()) AddUser(id).get();
-        OpenAI::OpenAiModel::Ptr chatGpt = _openAI->GptTurboSession(std::to_string(id), OPENAI_USER, OpenAI::Role::User);
+        OpenAI::OpenAIModel::Ptr chatGpt = _openAI->GptTurboSession(std::to_string(id), OPENAI_USER, OpenAI::Role::User);
 
         if (_openAiSessions.find(id) == _openAiSessions.end()) _openAiSessions.insert(std::make_pair(id, chatGpt));
         else _openAiSessions[id] = chatGpt;
@@ -279,7 +281,7 @@ void MyBot::MyBot::Chat(const Telebot::Message::Ptr& message)
     std::int64_t id = message->from->id;
     if (_openAiSessions.find(id) == _openAiSessions.end() || _openAiSessions[id]->GetModelName() != "gpt-3.5-turbo") return;
 
-    std::future<bool> chat = AddToQueue<bool>([this](const OpenAI::OpenAiModel::Ptr& model,
+    std::future<bool> chat = AddToQueue<bool>([this](const OpenAI::OpenAIModel::Ptr& model,
                                                      const Telebot::Message::Ptr& message)->bool
     {
         std::int64_t id = message->from->id;
@@ -305,7 +307,7 @@ void MyBot::MyBot::Transcript(const Telebot::Message::Ptr& message)
     std::int64_t id = message->from->id;
     if (_openAiSessions.find(id) == _openAiSessions.end() || _openAiSessions[id]->GetModelName() != "whisper-1") return;
 
-    std::future<bool> transcript = AddToQueue<bool>([this](const OpenAI::OpenAiModel::Ptr& model,
+    std::future<bool> transcript = AddToQueue<bool>([this](const OpenAI::OpenAIModel::Ptr& model,
                                                            const Telebot::Message::Ptr& message)->bool
     {
         std::int64_t id = message->from->id;
@@ -352,9 +354,8 @@ void MyBot::MyBot::ConvertAudio(const std::string& filePath)
 {
     if (boost::filesystem::exists(filePath + ".mp3")) return;
     std::string command = "ffmpeg -i " + filePath + " " + filePath + ".mp3";
-    std::cout << command << std::endl;
-    int status = system(command.c_str());
-    if (status == -1) throw std::runtime_error("ffmpeg process failed!");
+    boost::process::child process(command);
+    process.wait();
 }
 
 bool MyBot::MyBot::UserHasTokens(std::int64_t userId)

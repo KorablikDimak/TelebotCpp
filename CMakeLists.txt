@@ -52,10 +52,10 @@ set(TelebotTypes src/Telebot/Types/BotCommandScope.cpp src/Telebot/Types/ChatMem
 add_library(Telebot SHARED ${TelebotHeaders} ${TelebotSource} ${TelebotTypes})
 target_link_libraries(Telebot Common)
 
-set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/OpenAiModel.h include/OpenAI/GptTurbo.h
+set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/OpenAIModel.h include/OpenAI/GptTurbo.h
         include/OpenAI/Whisper.h)
 
-set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/OpenAiModel.cpp src/OpenAI/GptTurbo.cpp
+set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/OpenAIModel.cpp src/OpenAI/GptTurbo.cpp
         src/OpenAI/Whisper.cpp)
 
 set(OpenAITypes include/OpenAI/Types/ChatCompletionsRequest.h include/OpenAI/Types/ChatCompletionsResponse.h
@@ -100,5 +100,11 @@ endif()
 add_custom_command(
         TARGET MyBot POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_SOURCE_DIR}/LogConfig.xml
-        ${CMAKE_CURRENT_BINARY_DIR}/LogConfig.xml)
+        ${CMAKE_SOURCE_DIR}/LogConfigDebug.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/LogConfigDebug.xml)
+
+add_custom_command(
+        TARGET MyBot POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/LogConfigRelease.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/LogConfigRelease.xml)

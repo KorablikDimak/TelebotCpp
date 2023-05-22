@@ -75,7 +75,8 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
                           " -H \"Authorization: Bearer " + _token + "\""
                           " -H \"Content-Type: multipart/form-data\""
                           " -F file=\"@" + transcriptionsRequest->file + "\""
-                          " -F model=\"" + transcriptionsRequest->model + "\"";
+                          " -F model=\"" + transcriptionsRequest->model + "\""
+                          " -F temperature=\"" + std::to_string(transcriptionsRequest->temperature) + "\"";
     if (!transcriptionsRequest->prompt.empty())
         command = command + " -F prompt=\"" + transcriptionsRequest->prompt + "\"";
     if (!transcriptionsRequest->response_format.empty())

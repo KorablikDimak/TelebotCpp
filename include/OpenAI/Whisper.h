@@ -1,11 +1,11 @@
 #ifndef OpenAI_WhisperH
 #define OpenAI_WhisperH
 
-#include "OpenAiModel.h"
+#include "OpenAIModel.h"
 
 namespace OpenAI
 {
-    class Whisper : public OpenAiModel
+    class Whisper : public OpenAIModel
     {
     private:
         static const std::string MODEL_NAME;
