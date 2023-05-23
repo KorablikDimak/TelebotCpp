@@ -149,7 +149,7 @@ Telebot::MessageId::Ptr Telebot::TelebotApi::CopyMessage(std::int64_t chatId,
 }
 
 Telebot::Message::Ptr Telebot::TelebotApi::SendPhoto(std::int64_t chatId,
-                                                     const InputFile::Ptr& photo,
+                                                     const boost::variant<std::string, InputFile::Ptr>& photo,
                                                      const std::string& caption,
                                                      std::int32_t replyToMessageId,
                                                      const GenericReply::Ptr& replyMarkup,
@@ -161,7 +161,21 @@ Telebot::Message::Ptr Telebot::TelebotApi::SendPhoto(std::int64_t chatId,
                                                      std::int32_t messageThreadId,
                                                      bool hasSpoiler)
 {
+    if (photo.type() == typeid(std::string))
+    {
+        Json requestBody;
+        requestBody["chat_id"] = chatId;
+        requestBody["photo"] = boost::get<std::string>(photo);
+        Json responseBody = Post("sendPhoto", requestBody);
 
+        Message::Ptr message = std::make_shared<Message>();
+        *message = responseBody.get<Message>();
+        return message;
+    }
+    else
+    {
+        throw std::invalid_argument("photo must be std::string type");
+    }
 }
 
 Telebot::Message::Ptr Telebot::TelebotApi::SendAudio(std::int64_t chatId,

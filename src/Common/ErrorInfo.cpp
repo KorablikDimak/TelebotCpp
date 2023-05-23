@@ -1,6 +1,6 @@
 #include "Common/ErrorInfo.h"
 
-Common::ErrorInfo::ErrorInfo(ErrorCode errorCode, const std::string& description)
+Common::ErrorInfo::ErrorInfo(Common::ErrorCode errorCode, const std::string& description)
 {
     _errorCode = errorCode;
     _description = description;

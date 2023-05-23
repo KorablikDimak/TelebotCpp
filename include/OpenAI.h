@@ -3,6 +3,7 @@
 
 #include "OpenAI/GptTurbo.h"
 #include "OpenAI/Whisper.h"
+#include "OpenAI/Dalle.h"
 
 namespace OpenAI
 {
@@ -17,6 +18,7 @@ namespace OpenAI
 
         OpenAIModel::Ptr GptTurboSession(const std::string& user = "", const std::string& name = "", Role role = Role::User);
         OpenAIModel::Ptr WhisperSession();
+        OpenAIModel::Ptr DalleSession(const std::string& user = "");
     };
 }
 

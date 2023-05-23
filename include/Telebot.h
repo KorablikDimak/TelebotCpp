@@ -36,7 +36,9 @@ namespace Telebot
         std::future<bool> SetCommandAsync(const BotCommand::Ptr& command);
         std::future<bool> SetCommandsAsync(const std::vector<std::pair<std::string, std::string>>& commands);
         std::future<bool> SetCommandsAsync(const std::vector<BotCommand::Ptr>& commands);
-        std::future<std::string> LoadFileAsync(const std::string& fileId, const std::string& toDirectory);
+        std::future<std::string> DownloadFileAsync(const std::string& fileId, const std::string& toDirectory);
+        std::future<Message::Ptr> SendPhotoAsync(const std::int64_t& chatId,
+                                                 const boost::variant<std::string, InputFile::Ptr>& url);
 
     private:
         MessageEvent _onAnyMessage;

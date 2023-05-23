@@ -126,13 +126,19 @@ std::future<bool> Telebot::Telebot::SetCommandsAsync(const std::vector<BotComman
     return std::async(std::launch::async, [this, commands](){ return _api->SetMyCommands(commands); });
 }
 
-std::future<std::string> Telebot::Telebot::LoadFileAsync(const std::string& fileId, const std::string& toDirectory)
+std::future<std::string> Telebot::Telebot::DownloadFileAsync(const std::string& fileId, const std::string& toDirectory)
 {
     return std::async(std::launch::async, [this, fileId, toDirectory]()
     {
         File::Ptr file = _api->GetFile(fileId);
         return _api->DownloadFile(file, toDirectory);
     });
+}
+
+std::future<Telebot::Message::Ptr> Telebot::Telebot::SendPhotoAsync(const std::int64_t& chatId,
+                                                                    const boost::variant<std::string, InputFile::Ptr>& photo)
+{
+    return std::async(std::launch::async, [this, chatId, photo](){ return _api->SendPhoto(chatId, photo); });
 }
 
 MessageEvent Telebot::Telebot::OnAnyMessage()

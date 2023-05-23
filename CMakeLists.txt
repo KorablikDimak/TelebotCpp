@@ -1,22 +1,20 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(TelebotCpp)
+
 set(ENABLE_TESTS TRUE)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og")
-set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O1")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 
 set(OPENSSL_USE_STATIC_LIBS TRUE)
-set(OPENSSL_MSVC_STATIC_RT TRUE)
 set(OPENSSL_ROOT_DIR ../OpenSSL)
 find_package(OpenSSL REQUIRED)
 
+set(Boost_ARCHITECTURE -x64)
 set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
 set(BOOST_ROOT ../boost_1_78_0)
 set(BOOST_INCLUDEDIR ../boost_1_78_0)
 set(BOOST_LIBRARYDIR ../boost_1_78_0/stage/lib)
@@ -40,7 +38,7 @@ set(PugiXML libs/PugiXml/pugiconfig.hpp libs/pugixml.hpp libs/PugiXml/pugixml.cp
 set(Niohman_Json libs/Json/json_fwd.hpp libs/json.hpp)
 
 add_library(Common SHARED ${CommonHeaders} ${CommonSource} ${PugiXML} ${Niohman_Json})
-target_link_libraries(Common ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(Common -lws2_32 -lwsock32 ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
 
 set(TelebotHeaders include/Telebot.h include/Telebot/TelebotApi.h include/Common/JsonMacros.h)
 
@@ -55,14 +53,15 @@ add_library(Telebot SHARED ${TelebotHeaders} ${TelebotSource} ${TelebotTypes})
 target_link_libraries(Telebot Common)
 
 set(OpenAIHeaders include/OpenAI.h include/OpenAI/OpenAIApi.h include/OpenAI/OpenAIModel.h include/OpenAI/GptTurbo.h
-        include/OpenAI/Whisper.h)
+        include/OpenAI/Whisper.h include/OpenAI/Dalle.h)
 
 set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/OpenAIModel.cpp src/OpenAI/GptTurbo.cpp
-        src/OpenAI/Whisper.cpp)
+        src/OpenAI/Whisper.cpp src/OpenAI/Dalle.cpp)
 
 set(OpenAITypes include/OpenAI/Types/ChatCompletionsRequest.h include/OpenAI/Types/ChatCompletionsResponse.h
         include/OpenAI/Types/Usage.h include/OpenAI/Types/Message.h include/OpenAI/Types/TranscriptionsRequest.h
-        include/OpenAI/Types/FileInfo.h)
+        include/OpenAI/Types/FileInfo.h include/OpenAI/Types/CreateImageRequest.h
+        include/OpenAI/Types/CreateImageResponse.h)
 
 add_library(OpenAI SHARED ${OpenAIHeaders} ${OpenAISource} ${OpenAITypes})
 target_link_libraries(OpenAI Common)

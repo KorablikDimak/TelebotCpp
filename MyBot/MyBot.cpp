@@ -14,8 +14,10 @@ MyBot::MyBot::MyBot(const std::map<std::string, std::string>& args)
 
     *_bot->OnCommand("gpt") += THIS_METHOD_HANDLER(&MyBot::GptSession)
     *_bot->OnCommand("whisper") += THIS_METHOD_HANDLER(&MyBot::WhisperSession)
+    *_bot->OnCommand("dalle") += THIS_METHOD_HANDLER(&MyBot::DalleSession)
     *_bot->OnCommand("usage") += THIS_METHOD_HANDLER(&MyBot::GetUsageInfo)
     *_bot->OnAnyMessage() += THIS_METHOD_HANDLER(&MyBot::Chat)
+    *_bot->OnAnyMessage() += THIS_METHOD_HANDLER(&MyBot::CreateImage)
     *_bot->OnVoice() += THIS_METHOD_HANDLER(&MyBot::Transcript)
 }
 
@@ -158,6 +160,7 @@ void MyBot::MyBot::Accept()
     std::vector<std::pair<std::string, std::string>> commands;
     commands.emplace_back("gpt", "start chat gpt session");
     commands.emplace_back("whisper", "start transcribe audio");
+    commands.emplace_back("dalle", "start create image");
     commands.emplace_back("usage", "get information about available tokens");
     auto setCommandsResult = _bot->SetCommandsAsync(commands);
 
@@ -221,6 +224,24 @@ void MyBot::MyBot::SetLogger(const std::string& logConfigPath)
     _logger = std::make_shared<CInfoLog::Logger>(logConfigPath);
 }
 
+void MyBot::MyBot::GptSession(const Telebot::Message::Ptr& message)
+{
+    auto session = std::async(std::launch::async, [this, message]()
+    {
+        std::int64_t id = message->from->id;
+        if (!IsUser(id).get()) AddUser(id).get();
+        OpenAI::OpenAIModel::Ptr chatGpt = _openAI->GptTurboSession(std::to_string(id), OPENAI_USER, OpenAI::Role::User);
+
+        if (_openAiSessions.find(id) == _openAiSessions.end()) _openAiSessions.insert(std::make_pair(id, chatGpt));
+        else _openAiSessions[id] = chatGpt;
+
+        auto send = _bot->SendMessageAsync(id, "Hello! How can I assist you today?");
+        TELEBOT_TASK(send)
+    });
+
+    COMMON_TASK(session)
+}
+
 void MyBot::MyBot::WhisperSession(const Telebot::Message::Ptr& message)
 {
     auto session = std::async(std::launch::async, [this, message]()
@@ -239,18 +260,18 @@ void MyBot::MyBot::WhisperSession(const Telebot::Message::Ptr& message)
     COMMON_TASK(session)
 }
 
-void MyBot::MyBot::GptSession(const Telebot::Message::Ptr& message)
+void MyBot::MyBot::DalleSession(const Telebot::Message::Ptr& message)
 {
     auto session = std::async(std::launch::async, [this, message]()
     {
         std::int64_t id = message->from->id;
         if (!IsUser(id).get()) AddUser(id).get();
-        OpenAI::OpenAIModel::Ptr chatGpt = _openAI->GptTurboSession(std::to_string(id), OPENAI_USER, OpenAI::Role::User);
+        OpenAI::OpenAIModel::Ptr dalle = _openAI->DalleSession(std::to_string(id));
 
-        if (_openAiSessions.find(id) == _openAiSessions.end()) _openAiSessions.insert(std::make_pair(id, chatGpt));
-        else _openAiSessions[id] = chatGpt;
+        if (_openAiSessions.find(id) == _openAiSessions.end()) _openAiSessions.insert(std::make_pair(id, dalle));
+        else _openAiSessions[id] = dalle;
 
-        auto send = _bot->SendMessageAsync(id, "Hello! How can I assist you today?");
+        auto send = _bot->SendMessageAsync(id, "Hello! I can generate images.");
         TELEBOT_TASK(send)
     });
 
@@ -290,11 +311,11 @@ void MyBot::MyBot::Chat(const Telebot::Message::Ptr& message)
 
         std::pair<std::string, int> answer = gptTurbo->Chat(message->text);
 
-        auto addUsage = AddUsage(id, answer.second);
-        DB_TASK(addUsage)
-
         auto send = _bot->SendMessageAsync(id, answer.first);
         TELEBOT_TASK(send)
+
+        auto addUsage = AddUsage(id, answer.second);
+        DB_TASK(addUsage)
 
         return true;
     }, _openAiSessions[id], message);
@@ -320,20 +341,20 @@ void MyBot::MyBot::Transcript(const Telebot::Message::Ptr& message)
             lock.unlock();
         }
 
-        auto onLoad = _bot->LoadFileAsync(message->voice->file_id, directory);
+        auto onLoad = _bot->DownloadFileAsync(message->voice->file_id, directory);
         std::string filePath = onLoad.get();
-        ConvertAudio(filePath); // do not work in debug mode... why?
+        ConvertAudio(filePath);
 
         std::shared_ptr<OpenAI::Whisper> whisper = std::dynamic_pointer_cast<OpenAI::Whisper>(_openAiSessions[id]);
         if (whisper == nullptr || !UserHasTokens(id)) return false;
 
         std::string answer = whisper->Transcript(filePath + ".mp3");
 
-        auto addUsage = AddUsage(id, message->voice->duration * 50);
-        DB_TASK(addUsage)
-
         auto send = _bot->SendMessageAsync(id, answer);
         TELEBOT_TASK(send)
+
+        auto addUsage = AddUsage(id, message->voice->duration * 50);
+        DB_TASK(addUsage)
 
         {
             std::unique_lock<std::mutex> lock(_commonMutex);
@@ -356,6 +377,32 @@ void MyBot::MyBot::ConvertAudio(const std::string& filePath)
     std::string command = "ffmpeg -i " + filePath + " " + filePath + ".mp3";
     boost::process::child process(command);
     process.wait();
+}
+
+void MyBot::MyBot::CreateImage(const Telebot::Message::Ptr& message)
+{
+    std::int64_t id = message->from->id;
+    if (_openAiSessions.find(id) == _openAiSessions.end() || _openAiSessions[id]->GetModelName() != "DALLE") return;
+
+    std::future<bool> create = AddToQueue<bool>([this](const OpenAI::OpenAIModel::Ptr& model,
+                                                       const Telebot::Message::Ptr& message)->bool
+        {
+        std::int64_t id = message->from->id;
+        std::shared_ptr<OpenAI::Dalle> dalle = std::dynamic_pointer_cast<OpenAI::Dalle>(_openAiSessions[id]);
+        if (dalle == nullptr || !UserHasTokens(id)) return false;
+
+        std::string url = dalle->CreateImage(message->text, OpenAI::Size::Large);
+
+        auto send = _bot->SendPhotoAsync(id, url);
+        TELEBOT_TASK(send)
+
+        auto addUsage = AddUsage(id, 10000);
+        DB_TASK(addUsage)
+
+        return true;
+        }, _openAiSessions[id], message);
+
+    OPENAI_TASK(create)
 }
 
 bool MyBot::MyBot::UserHasTokens(std::int64_t userId)

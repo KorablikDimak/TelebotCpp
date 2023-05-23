@@ -86,10 +86,20 @@ std::string OpenAI::OpenAIApi::CreateTranscription(const TranscriptionsRequest::
     boost::process::child process(command, boost::process::std_out > stream);
     std::stringstream ss;
     std::string line;
-    while (std::getline(stream, line)) ss << line << std::endl;
+    while (std::getline(stream, line))
+        ss << line << std::endl;
     std::string output = ss.str();
     process.wait();
 
     Json responseBody = Json::parse(output);
     return responseBody.at("text").get<std::string>();
+}
+
+OpenAI::CreateImageResponse::Ptr OpenAI::OpenAIApi::CreateImage(const CreateImageRequest::Ptr& createImageRequest)
+{
+    Json requestBody = createImageRequest;
+    Json responseBody = Post("images/generations", requestBody);
+    CreateImageResponse::Ptr createImageResponse = std::make_shared<CreateImageResponse>();
+    *createImageResponse = responseBody.get<CreateImageResponse>();
+    return createImageResponse;
 }

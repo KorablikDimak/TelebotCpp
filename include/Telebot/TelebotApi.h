@@ -1,6 +1,7 @@
 #ifndef Telebot_BotApiH
 #define Telebot_BotApiH
 
+#include <boost/variant.hpp>
 #include <boost/filesystem.hpp>
 #include <fstream>
 
@@ -97,7 +98,7 @@ namespace Telebot
                                    std::int32_t messageThreadId = 0);
 
         Message::Ptr SendPhoto(std::int64_t chatId,
-                               const InputFile::Ptr& photo,
+                               const boost::variant<std::string, InputFile::Ptr>& photo,
                                const std::string& caption = "",
                                std::int32_t replyToMessageId = 0,
                                const GenericReply::Ptr& replyMarkup = nullptr,

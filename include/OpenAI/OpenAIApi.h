@@ -8,6 +8,8 @@
 #include "Types/ChatCompletionsResponse.h"
 #include "Types/TranscriptionsRequest.h"
 #include "Types/FileInfo.h"
+#include "Types/CreateImageRequest.h"
+#include "Types/CreateImageResponse.h"
 
 namespace OpenAI
 {
@@ -32,6 +34,7 @@ namespace OpenAI
         FileInfo::Ptr UploadFile(const std::string& filePath);
         FileInfo::Ptr DeleteFile(const std::string& fileId);
         std::string CreateTranscription(const TranscriptionsRequest::Ptr& transcriptionsRequest);
+        CreateImageResponse::Ptr CreateImage(const CreateImageRequest::Ptr& createImageRequest);
     };
 }
 

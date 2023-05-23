@@ -80,9 +80,12 @@ namespace MyBot
 
         void GptSession(const Telebot::Message::Ptr& message);
         void WhisperSession(const Telebot::Message::Ptr& message);
+        void DalleSession(const Telebot::Message::Ptr& message);
+
         void GetUsageInfo(const Telebot::Message::Ptr& message);
         void Chat(const Telebot::Message::Ptr& message);
         void Transcript(const Telebot::Message::Ptr& message);
+        void CreateImage(const Telebot::Message::Ptr& message);
 
     private:
         void ConvertAudio(const std::string& filePath);

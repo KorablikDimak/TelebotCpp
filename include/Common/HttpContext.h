@@ -1,7 +1,6 @@
 #ifndef Common_HttpContextH
 #define Common_HttpContextH
 
-#include <memory>
 #include <boost/beast/http.hpp>
 
 typedef boost::beast::http::empty_body EmptyBody;

@@ -14,3 +14,8 @@ OpenAI::OpenAIModel::Ptr OpenAI::OpenAI::WhisperSession()
 {
     return OpenAIModel::Ptr(new Whisper(_api));
 }
+
+OpenAI::OpenAIModel::Ptr OpenAI::OpenAI::DalleSession(const std::string& user)
+{
+    return OpenAIModel::Ptr(new Dalle(_api, user));
+}
