@@ -23,6 +23,18 @@ namespace Common
         {
             *_method(params...);
         }
+
+        bool IsEquals(void(*method)(TParams...)) const
+        {
+            return _method == method;
+        }
+
+    protected:
+        bool IsEquals(const IEventHandler<TParams...>& other) const override
+        {
+            const auto* staticMethodHandler = static_cast<const StaticMethodHandler<TParams...>*>(&other);
+            return staticMethodHandler->IsEquals(_method);
+        }
     };
 
     template<typename ...TParams>

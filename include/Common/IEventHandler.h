@@ -12,7 +12,20 @@ namespace Common
         IEventHandler() = default;
         virtual ~IEventHandler() = default;
 
+        bool operator==(const IEventHandler<TParams...>& other) const
+        {
+            return IsEquals(other);
+        }
+
+        bool operator!=(const IEventHandler<TParams...>& other) const
+        {
+            return !IsEquals(other);
+        }
+
         virtual void Call(TParams... params) = 0;
+
+    protected:
+        virtual bool IsEquals(const IEventHandler<TParams...>& other) const = 0;
     };
 }
 

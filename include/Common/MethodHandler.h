@@ -26,6 +26,18 @@ namespace Common
             if (_object != nullptr)
                 (_object->*_method)(params...);
         }
+
+        bool IsEquals(TObject* object, void(TObject::*method)(TParams...)) const
+        {
+            return _object == object && _method == method;
+        }
+
+    protected:
+        bool IsEquals(const IEventHandler<TParams...>& other) const override
+        {
+            const auto* methodHandler = static_cast<const MethodHandler<TObject, TParams...>*>(&other);
+            return methodHandler->IsEquals(_object, _method);
+        }
     };
 
     template<typename TObject, typename ...TParams>
