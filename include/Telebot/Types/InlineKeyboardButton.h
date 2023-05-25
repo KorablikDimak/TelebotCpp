@@ -35,6 +35,19 @@ namespace Telebot
         OBJECT_FROM_JSON(callback_game)
         VALUE_FROM_JSON(pay)
     }
+
+    inline void to_json(Json& json, const InlineKeyboardButton::Ptr& object)
+    {
+        VALUE_TO_JSON(text)
+        if (!object->url.empty()) VALUE_TO_JSON(url)
+        if (!object->callback_data.empty()) VALUE_TO_JSON(callback_data)
+        OBJECT_TO_JSON(web_app)
+        OBJECT_TO_JSON(login_url)
+        VALUE_TO_JSON(switch_inline_query)
+        VALUE_TO_JSON(switch_inline_query_current_chat)
+        OBJECT_TO_JSON(callback_game)
+        VALUE_TO_JSON(pay)
+    }
 }
 
 #endif

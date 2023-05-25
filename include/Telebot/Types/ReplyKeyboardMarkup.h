@@ -13,13 +13,27 @@ namespace Telebot
     public:
         typedef std::shared_ptr<ReplyKeyboardMarkup> Ptr;
 
-        std::vector<std::vector<KeyboardButton::Ptr>> Keyboard;
-        bool IsPersistent;
-        bool ResizeKeyboard;
-        bool OneTimeKeyboard;
-        std::string InputFieldPlaceholder;
-        bool Selective;
+        ~ReplyKeyboardMarkup() override = default;
+
+        std::vector<std::vector<KeyboardButton::Ptr>> keyboard;
+        bool is_persistent;
+        bool resize_keyboard;
+        bool one_time_keyboard;
+        std::string input_field_placeholder;
+        bool selective;
+
+        void ToJson(Json& json, const GenericReply::Ptr& object) override;
     };
+
+    inline void to_json(Json& json, const ReplyKeyboardMarkup::Ptr& object)
+    {
+        json["keyboard"] = object->keyboard;
+        VALUE_TO_JSON(is_persistent)
+        VALUE_TO_JSON(resize_keyboard)
+        VALUE_TO_JSON(one_time_keyboard)
+        if (!object->input_field_placeholder.empty()) VALUE_TO_JSON(input_field_placeholder)
+        VALUE_TO_JSON(selective)
+    }
 }
 
 #endif

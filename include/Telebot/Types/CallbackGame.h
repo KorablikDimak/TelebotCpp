@@ -12,6 +12,7 @@ namespace Telebot
     };
 
     inline void from_json(const Json& json, CallbackGame& object) {}
+    inline void to_json(Json& json, const CallbackGame::Ptr& object) {}
 }
 
 #endif

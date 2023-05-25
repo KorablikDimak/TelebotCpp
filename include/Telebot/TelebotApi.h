@@ -3,7 +3,6 @@
 
 #include <boost/variant.hpp>
 #include <boost/filesystem.hpp>
-#include <fstream>
 
 #include "Common/HttpsClient.h"
 #include "Types/Update.h"

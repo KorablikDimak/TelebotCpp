@@ -115,6 +115,7 @@ Telebot::Message::Ptr Telebot::TelebotApi::SendMessage(std::int64_t chatId,
     Json requestBody;
     requestBody["chat_id"] = chatId;
     requestBody["text"] = text;
+    if (replyMarkup.get() != nullptr) requestBody["reply_markup"] = replyMarkup;
     Json responseBody = Post("sendMessage", requestBody);
 
     Message::Ptr message = std::make_shared<Message>();
@@ -690,7 +691,13 @@ bool Telebot::TelebotApi::AnswerCallbackQuery(const std::string& callbackQueryId
                                               const std::string& url,
                                               std::int32_t cacheTime)
 {
+    Json requestBody;
+    requestBody["callback_query_id"] = callbackQueryId;
+    if (!text.empty()) requestBody["text"] = text;
+    requestBody["show_alert"] = showAlert;
+    Json responseBody = Post("answerCallbackQuery", requestBody);
 
+    return responseBody.get<bool>();
 }
 
 bool Telebot::TelebotApi::SetMyCommands(const std::vector<BotCommand::Ptr>& commands,

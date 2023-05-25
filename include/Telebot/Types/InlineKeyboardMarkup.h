@@ -11,7 +11,14 @@ namespace Telebot
     public:
         typedef std::shared_ptr<InlineKeyboardMarkup> Ptr;
 
+        ~InlineKeyboardMarkup() override = default;
+
         std::vector<std::vector<InlineKeyboardButton::Ptr>> inline_keyboard;
+
+        void SetButton(const InlineKeyboardButton::Ptr& button, unsigned char row, unsigned char column);
+        void RemoveButton(unsigned char row, unsigned char column);
+
+        void ToJson(Json& json, const GenericReply::Ptr& object) override;
     };
 
     inline void from_json(const Json& json, InlineKeyboardMarkup& object)
@@ -28,6 +35,11 @@ namespace Telebot
                 }
                 object.inline_keyboard.push_back(innerVector);
             }
+    }
+
+    inline void to_json(Json& json, const InlineKeyboardMarkup::Ptr& object)
+    {
+        json["inline_keyboard"] = object->inline_keyboard;
     }
 }
 

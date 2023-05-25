@@ -17,6 +17,11 @@ namespace Telebot
     {
         VALUE_FROM_JSON(url)
     }
+
+    inline void to_json(Json& json, const WebAppInfo::Ptr& object)
+    {
+        VALUE_TO_JSON(url)
+    }
 }
 
 #endif

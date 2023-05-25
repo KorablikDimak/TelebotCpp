@@ -8,6 +8,7 @@ Telebot::Telebot::Telebot(const std::string &token)
     _timeout = 10;
     _onAnyMessage = std::make_shared<Common::Event<const Message::Ptr&>>();
     _onVoice = std::make_shared<Common::Event<const Message::Ptr&>>();
+    _onAnyCallbackQuery = std::make_shared<Common::Event<const CallbackQuery::Ptr&>>();
 }
 
 Telebot::Telebot::~Telebot()
@@ -20,6 +21,7 @@ void Telebot::Telebot::Accept()
     std::int32_t offset = 0;
     std::vector<std::string> allowedUpdates;
     allowedUpdates.emplace_back("message");
+    allowedUpdates.emplace_back("callback_query");
 
     while (!_acceptorTokenSource->Token()->IsCancellationRequested())
     {
@@ -28,26 +30,36 @@ void Telebot::Telebot::Accept()
 
         for (const Update::Ptr& update : updates)
         {
-            if (update->message.get() == nullptr) continue;
-
-            if (!update->message->text.empty())
+            if (update->message.get() != nullptr)
             {
-                if (update->message->text[0] == '/')
+                if (!update->message->text.empty())
                 {
-                    if (_onCommand.find(update->message->text.substr(1)) != _onCommand.end())
-                        (*_onCommand[update->message->text.substr(1)])(update->message);
-                }
-                else
-                {
-                    if (_onMessage.find(update->message->text) != _onMessage.end())
-                        (*_onMessage[update->message->text])(update->message);
+                    if (update->message->text[0] == '/')
+                    {
+                        if (_onCommand.find(update->message->text.substr(1)) != _onCommand.end())
+                            (*_onCommand[update->message->text.substr(1)])(update->message);
+                    }
+                    else
+                    {
+                        if (_onMessage.find(update->message->text) != _onMessage.end())
+                            (*_onMessage[update->message->text])(update->message);
 
-                    (*_onAnyMessage)(update->message);
+                        (*_onAnyMessage)(update->message);
+                    }
+                }
+
+                if (update->message->voice.get() != nullptr)
+                {
+                    (*_onVoice)(update->message);
                 }
             }
-            else if (update->message->voice.get() != nullptr)
+
+            if (update->callback_query.get() != nullptr)
             {
-                (*_onVoice)(update->message);
+                if (_onCallbackQuery.find(update->callback_query->data) != _onCallbackQuery.end())
+                    (*_onCallbackQuery[update->callback_query->data])(update->callback_query);
+
+                (*_onAnyCallbackQuery)(update->callback_query);
             }
         }
 
@@ -90,9 +102,11 @@ void Telebot::Telebot::SetTimeout(std::int32_t timeout)
     _timeout = timeout;
 }
 
-std::future<Telebot::Message::Ptr> Telebot::Telebot::SendMessageAsync(const std::int64_t& chatId, const std::string& text)
+std::future<Telebot::Message::Ptr> Telebot::Telebot::SendMessageAsync(const std::int64_t& chatId, const std::string& text,
+                                                                      const GenericReply::Ptr& genericReply)
 {
-    return std::async(std::launch::async, [this, chatId, text](){ return _api->SendMessage(chatId, text); });
+    return std::async(std::launch::async, [this, chatId, text, genericReply]()
+        { return _api->SendMessage(chatId, text, false, 0, genericReply); });
 }
 
 std::future<bool> Telebot::Telebot::SetCommandAsync(const std::string& command, const std::string& description)
@@ -141,6 +155,13 @@ std::future<Telebot::Message::Ptr> Telebot::Telebot::SendPhotoAsync(const std::i
     return std::async(std::launch::async, [this, chatId, photo](){ return _api->SendPhoto(chatId, photo); });
 }
 
+std::future<bool> Telebot::Telebot::AnswerCallbackQueryAsync(const std::string& callbackQueryId, const std::string& text,
+                                                             const bool& showAlert)
+{
+    return std::async(std::launch::async, [this, callbackQueryId, text, showAlert]()
+        { return _api->AnswerCallbackQuery(callbackQueryId, text, showAlert); });
+}
+
 MessageEvent Telebot::Telebot::OnAnyMessage()
 {
     return _onAnyMessage;
@@ -163,4 +184,16 @@ MessageEvent Telebot::Telebot::OnCommand(const std::string& command)
 MessageEvent Telebot::Telebot::OnVoice()
 {
     return _onVoice;
+}
+
+CallbackQueryEvent Telebot::Telebot::OnAnyCallbackQuery()
+{
+    return _onAnyCallbackQuery;
+}
+
+CallbackQueryEvent Telebot::Telebot::OnCallbackQuery(const std::string& callback_data)
+{
+    if (_onCallbackQuery.find(callback_data) == _onCallbackQuery.end())
+        _onCallbackQuery.insert(std::make_pair(callback_data, std::make_shared<Common::Event<const CallbackQuery::Ptr&>>()));
+    return _onCallbackQuery[callback_data];
 }

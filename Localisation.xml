@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<localisation>
+    <english>
+        <gpt>start chat gpt session</gpt>
+        <whisper>start transcribe audio</whisper>
+        <dalle>start create image</dalle>
+        <usage>get information about available tokens</usage>
+        <payment>get token price list</payment>
+        <help>get information about bot</help>
+        <settings>set your own bot settings</settings>
+
+        <gpthellow>Hello! How can I assist you today?</gpthellow>
+        <whisperhellow>Hello! I can translate audio.</whisperhellow>
+        <dallehellow>Hello! I can generate images.</dallehellow>
+        <youhave>You have </youhave>
+        <tokens> tokens.</tokens>
+        <gethelp>What would you like to get help with?</gethelp>
+        <setsettings>What would you like to change?</setsettings>
+        <havenottokens>You do not have tokens.</havenottokens>
+
+        <gpthelp>I am artificial intelligence with abilities such as text generation, answering questions, searching for information, and performing tasks on demand. I can also engage in natural language conversations on a variety of topics and analyze data to provide information and recommendations.
+        I can remember the context of a conversation. Its size in the number of the last messages you sent can be set in the settings. However, keep in mind that the larger the context size, the faster the tokens are consumed.
+        Consumable tokens are made up of the text you sent and the text that I generate in response.
+        If it is necessary that I take into account any text in the conversation and at the same time do not answer it, then you can insert &lt;|endoftext|&gt; at the end of this text and then write the request itself.</gpthelp>
+        <whisperhelp>I can recognize voice messages. Just write it down for me, or you have been transferred from another chat, and I will send its transcription in response. I don't save files anywhere, so you don't have to worry about privacy. I spend 50 tokens per second.</whisperhelp>
+        <dallehelp>I can generate images. Write me in the message what you want to receive and wait for the picture created for you. One image costs 10000 tokens.</dallehelp>
+    </english>
+    <russian>
+        <gpthellow>Привет! Чем я могу помочь?</gpthellow>
+        <whisperhellow>Привет! Я могу распознавать аудио.</whisperhellow>
+        <dallehellow>Привет! Я могу генерировать изображения.</dallehellow>
+        <youhave>У Вас осталось </youhave>
+        <tokens> токенов.</tokens>
+        <gethelp>О чем бы Вы хотели подробнее узнать?</gethelp>
+        <setsettings>Что именно Вы хотите изменить?</setsettings>
+        <havenottokens>У Вас недостаточно токенов.</havenottokens>
+
+        <gpthelp>Я обладаю такими способностями, как генерация текста, ответ на вопросы, поиск информации и выполнение задач по запросу. Я могу также поддерживать диалоги на различные темы, используя естественный язык, и анализировать данные для предоставления информации и рекомендаций.
+        Я могу запоминать контекст разговора. Его размер в количестве последних отправленных вами сообщений можно установить в настройках. Однако учитывайте что чем больше размер контекста, тем быстрее расходуются токены.
+        Расходуемые токены складываются из отправленного вами текста и текста который генерирую я в ответ.
+        Если необходимо чтобы я учитывай какой-либо текст в разговоре и при этом не отвечал на него, то можно в конце этого текста вставить &lt;|endoftext|&gt; а после написать сам запрос</gpthelp>
+        <whisperhelp>Я могу распознавать голосовые сообщения. Просто запиши мне его или перешли из другого чата и я пришлю в ответ его транскрипцию. Файлы я нигде не сохраняю, так что за конфиденциальность можешь не переживать. Я расходую 50 токенов в секунду.</whisperhelp>
+        <dallehelp>Я могу генерировать изображения. Напиши мне в сообщении то что хочешь получить и дождись созданной тебе картинке. Одно изображение стоит 10000 токенов.</dallehelp>
+    </russian>
+</localisation>

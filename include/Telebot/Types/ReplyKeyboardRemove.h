@@ -10,9 +10,19 @@ namespace Telebot
     public:
         typedef std::shared_ptr<ReplyKeyboardRemove> Ptr;
 
-        bool RemoveKeyboard;
-        bool Selective;
+        ~ReplyKeyboardRemove() override = default;
+
+        bool remove_keyboard;
+        bool selective;
+
+        void ToJson(Json& json, const GenericReply::Ptr& object) override;
     };
+
+    inline void to_json(Json& json, const ReplyKeyboardRemove::Ptr& object)
+    {
+        VALUE_TO_JSON(remove_keyboard)
+        VALUE_TO_JSON(selective)
+    }
 }
 
 #endif

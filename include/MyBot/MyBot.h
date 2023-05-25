@@ -1,6 +1,7 @@
 #ifndef MyBot_MyBotH
 #define MyBot_MyBotH
 
+#include "Environment.h"
 #include "Telebot.h"
 #include "OpenAI.h"
 #include "Db/DbConnection.h"
@@ -20,23 +21,30 @@ namespace MyBot
         std::unique_ptr<Telebot::Telebot> _bot;
         std::unique_ptr<OpenAI::OpenAI> _openAI;
         std::unique_ptr<DbProvider::DbConnection> _dbConnection;
-        CInfoLog::Logger::Ptr _logger;
+        Environment::Ptr _environment;
+        std::map<std::int64_t, LanguageCode> _languageCodes;
         std::atomic<unsigned short> _requestsPerLastMinute;
         std::unique_ptr<Common::CancellationTokenSource> _cancellationTokenSource;
         std::map<std::int64_t, OpenAI::OpenAIModel::Ptr> _openAiSessions;
-
-        void Accept();
+        CInfoLog::Logger::Ptr _logger;
 
         std::future<bool> IsUser(std::int64_t userId);
         std::future<bool> AddUser(std::int64_t userId);
         std::future<unsigned short> GetRole(std::int64_t userId);
         std::future<bool> SetRole(std::int64_t userId, unsigned short roleId);
-        std::future<unsigned short> GetContextLimit(std::int64_t userId);
-        std::future<bool> SetContextLimit(std::int64_t userId, unsigned short contextLimit);
         std::future<int> GetUsage(std::int64_t userId);
         std::future<bool> AddUsage(std::int64_t userId, int usage);
         std::future<int> GetUsageLimit(std::int64_t userId);
         std::future<bool> SetUsageLimit(std::int64_t userId, int usageLimit);
+        std::future<LanguageCode> GetLanguageCode(std::int64_t userId);
+        std::future<bool> SetLanguageCode(std::int64_t userId, LanguageCode languageCode);
+        std::future<unsigned short> GetContextLimit(std::int64_t userId);
+        std::future<bool> SetContextLimit(std::int64_t userId, unsigned short contextLimit);
+
+        LanguageCode GetLanguageCodeCash(std::int64_t userId);
+        void SetLanguageCodeCash(std::int64_t userId, LanguageCode languageCode);
+
+        void Accept();
 
         #define OPENAI_TASK(future)\
         { \
@@ -78,11 +86,23 @@ namespace MyBot
 
         void SetLogger(const std::string& logConfigPath);
 
+        void StartCommand(const Telebot::Message::Ptr& message);
         void GptSession(const Telebot::Message::Ptr& message);
         void WhisperSession(const Telebot::Message::Ptr& message);
         void DalleSession(const Telebot::Message::Ptr& message);
-
         void GetUsageInfo(const Telebot::Message::Ptr& message);
+        void GetPayment(const Telebot::Message::Ptr& message);
+        void GetHelp(const Telebot::Message::Ptr& message);
+        void SetSettings(const Telebot::Message::Ptr& message);
+
+        void GetGptHelp(const Telebot::CallbackQuery::Ptr& callback);
+        void GetWhisperHelp(const Telebot::CallbackQuery::Ptr& callback);
+        void GetDalleHelp(const Telebot::CallbackQuery::Ptr& callback);
+        void SetGptSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetWhisperSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetDalleSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetLanguage(const Telebot::CallbackQuery::Ptr& callback);
+
         void Chat(const Telebot::Message::Ptr& message);
         void Transcript(const Telebot::Message::Ptr& message);
         void CreateImage(const Telebot::Message::Ptr& message);

@@ -1,8 +1,7 @@
 #ifndef Telebot_KeyboardButtonPollTypeH
 #define Telebot_KeyboardButtonPollTypeH
 
-#include <string>
-#include <memory>
+#include "Common/JsonMacros.h"
 
 namespace Telebot
 {
@@ -11,8 +10,13 @@ namespace Telebot
     public:
         typedef std::shared_ptr<KeyboardButtonPollType> Ptr;
 
-        std::string Type;
+        std::string type;
     };
+
+    inline void to_json(Json& json, const KeyboardButtonPollType::Ptr& object)
+    {
+        VALUE_TO_JSON(type)
+    }
 }
 
 #endif

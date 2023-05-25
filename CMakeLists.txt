@@ -47,7 +47,7 @@ set(TelebotSource src/Telebot/Telebot.cpp src/Telebot/TelebotApi.cpp)
 set(TelebotTypes src/Telebot/Types/BotCommandScope.cpp src/Telebot/Types/ChatMember.cpp
         src/Telebot/Types/InlineQueryResult.cpp src/Telebot/Types/InputFile.cpp src/Telebot/Types/InputMedia.cpp
         src/Telebot/Types/InputMessageContent.cpp src/Telebot/Types/MenuButton.cpp
-        src/Telebot/Types/PassportElementError.cpp)
+        src/Telebot/Types/PassportElementError.cpp src/Telebot/Types/GenericReply.cpp)
 
 add_library(Telebot SHARED ${TelebotHeaders} ${TelebotSource} ${TelebotTypes})
 target_link_libraries(Telebot Common)
@@ -70,9 +70,11 @@ add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)
 add_subdirectory(../libpqxx-7.7.5 pqxx)
 
-set(MyBotHeaders MyBot/MyBot.h include/Db/DbPool.h include/Db/DbConnection.h MyBot/User.h)
+set(MyBotHeaders include/MyBot/MyBot.h include/Db/DbPool.h include/Db/DbConnection.h include/MyBot/Types/User.h
+        include/MyBot/Environment.h include/MyBot/LanguageCode.h)
 
-set(MyBotSource MyBot/main.cpp MyBot/MyBot.cpp src/Db/DbPool.cpp src/Db/DbConnection.cpp)
+set(MyBotSource src/MyBot/main.cpp src/MyBot/MyBot.cpp src/Db/DbPool.cpp src/Db/DbConnection.cpp
+        src/MyBot/Environment.cpp)
 
 add_executable(MyBot ${MyBotHeaders} ${MyBotSource})
 target_link_libraries(MyBot Telebot OpenAI CInfoLog ${PostgreSQL_LIBRARIES} pqxx)
@@ -109,3 +111,9 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/LogConfigRelease.xml
         ${CMAKE_CURRENT_BINARY_DIR}/LogConfigRelease.xml)
+
+add_custom_command(
+        TARGET MyBot POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/Localisation.xml
+        ${CMAKE_CURRENT_BINARY_DIR}/Localisation.xml)

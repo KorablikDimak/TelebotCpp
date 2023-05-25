@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "MyBot/LanguageCode.h"
+
 namespace MyBot
 {
     class User
@@ -10,11 +12,11 @@ namespace MyBot
     public:
         typedef std::shared_ptr<User> Ptr;
 
-        std::int64_t UserId;
         unsigned short RoleId;
-        unsigned short ContextLimit;
         int TotalUsage;
         int UsageLimit;
+        std::int64_t UserId;
+        LanguageCode LanguageCode;
     };
 }
 
