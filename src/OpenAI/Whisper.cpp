@@ -17,3 +17,9 @@ std::string OpenAI::Whisper::Transcript(const std::string& filePath)
     transcriptionsRequest->temperature = _temperature;
     return _api->CreateTranscription(transcriptionsRequest);
 }
+
+void OpenAI::Whisper::SetTemperature(float temperature)
+{
+    if (temperature < 0 || temperature > 1) return;
+    _temperature = temperature;
+}

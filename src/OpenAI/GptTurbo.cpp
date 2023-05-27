@@ -1,9 +1,13 @@
 #include "OpenAI/GptTurbo.h"
 
 const std::string OpenAI::GptTurbo::MODEL_NAME = "gpt-3.5-turbo";
-const unsigned char OpenAI::GptTurbo::CONTEXT_SIZE = 2;
+const float OpenAI::GptTurbo::TOP_P = 1;
+const unsigned char OpenAI::GptTurbo::N = 1;
+const std::int16_t OpenAI::GptTurbo::MAX_TOKENS = 0;
+const float OpenAI::GptTurbo::PRESENCE_PENALTY = 0;
+const float OpenAI::GptTurbo::FREQUENCY_PENALTY = 0;
 
-OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, const std::string& name, Role role)
+OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, const std::string& name)
 {
     _api = api;
     _modelName = MODEL_NAME;
@@ -12,58 +16,92 @@ OpenAI::GptTurbo::GptTurbo(const OpenAIApi::Ptr& api, const std::string& user, c
     if (name.size() > 64) throw std::invalid_argument("name is too long");
     _name = name;
 
-    switch (role)
-    {
-        case Role::System:
-            _role = "system";
-            break;
-        case Role::User:
-            _role = "user";
-            break;
-        case Role::Assistant:
-            _role = "assistant";
-            break;
-    }
-
+    _contextSize = 2;
     _temperature = 1;
-    _top_p = 1;
-    _n = 1;
-    _maxTokens = 0; // infinity
-    _presence_penalty = 0;
-    _frequency_penalty = 0;
+    _allowModelMessagesInContext = false;
 }
 
 std::pair<std::string, int> OpenAI::GptTurbo::Chat(const std::string& content)
 {
-    Message::Ptr message = std::make_shared<Message>();
-    message->role = _role;
-    message->name = _name;
-
-    auto it = _context.begin();
-    for (unsigned char i = 0; i < CONTEXT_SIZE && i < _context.size(); ++i)
-    {
-        message->content += *it;
-        message->content += "\n";
-        std::advance(it, 1);
-    }
-    message->content += "<|endoftext|>";
-    message->content += content;
-    _context.push_back(content);
-    if (_context.size() > CONTEXT_SIZE) _context.erase(_context.begin());
-
     ChatCompletionsRequest::Ptr chatRequestBody = std::make_shared<ChatCompletionsRequest>();
     chatRequestBody->model = _modelName;
-    chatRequestBody->messages.push_back(message);
     chatRequestBody->temperature = _temperature;
-    chatRequestBody->top_p = _top_p;
-    chatRequestBody->n = _n;
+    chatRequestBody->top_p = TOP_P;
+    chatRequestBody->n = N;
     chatRequestBody->stream = false;
-    chatRequestBody->max_tokens = _maxTokens;
-    chatRequestBody->presence_penalty = _presence_penalty;
-    chatRequestBody->frequency_penalty = _frequency_penalty;
+    chatRequestBody->max_tokens = MAX_TOKENS;
+    chatRequestBody->presence_penalty = PRESENCE_PENALTY;
+    chatRequestBody->frequency_penalty = FREQUENCY_PENALTY;
     chatRequestBody->user = _user;
+
+    auto iterator = _context.begin();
+    for (unsigned char i = 0, count = 0; i < _context.size() && count < _contextSize; ++i)
+    {
+        Message::Ptr message = std::make_shared<Message>();
+        std::pair<Role, std::string> pair = *iterator;
+
+        switch (pair.first)
+        {
+            case Role::System:
+                message->role = "system";
+                message->content = pair.second;
+                chatRequestBody->messages.push_back(message);
+                ++count;
+                break;
+            case Role::User:
+                message->role = "user";
+                message->content = pair.second;
+                message->name = _name;
+                chatRequestBody->messages.push_back(message);
+                ++count;
+                break;
+            case Role::Assistant:
+                if (!_allowModelMessagesInContext) break;
+                message->role = "assistant";
+                message->content = pair.second;
+                chatRequestBody->messages.push_back(message);
+                ++count;
+                break;
+        }
+
+        std::advance(iterator, 1);
+    }
+
+    Message::Ptr message = std::make_shared<Message>();
+    message->role = "user";
+    message->content = content;
+    message->name = _name;
+    chatRequestBody->messages.push_back(message);
 
     ChatCompletionsResponse::Ptr chatResponseBody = _api->ChatCompletions(chatRequestBody);
     std::pair<std::string, int> result = std::make_pair(chatResponseBody->content, chatResponseBody->usage->total_tokens);
+
+    _context.emplace_back(Role::User, content);
+    _context.emplace_back(Role::Assistant, result.first);
+    while (_context.size() > _contextSize * 2)
+        _context.pop_front();
+
     return result;
+}
+
+void OpenAI::GptTurbo::AddSystemMessage(const std::string& content)
+{
+    // TODO AddSystemMessage
+}
+
+void OpenAI::GptTurbo::SetContextSize(unsigned char contextSize)
+{
+    if (contextSize > 7) return;
+    _contextSize = contextSize;
+}
+
+void OpenAI::GptTurbo::SetTemperature(float temperature)
+{
+    if (temperature < 0 || temperature > 2) return;
+    _temperature = temperature;
+}
+
+void OpenAI::GptTurbo::AllowModelMessagesInContext(bool allow)
+{
+    _allowModelMessagesInContext = allow;
 }

@@ -7,17 +7,20 @@ namespace OpenAI
 {
     enum class Size
     {
-        Mini, Medium, Large
+        Mini = 0,
+        Medium = 1,
+        Large = 2
     };
 
     class Dalle : public OpenAIModel
     {
     private:
         static const std::string MODEL_NAME;
+        static const std::string RESPONSE_FORMAT;
+        static const unsigned char N;
 
-        unsigned char _n;
-        std::string _responseFormat;
         std::string _user;
+        Size _size;
 
     public:
         typedef std::shared_ptr<Dalle> Ptr;
@@ -25,7 +28,9 @@ namespace OpenAI
         explicit Dalle(const OpenAIApi::Ptr& api, const std::string& user = "");
         ~Dalle() override = default;
 
-        std::string CreateImage(const std::string& prompt, Size size = Size::Large);
+        std::string CreateImage(const std::string& prompt);
+
+        void SetSize(Size size);
     };
 }
 

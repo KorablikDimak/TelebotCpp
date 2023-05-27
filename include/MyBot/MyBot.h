@@ -4,9 +4,11 @@
 #include "Environment.h"
 #include "Telebot.h"
 #include "OpenAI.h"
-#include "Db/DbConnection.h"
+#include "DbCash.h"
 #include "Common/MethodHandler.h"
 #include "CInfoLog.h"
+
+typedef Telebot::InlineKeyboardButton::Ptr InlineButton;
 
 namespace MyBot
 {
@@ -14,65 +16,23 @@ namespace MyBot
     {
     private:
         static const std::string FILE_DIRECTORY;
-        static const unsigned char POOL_MAX_SIZE;
         static const std::string OPENAI_USER;
         static const unsigned short REQUESTS_PER_MINUTE_LIMIT;
 
         std::unique_ptr<Telebot::Telebot> _bot;
         std::unique_ptr<OpenAI::OpenAI> _openAI;
-        std::unique_ptr<DbProvider::DbConnection> _dbConnection;
+        DbRequest::Ptr _dbRequest;
+        std::unique_ptr<DbCash> _dbCash;
         Environment::Ptr _environment;
-        std::map<std::int64_t, LanguageCode> _languageCodes;
         std::atomic<unsigned short> _requestsPerLastMinute;
         std::unique_ptr<Common::CancellationTokenSource> _cancellationTokenSource;
         std::map<std::int64_t, OpenAI::OpenAIModel::Ptr> _openAiSessions;
         CInfoLog::Logger::Ptr _logger;
 
-        std::future<bool> IsUser(std::int64_t userId);
-        std::future<bool> AddUser(std::int64_t userId);
-        std::future<unsigned short> GetRole(std::int64_t userId);
-        std::future<bool> SetRole(std::int64_t userId, unsigned short roleId);
-        std::future<int> GetUsage(std::int64_t userId);
-        std::future<bool> AddUsage(std::int64_t userId, int usage);
-        std::future<int> GetUsageLimit(std::int64_t userId);
-        std::future<bool> SetUsageLimit(std::int64_t userId, int usageLimit);
-        std::future<LanguageCode> GetLanguageCode(std::int64_t userId);
-        std::future<bool> SetLanguageCode(std::int64_t userId, LanguageCode languageCode);
-        std::future<unsigned short> GetContextLimit(std::int64_t userId);
-        std::future<bool> SetContextLimit(std::int64_t userId, unsigned short contextLimit);
-
-        LanguageCode GetLanguageCodeCash(std::int64_t userId);
-        void SetLanguageCodeCash(std::int64_t userId, LanguageCode languageCode);
+        #define LEXICAL_ITEM(token) \
+        _environment->GetLexicalItem(_dbCash->GetUserCash(id)->language, token)
 
         void Accept();
-
-        #define OPENAI_TASK(future)\
-        { \
-            std::unique_lock<std::mutex> lock(_openAiThreadsMutex); \
-            _openAiThreads.push_back(std::move(future)); \
-            lock.unlock(); \
-        };
-
-        #define TELEBOT_TASK(future)\
-        { \
-            std::unique_lock<std::mutex> lock(_telebotThreadsMutex); \
-            _telebotThreads.push_back(std::move(future)); \
-            lock.unlock(); \
-        };
-
-        #define DB_TASK(future)\
-        { \
-            std::unique_lock<std::mutex> lock(_dbThreadsMutex); \
-            _dbThreads.push_back(std::move(future)); \
-            lock.unlock(); \
-        };
-
-        #define COMMON_TASK(future) \
-        { \
-            std::unique_lock<std::mutex> lock(_commonMutex); \
-            _commonThreads.push_back(std::move(future)); \
-            lock.unlock(); \
-        };
 
     public:
         typedef std::shared_ptr<MyBot> Ptr;
@@ -102,6 +62,22 @@ namespace MyBot
         void SetWhisperSettings(const Telebot::CallbackQuery::Ptr& callback);
         void SetDalleSettings(const Telebot::CallbackQuery::Ptr& callback);
         void SetLanguage(const Telebot::CallbackQuery::Ptr& callback);
+
+        void BackGptSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetContextSize(const Telebot::CallbackQuery::Ptr& callback);
+        void SetGptTemperature(const Telebot::CallbackQuery::Ptr& callback);
+        void SetGptAllowVoice(const Telebot::CallbackQuery::Ptr& callback);
+
+        void BackWhisperSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetWhisperTemperature(const Telebot::CallbackQuery::Ptr& callback);
+
+        void BackDalleSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetDalleSize(const Telebot::CallbackQuery::Ptr& callback);
+        void SetDalleAllowVoice(const Telebot::CallbackQuery::Ptr& callback);
+
+        void BackLanguageSettings(const Telebot::CallbackQuery::Ptr& callback);
+        void SetEnglish(const Telebot::CallbackQuery::Ptr& callback);
+        void SetRussian(const Telebot::CallbackQuery::Ptr& callback);
 
         void Chat(const Telebot::Message::Ptr& message);
         void Transcript(const Telebot::Message::Ptr& message);
@@ -157,6 +133,34 @@ namespace MyBot
         std::list<std::future<void>> _commonThreads;
         std::mutex _commonMutex;
         std::future<void> _commonChecker;
+
+        #define OPENAI_TASK(future)\
+        { \
+            std::unique_lock<std::mutex> lock(_openAiThreadsMutex); \
+            _openAiThreads.push_back(std::move(future)); \
+            lock.unlock(); \
+        }
+
+        #define TELEBOT_TASK(future)\
+        { \
+            std::unique_lock<std::mutex> lock(_telebotThreadsMutex); \
+            _telebotThreads.push_back(std::move(future)); \
+            lock.unlock(); \
+        }
+
+        #define DB_TASK(future)\
+        { \
+            std::unique_lock<std::mutex> lock(_dbThreadsMutex); \
+            _dbThreads.push_back(std::move(future)); \
+            lock.unlock(); \
+        }
+
+        #define COMMON_TASK(future) \
+        { \
+            std::unique_lock<std::mutex> lock(_commonMutex); \
+            _commonThreads.push_back(std::move(future)); \
+            lock.unlock(); \
+        }
 
         template<typename T>
         void CheckThreads(std::list<std::future<T>>& threads, std::mutex& mutex)

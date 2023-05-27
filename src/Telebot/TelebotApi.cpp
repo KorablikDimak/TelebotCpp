@@ -778,7 +778,16 @@ Telebot::Message::Ptr Telebot::TelebotApi::EditMessageText(const std::string& te
                                                            const GenericReply::Ptr& replyMarkup,
                                                            const std::vector<MessageEntity::Ptr>& entities)
 {
+    Json requestBody;
+    requestBody["text"] = text;
+    requestBody["chat_id"] = chatId;
+    requestBody["message_id"] = messageId;
+    requestBody["reply_markup"] = replyMarkup;
+    Json responseBody = Post("editMessageText", requestBody);
 
+    Message::Ptr message = std::make_shared<Message>();
+    *message = responseBody.get<Message>();
+    return message;
 }
 
 Telebot::Message::Ptr Telebot::TelebotApi::EditMessageCaption(std::int64_t chatId,

@@ -19,6 +19,8 @@ namespace OpenAI
         ~Whisper() override = default;
 
         std::string Transcript(const std::string& filePath);
+
+        void SetTemperature(float temperature);
     };
 }
 

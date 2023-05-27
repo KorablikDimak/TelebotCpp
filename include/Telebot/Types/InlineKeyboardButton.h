@@ -12,6 +12,14 @@ namespace Telebot
     public:
         typedef std::shared_ptr<InlineKeyboardButton> Ptr;
 
+        InlineKeyboardButton() = default;
+
+        inline InlineKeyboardButton(const std::string text, const std::string callbackData)
+        {
+            this->text = text;
+            this->callback_data = callbackData;
+        }
+
         std::string text;
         std::string url;
         std::string callback_data;
@@ -49,5 +57,8 @@ namespace Telebot
         VALUE_TO_JSON(pay)
     }
 }
+
+#define INLINE_BUTTON(text, callbackData) \
+std::make_shared<Telebot::InlineKeyboardButton>(text, callbackData)
 
 #endif

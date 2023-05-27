@@ -44,6 +44,7 @@ namespace Common
     }
 }
 
-#define STATIC_METHOD_HANDLER(method) Common::CreateStaticMethodHandler(method);
+#define STATIC_METHOD_HANDLER(method) \
+Common::CreateStaticMethodHandler(method)
 
 #endif

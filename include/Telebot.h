@@ -43,6 +43,8 @@ namespace Telebot
                                                  const boost::variant<std::string, InputFile::Ptr>& url);
         std::future<bool> AnswerCallbackQueryAsync(const std::string& callbackQueryId, const std::string& text = "",
                                                    const bool& showAlert = false);
+        std::future<Message::Ptr> EditMessageTextAsync(const std::int64_t& chatId, const std::int32_t& messageId,
+                                                       const std::string& text, const GenericReply::Ptr& genericReply = nullptr);
 
     private:
         MessageEvent _onAnyMessage;

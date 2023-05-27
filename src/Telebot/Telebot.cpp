@@ -197,3 +197,10 @@ CallbackQueryEvent Telebot::Telebot::OnCallbackQuery(const std::string& callback
         _onCallbackQuery.insert(std::make_pair(callback_data, std::make_shared<Common::Event<const CallbackQuery::Ptr&>>()));
     return _onCallbackQuery[callback_data];
 }
+
+std::future<Telebot::Message::Ptr> Telebot::Telebot::EditMessageTextAsync(const std::int64_t& chatId, const std::int32_t& messageId,
+                                                                          const std::string& text, const GenericReply::Ptr& genericReply)
+{
+    return std::async(std::launch::async, [this, chatId, messageId, text, genericReply]()
+    { return _api->EditMessageText(text, chatId, messageId, "", "", false, genericReply); });
+}

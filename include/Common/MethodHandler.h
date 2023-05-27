@@ -47,7 +47,10 @@ namespace Common
     }
 }
 
-#define METHOD_HANDLER(object, method) Common::CreateMethodHandler(object, method);
-#define THIS_METHOD_HANDLER(method) METHOD_HANDLER(this, method);
+#define METHOD_HANDLER(object, method) \
+Common::CreateMethodHandler(object, method)
+
+#define THIS_METHOD_HANDLER(method) \
+METHOD_HANDLER(this, method)
 
 #endif

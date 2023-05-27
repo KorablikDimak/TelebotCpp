@@ -70,13 +70,17 @@ add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)
 add_subdirectory(../libpqxx-7.7.5 pqxx)
 
-set(MyBotHeaders include/MyBot/MyBot.h include/Db/DbPool.h include/Db/DbConnection.h include/MyBot/Types/User.h
-        include/MyBot/Environment.h include/MyBot/LanguageCode.h)
+set(MyBotHeaders include/MyBot/MyBot.h include/Db/DbPool.h include/Db/DbConnection.h include/MyBot/Environment.h
+        include/MyBot/Types/DbMacros.h include/MyBot/DbRequest.h include/MyBot/DbCash.h)
 
 set(MyBotSource src/MyBot/main.cpp src/MyBot/MyBot.cpp src/Db/DbPool.cpp src/Db/DbConnection.cpp
-        src/MyBot/Environment.cpp)
+        src/MyBot/Environment.cpp src/MyBot/DbRequest.cpp src/MyBot/DbCash.cpp)
 
-add_executable(MyBot ${MyBotHeaders} ${MyBotSource})
+set(MyBotTypes include/MyBot/Types/Language.h include/MyBot/Types/Role.h
+        include/MyBot/Types/GptSettings.h include/MyBot/Types/WhisperSettings.h include/MyBot/Types/DalleSettings.h
+        include/MyBot/Types/Size.h include/MyBot/Types/User.h)
+
+add_executable(MyBot ${MyBotHeaders} ${MyBotSource} ${MyBotTypes})
 target_link_libraries(MyBot Telebot OpenAI CInfoLog ${PostgreSQL_LIBRARIES} pqxx)
 
 if (ENABLE_TESTS)

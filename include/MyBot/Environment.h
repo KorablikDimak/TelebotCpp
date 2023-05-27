@@ -7,7 +7,7 @@
 #include <vector>
 #include <boost/any.hpp>
 
-#include "LanguageCode.h"
+#include "MyBot/Types/Language.h"
 #include "pugixml.hpp"
 
 namespace MyBot
@@ -15,7 +15,7 @@ namespace MyBot
     class Environment
     {
     private:
-        std::map<LanguageCode, std::map<std::string, std::string>> _localisation;
+        std::map<Language, std::map<std::string, std::string>> _localisation;
         std::map<std::string, boost::any> _dynamicContainer;
         std::mutex _containerMutex;
 
@@ -25,7 +25,7 @@ namespace MyBot
         explicit Environment(const std::vector<std::string>& fileNames);
         ~Environment() = default;
 
-        std::string GetLexicalItem(LanguageCode language, const std::string& key);
+        std::string GetLexicalItem(Language language, const std::string& key);
 
         bool Contains(const std::string& key);
 
