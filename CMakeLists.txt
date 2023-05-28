@@ -28,7 +28,7 @@ include_directories(include libs MyBot src ${OPENSSL_INCLUDE_DIR} ${Boost_INCLUD
 set(CommonHeaders include/Common/HttpContext.h include/Common/HttpsClient.h include/Common/IEventHandler.h
         include/Common/Event.h include/Common/MethodHandler.h include/Common/StaticMethodHandler.h
         include/Common/CancellationTokenSource.h include/Common/CancellationToken.h include/Common/ErrorTrace.h
-        include/Common/ErrorInfo.h include/Common/ErrorCode.h)
+        include/Common/ErrorInfo.h include/Common/ErrorCode.h include/Common/FunctionHandler.h)
 
 set(CommonSource src/Common/CancellationTokenSource.cpp src/Common/CancellationToken.cpp src/Common/ErrorTrace.cpp
         src/Common/ErrorInfo.cpp)
@@ -60,7 +60,7 @@ set(OpenAISource src/OpenAI/OpenAI.cpp src/OpenAI/OpenAIApi.cpp src/OpenAI/OpenA
 
 set(OpenAITypes include/OpenAI/Types/ChatCompletionsRequest.h include/OpenAI/Types/ChatCompletionsResponse.h
         include/OpenAI/Types/Usage.h include/OpenAI/Types/Message.h include/OpenAI/Types/TranscriptionsRequest.h
-        include/OpenAI/Types/FileInfo.h include/OpenAI/Types/CreateImageRequest.h
+        include/OpenAI/Types/FileInfo.h include/OpenAI/Types/CreateImageRequest.h include/OpenAI/Types/Size.h
         include/OpenAI/Types/CreateImageResponse.h)
 
 add_library(OpenAI SHARED ${OpenAIHeaders} ${OpenAISource} ${OpenAITypes})
@@ -78,7 +78,7 @@ set(MyBotSource src/MyBot/main.cpp src/MyBot/MyBot.cpp src/Db/DbPool.cpp src/Db/
 
 set(MyBotTypes include/MyBot/Types/Language.h include/MyBot/Types/Role.h
         include/MyBot/Types/GptSettings.h include/MyBot/Types/WhisperSettings.h include/MyBot/Types/DalleSettings.h
-        include/MyBot/Types/Size.h include/MyBot/Types/User.h)
+        include/MyBot/Types/User.h)
 
 add_executable(MyBot ${MyBotHeaders} ${MyBotSource} ${MyBotTypes})
 target_link_libraries(MyBot Telebot OpenAI CInfoLog ${PostgreSQL_LIBRARIES} pqxx)

@@ -4,12 +4,14 @@
 #include "Common/Event.h"
 #include "Common/CancellationTokenSource.h"
 #include "Telebot/TelebotApi.h"
-
-typedef std::shared_ptr<Common::Event<const Telebot::Message::Ptr&>> MessageEvent;
-typedef std::shared_ptr<Common::Event<const Telebot::CallbackQuery::Ptr&>> CallbackQueryEvent;
+#include "Common/FunctionHandler.h"
 
 namespace Telebot
 {
+    typedef std::shared_ptr<Common::Event<const Message::Ptr&>> MessageEvent;
+    typedef std::shared_ptr<Common::Event<const CallbackQuery::Ptr&>> CallbackQueryEvent;
+    typedef std::function<void(const CallbackQuery::Ptr&)> CallbackHandler;
+
     class Telebot
     {
     private:
@@ -61,6 +63,7 @@ namespace Telebot
         MessageEvent OnVoice();
         CallbackQueryEvent OnAnyCallbackQuery();
         CallbackQueryEvent OnCallbackQuery(const std::string& callback_data);
+        void OnCallbackQuery(const std::string& callback_data, CallbackHandler handler);
     };
 }
 

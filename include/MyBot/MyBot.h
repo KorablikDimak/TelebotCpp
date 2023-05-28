@@ -8,10 +8,12 @@
 #include "Common/MethodHandler.h"
 #include "CInfoLog.h"
 
-typedef Telebot::InlineKeyboardButton::Ptr InlineButton;
-
 namespace MyBot
 {
+    typedef Telebot::InlineKeyboardButton::Ptr InlineButton;
+    typedef Telebot::Message::Ptr Message;
+    typedef Telebot::CallbackQuery::Ptr Callback;
+
     class MyBot
     {
     private:
@@ -46,52 +48,52 @@ namespace MyBot
 
         void SetLogger(const std::string& logConfigPath);
 
-        void StartCommand(const Telebot::Message::Ptr& message);
-        void GptSession(const Telebot::Message::Ptr& message);
-        void WhisperSession(const Telebot::Message::Ptr& message);
-        void DalleSession(const Telebot::Message::Ptr& message);
-        void GetUsageInfo(const Telebot::Message::Ptr& message);
-        void GetPayment(const Telebot::Message::Ptr& message);
-        void GetHelp(const Telebot::Message::Ptr& message);
-        void SetSettings(const Telebot::Message::Ptr& message);
+        void StartCommand(const Message& message);
+        void GptSession(const Message& message);
+        void WhisperSession(const Message& message);
+        void DalleSession(const Message& message);
+        void GetUsageInfo(const Message& message);
+        void GetPayment(const Message& message);
+        void GetHelp(const Message& message);
+        void SetSettings(const Message& message);
 
-        void GetGptHelp(const Telebot::CallbackQuery::Ptr& callback);
-        void GetWhisperHelp(const Telebot::CallbackQuery::Ptr& callback);
-        void GetDalleHelp(const Telebot::CallbackQuery::Ptr& callback);
-        void SetGptSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetWhisperSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetDalleSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetLanguage(const Telebot::CallbackQuery::Ptr& callback);
+        void GetGptHelp(const Callback& callback);
+        void GetWhisperHelp(const Callback& callback);
+        void GetDalleHelp(const Callback& callback);
+        void SetGptSettings(const Callback& callback);
+        void SetWhisperSettings(const Callback& callback);
+        void SetDalleSettings(const Callback& callback);
+        void SetLanguage(const Callback& callback);
+        void BackSettings(const Callback& callback);
+        void SetContextSize(const Callback& callback);
+        void SetGptTemperature(const Callback& callback);
+        void SetGptAllowVoice(const Callback& callback);
+        void SetWhisperTemperature(const Callback& callback);
+        void SetDalleSize(const Callback& callback);
+        void SetDalleAllowVoice(const Callback& callback);
+        void SetEnglish(const Callback& callback);
+        void SetRussian(const Callback& callback);
 
-        void BackGptSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetContextSize(const Telebot::CallbackQuery::Ptr& callback);
-        void SetGptTemperature(const Telebot::CallbackQuery::Ptr& callback);
-        void SetGptAllowVoice(const Telebot::CallbackQuery::Ptr& callback);
-
-        void BackWhisperSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetWhisperTemperature(const Telebot::CallbackQuery::Ptr& callback);
-
-        void BackDalleSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetDalleSize(const Telebot::CallbackQuery::Ptr& callback);
-        void SetDalleAllowVoice(const Telebot::CallbackQuery::Ptr& callback);
-
-        void BackLanguageSettings(const Telebot::CallbackQuery::Ptr& callback);
-        void SetEnglish(const Telebot::CallbackQuery::Ptr& callback);
-        void SetRussian(const Telebot::CallbackQuery::Ptr& callback);
-
-        void Chat(const Telebot::Message::Ptr& message);
-        void Transcript(const Telebot::Message::Ptr& message);
-        void CreateImage(const Telebot::Message::Ptr& message);
+        void Chat(const Message& message);
+        void Transcript(const Message& message);
+        void CreateImage(const Message& message);
 
     private:
         void ConvertAudio(const std::string& filePath);
         bool UserHasTokens(std::int64_t userId);
 
+        void SetContextSizeValue(const Callback& callback, unsigned char contextSize);
+        void SetGptTemperatureValue(const Callback& callback, float temperature);
+        void SetGptAllowVoiceValue(const Callback& callback, bool allowVoice);
+        void SetWhisperTemperatureValue(const Callback& callback, float temperature);
+        void SetDalleSizeValue(const Callback& callback, Size size);
+        void SetDalleAllowVoiceValue(const Callback& callback, bool allowVoice);
+
         template<typename TResult>
         std::future<TResult> AddToQueue(std::function<TResult(const OpenAI::OpenAIModel::Ptr&,
-                                                              const Telebot::Message::Ptr&)> task,
+                                                              const Message&)> task,
                                         const OpenAI::OpenAIModel::Ptr& model,
-                                        const Telebot::Message::Ptr& message)
+                                        const Message& message)
         {
             return std::async(std::launch::async, [this, task, model, message]()->TResult
             {
@@ -122,7 +124,7 @@ namespace MyBot
         std::mutex _openAiThreadsMutex;
         std::future<void> _openAiThreadsChecker;
 
-        std::list<std::future<Telebot::Message::Ptr>> _telebotThreads;
+        std::list<std::future<Message>> _telebotThreads;
         std::mutex _telebotThreadsMutex;
         std::future<void> _telebotThreadsChecker;
 

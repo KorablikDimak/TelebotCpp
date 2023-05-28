@@ -63,7 +63,7 @@ std::future<bool> MyBot::DbCash::SetGptTemperatureCash(std::int64_t userId, floa
     return _dbRequest->SetGptTemperature(userId, temperature);
 }
 
-std::future<bool> MyBot::DbCash::SetAllowVoiceCash(std::int64_t userId, bool allowVoice)
+std::future<bool> MyBot::DbCash::SetGptAllowVoiceCash(std::int64_t userId, bool allowVoice)
 {
     if (_gptSettings.find(userId) == _gptSettings.end()) GetGptSettingsCash(userId);
     _gptSettings.at(userId)->allowvoice = allowVoice;

@@ -30,7 +30,7 @@ namespace MyBot
         GptSettings::Ptr GetGptSettingsCash(std::int64_t userId);
         std::future<bool> SetContextSizeCash(std::int64_t userId, unsigned char contextSize);
         std::future<bool> SetGptTemperatureCash(std::int64_t userId, float temperature);
-        std::future<bool> SetAllowVoiceCash(std::int64_t userId, bool allowVoice);
+        std::future<bool> SetGptAllowVoiceCash(std::int64_t userId, bool allowVoice);
 
         WhisperSettings::Ptr GetWhisperSettingsCash(std::int64_t userId);
         std::future<bool> SetWhisperTemperatureCash(std::int64_t userId, float temperature);

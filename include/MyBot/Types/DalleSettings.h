@@ -1,7 +1,7 @@
 #ifndef MyBot_DalleSettingsH
 #define MyBot_DalleSettingsH
 
-#include "Size.h"
+#include "OpenAI/Types/Size.h"
 #include "DbMacros.h"
 
 namespace MyBot

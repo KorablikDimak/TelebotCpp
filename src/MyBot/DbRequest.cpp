@@ -204,6 +204,7 @@ std::future<bool> MyBot::DbRequest::SetContextSize(std::int64_t userId, unsigned
             {
                 std::string query = "UPDATE \"GptSettings\" SET contextsize = " + std::to_string(contextSize) +
                                     " WHERE userid = " + std::to_string(userId);
+                work.exec(query);
                 return true;
             };
 
@@ -217,6 +218,7 @@ std::future<bool> MyBot::DbRequest::SetGptTemperature(std::int64_t userId, float
             {
                 std::string query = "UPDATE \"GptSettings\" SET temperature = " + std::to_string(temperature) +
                                     " WHERE userid = " + std::to_string(userId);
+                work.exec(query);
                 return true;
             };
 
@@ -228,8 +230,9 @@ std::future<bool> MyBot::DbRequest::SetGptAllowVoice(std::int64_t userId, bool a
     std::function<bool(pqxx::work&, std::int64_t, bool)> transaction =
             [](pqxx::work& work, const std::int64_t& userId, const bool& allowVoice)->bool
             {
-                std::string query = "UPDATE \"GptSettings\" SET allowvoice = " + std::to_string(allowVoice) +
+                std::string query = "UPDATE \"GptSettings\" SET allowvoice = " + ToString(allowVoice) +
                                     " WHERE userid = " + std::to_string(userId);
+                work.exec(query);
                 return true;
             };
 
@@ -260,6 +263,7 @@ std::future<bool> MyBot::DbRequest::SetWhisperTemperature(std::int64_t userId, f
             {
                 std::string query = "UPDATE \"WhisperSettings\" SET temperature = " + std::to_string(temperature) +
                                     " WHERE userid = " + std::to_string(userId);
+                work.exec(query);
                 return true;
             };
 
@@ -271,7 +275,7 @@ std::future<MyBot::DalleSettings::Ptr> MyBot::DbRequest::GetDalleSettings(std::i
     std::function<DalleSettings::Ptr(pqxx::work&, std::int64_t)> transaction =
             [](pqxx::work& work, const std::int64_t& userId)->DalleSettings::Ptr
             {
-                std::string query = "SELECT * FROM \"GptSettings\" WHERE userid = " + std::to_string(userId);
+                std::string query = "SELECT * FROM \"DalleSettings\" WHERE userid = " + std::to_string(userId);
                 pqxx::result result = work.exec(query);
                 pqxx::row row = result.front();
 
@@ -302,8 +306,9 @@ std::future<bool> MyBot::DbRequest::SetDalleAllowVoice(std::int64_t userId, bool
     std::function<bool(pqxx::work&, std::int64_t, bool)> transaction =
             [](pqxx::work& work, const std::int64_t& userId, const bool& allowVoice)->bool
             {
-                std::string query = "UPDATE \"DalleSettings\" SET allowvoice = " + std::to_string(allowVoice) +
+                std::string query = "UPDATE \"DalleSettings\" SET allowvoice = " + ToString(allowVoice) +
                                     " WHERE userid = " + std::to_string(userId);
+                work.exec(query);
                 return true;
             };
 

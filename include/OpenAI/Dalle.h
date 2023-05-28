@@ -2,16 +2,10 @@
 #define OpenAI_DalleH
 
 #include "OpenAIModel.h"
+#include "Types/Size.h"
 
 namespace OpenAI
 {
-    enum class Size
-    {
-        Mini = 0,
-        Medium = 1,
-        Large = 2
-    };
-
     class Dalle : public OpenAIModel
     {
     private:

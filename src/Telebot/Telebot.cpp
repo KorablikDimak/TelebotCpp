@@ -162,45 +162,50 @@ std::future<bool> Telebot::Telebot::AnswerCallbackQueryAsync(const std::string& 
         { return _api->AnswerCallbackQuery(callbackQueryId, text, showAlert); });
 }
 
-MessageEvent Telebot::Telebot::OnAnyMessage()
+std::future<Telebot::Message::Ptr> Telebot::Telebot::EditMessageTextAsync(const std::int64_t& chatId, const std::int32_t& messageId,
+                                                                          const std::string& text, const GenericReply::Ptr& genericReply)
+{
+    return std::async(std::launch::async, [this, chatId, messageId, text, genericReply]()
+    { return _api->EditMessageText(text, chatId, messageId, "", "", false, genericReply); });
+}
+
+Telebot::MessageEvent Telebot::Telebot::OnAnyMessage()
 {
     return _onAnyMessage;
 }
 
-MessageEvent Telebot::Telebot::OnMessage(const std::string& message)
+Telebot::MessageEvent Telebot::Telebot::OnMessage(const std::string& message)
 {
     if (_onMessage.find(message) == _onMessage.end())
         _onMessage.insert(std::make_pair(message, std::make_shared<Common::Event<const Message::Ptr&>>()));
     return _onMessage[message];
 }
 
-MessageEvent Telebot::Telebot::OnCommand(const std::string& command)
+Telebot::MessageEvent Telebot::Telebot::OnCommand(const std::string& command)
 {
     if (_onCommand.find(command) == _onCommand.end())
         _onCommand.insert(std::make_pair(command, std::make_shared<Common::Event<const Message::Ptr&>>()));
     return _onCommand[command];
 }
 
-MessageEvent Telebot::Telebot::OnVoice()
+Telebot::MessageEvent Telebot::Telebot::OnVoice()
 {
     return _onVoice;
 }
 
-CallbackQueryEvent Telebot::Telebot::OnAnyCallbackQuery()
+Telebot::CallbackQueryEvent Telebot::Telebot::OnAnyCallbackQuery()
 {
     return _onAnyCallbackQuery;
 }
 
-CallbackQueryEvent Telebot::Telebot::OnCallbackQuery(const std::string& callback_data)
+Telebot::CallbackQueryEvent Telebot::Telebot::OnCallbackQuery(const std::string& callback_data)
 {
     if (_onCallbackQuery.find(callback_data) == _onCallbackQuery.end())
         _onCallbackQuery.insert(std::make_pair(callback_data, std::make_shared<Common::Event<const CallbackQuery::Ptr&>>()));
     return _onCallbackQuery[callback_data];
 }
 
-std::future<Telebot::Message::Ptr> Telebot::Telebot::EditMessageTextAsync(const std::int64_t& chatId, const std::int32_t& messageId,
-                                                                          const std::string& text, const GenericReply::Ptr& genericReply)
+void Telebot::Telebot::OnCallbackQuery(const std::string& callback_data, CallbackHandler handler)
 {
-    return std::async(std::launch::async, [this, chatId, messageId, text, genericReply]()
-    { return _api->EditMessageText(text, chatId, messageId, "", "", false, genericReply); });
+    *OnCallbackQuery(callback_data) += FUNCTION_HANDLER(handler);
 }

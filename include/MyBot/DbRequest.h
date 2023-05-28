@@ -47,6 +47,12 @@ namespace MyBot
         std::future<bool> SetDalleSize(std::int64_t userId, Size size);
         std::future<bool> SetDalleAllowVoice(std::int64_t userId, bool allowVoice);
     };
+
+    inline std::string ToString(bool value)
+    {
+        if (value) return "true";
+        else return "false";
+    }
 }
 
 #endif

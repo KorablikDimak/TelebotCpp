@@ -3,13 +3,13 @@
 
 #include <boost/beast/http.hpp>
 
-typedef boost::beast::http::empty_body EmptyBody;
-typedef boost::beast::http::string_body StringBody;
-typedef boost::beast::http::file_body FileBody;
-typedef boost::beast::http::buffer_body BufferBody;
-
 namespace Common
 {
+    typedef boost::beast::http::empty_body EmptyBody;
+    typedef boost::beast::http::string_body StringBody;
+    typedef boost::beast::http::file_body FileBody;
+    typedef boost::beast::http::buffer_body BufferBody;
+
     template <typename RequestBody, typename ResponseBody>
     class HttpContext
     {

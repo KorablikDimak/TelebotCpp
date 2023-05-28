@@ -10,7 +10,7 @@ OpenAI::OpenAIApi::OpenAIApi(const std::string& token)
 
 Json OpenAI::OpenAIApi::Get(const std::string& methodName)
 {
-    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, StringBody>>();
+    auto httpContext = std::make_shared<Common::HttpContext<Common::EmptyBody, Common::StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("GET");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -23,7 +23,7 @@ Json OpenAI::OpenAIApi::Get(const std::string& methodName)
 
 Json OpenAI::OpenAIApi::Post(const std::string& methodName, const Json& params)
 {
-    auto httpContext = std::make_shared<Common::HttpContext<StringBody, StringBody>>();
+    auto httpContext = std::make_shared<Common::HttpContext<Common::StringBody, Common::StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("POST");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -54,7 +54,7 @@ OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::UploadFile(const std::string& filePath)
 
 OpenAI::FileInfo::Ptr OpenAI::OpenAIApi::DeleteFile(const std::string& fileId)
 {
-    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, StringBody>>();
+    auto httpContext = std::make_shared<Common::HttpContext<Common::EmptyBody, Common::StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("DELETE");
     httpContext->Request->set(boost::beast::http::field::host, HOST);

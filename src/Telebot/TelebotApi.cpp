@@ -10,7 +10,7 @@ Telebot::TelebotApi::TelebotApi(const std::string& token)
 
 Json Telebot::TelebotApi::Get(const std::string& methodName)
 {
-    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, StringBody>>();
+    auto httpContext = std::make_shared<Common::HttpContext<Common::EmptyBody, Common::StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("GET");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -23,7 +23,7 @@ Json Telebot::TelebotApi::Get(const std::string& methodName)
 
 Json Telebot::TelebotApi::Post(const std::string& methodName, const Json& params)
 {
-    auto httpContext = std::make_shared<Common::HttpContext<StringBody, StringBody>>();
+    auto httpContext = std::make_shared<Common::HttpContext<Common::StringBody, Common::StringBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("POST");
     httpContext->Request->set(boost::beast::http::field::host, HOST);
@@ -411,7 +411,7 @@ Telebot::File::Ptr Telebot::TelebotApi::GetFile(const std::string& fileId)
 
 std::string Telebot::TelebotApi::DownloadFile(const File::Ptr& file, const std::string& toDirectory)
 {
-    auto httpContext = std::make_shared<Common::HttpContext<EmptyBody, FileBody>>();
+    auto httpContext = std::make_shared<Common::HttpContext<Common::EmptyBody, Common::FileBody>>();
     httpContext->Request->version(HTTP_VERSION);
     httpContext->Request->method_string("GET");
     httpContext->Request->set(boost::beast::http::field::host, HOST);

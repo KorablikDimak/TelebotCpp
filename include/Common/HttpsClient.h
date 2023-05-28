@@ -8,14 +8,14 @@
 
 #include "HttpContext.h"
 
-typedef boost::asio::io_service Service;
-typedef boost::asio::ssl::context SslContext;
-typedef boost::asio::ip::tcp::socket Socket;
-typedef boost::asio::ssl::stream<Socket> SslSocket;
-typedef boost::asio::ip::tcp::resolver Resolver;
-
 namespace Common
 {
+    typedef boost::asio::io_service Service;
+    typedef boost::asio::ssl::context SslContext;
+    typedef boost::asio::ip::tcp::socket Socket;
+    typedef boost::asio::ssl::stream<Socket> SslSocket;
+    typedef boost::asio::ip::tcp::resolver Resolver;
+
     class HttpsClient
     {
     public:
