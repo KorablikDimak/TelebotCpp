@@ -29,10 +29,10 @@ Consumable tokens are made up of the text you sent and the text that I generate 
         <dallesettings>Dalle settings</dallesettings>
         <choicelanguage>Choice language</choicelanguage>
         <contextsize>The context is a list of recent messages (including the responses of the model itself) that are transmitted by the gpt to more correctly maintain dialogs. Currently, context size = </contextsize>
-        <gpttemperature>What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.</gpttemperature>
-        <allowvoice>Let chat automatically recognize voice messages and immediately respond to them. May lead to increased consumption of tokens.</allowvoice>
-        <whispertemperature>What sampling temperature to use, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.</whispertemperature>
-        <dallesize>The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024</dallesize>
+        <gpttemperature>What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Now = </gpttemperature>
+        <allowvoice>Let chat automatically recognize voice messages and immediately respond to them. May lead to increased consumption of tokens. Now = </allowvoice>
+        <whispertemperature>What sampling temperature to use, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. Now = </whispertemperature>
+        <dallesize>The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024. Now = </dallesize>
 
         <true>true</true>
         <false>false</false>
@@ -72,10 +72,10 @@ Consumable tokens are made up of the text you sent and the text that I generate 
         <dallesettings>Настройки dalle</dallesettings>
         <choicelanguage>Выберете язык</choicelanguage>
         <contextsize>Контекст это список последних сообщений (в том числе и ответов самой модели) которые передаются гпт для более корректного поддержания диалогов. В данный момент размер контекста = </contextsize>
-        <gpttemperature>Какую температуру выборки использовать, от 0 до 2. Более высокие значения, такие как 0,8, сделают вывод более случайным, а более низкие значения, такие как 0,2, сделают его более сфокусированным и детерминированным.</gpttemperature>
-        <allowvoice>Позволить чату автоматически распознавать голосовые и сразу отвечать на них. Может привести к повышенному расходу токенов.</allowvoice>
-        <whispertemperature>What sampling temperature to use, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.</whispertemperature>
-        <dallesize>Размер создаваемых изображений. Должно быть одно из разрешений 256x256, 512x512 или 1024x1024.</dallesize>
+        <gpttemperature>Какую температуру выборки использовать, от 0 до 2. Более высокие значения, такие как 0.8, сделают вывод более случайным, а более низкие значения, такие как 0.2, сделают его более сфокусированным и детерминированным. В данный момент = </gpttemperature>
+        <allowvoice>Позволить чату автоматически распознавать голосовые и сразу отвечать на них. Может привести к повышенному расходу токенов. В данный момент позволено: </allowvoice>
+        <whispertemperature>Какую температуру выборки использовать, от 0 до 1. Более высокие значения, такие как 0.8, сделают вывод более случайным, а более низкие значения, такие как 0.2, сделают его более сфокусированным и детерминированным.  В данный момент = </whispertemperature>
+        <dallesize>Размер создаваемых изображений. Должно быть одно из разрешений 256x256, 512x512 или 1024x1024. В данный момент = </dallesize>
 
         <true>да</true>
         <false>нет</false>

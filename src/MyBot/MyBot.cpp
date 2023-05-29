@@ -578,7 +578,8 @@ void MyBot::MyBot::SetContextSize(const Callback& callback)
         keyboard->SetButton(contextSize9, 2, 2);
         keyboard->SetButton(contextSize10, 2, 3);
 
-        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id, LEXICAL_ITEM("contextsize"), keyboard);
+        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id,
+                                               LEXICAL_ITEM("contextsize") + std::to_string(_dbCash->GetGptSettingsCash(id)->contextsize), keyboard);
         TELEBOT_TASK(send);
     });
 
@@ -619,7 +620,8 @@ void MyBot::MyBot::SetGptTemperature(const Callback& callback)
         keyboard->SetButton(gptTemperature18, 2, 2);
         keyboard->SetButton(gptTemperature20, 2, 3);
 
-        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id, LEXICAL_ITEM("gpttemperature"), keyboard);
+        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id,
+                                               LEXICAL_ITEM("gpttemperature") + std::to_string(_dbCash->GetGptSettingsCash(id)->temperature), keyboard);
         TELEBOT_TASK(send);
     });
 
@@ -642,7 +644,8 @@ void MyBot::MyBot::SetGptAllowVoice(const Callback& callback)
         keyboard->SetButton(gptAllowVoiceTrue, 0, 1);
         keyboard->SetButton(gptAllowVoiceFalse, 0, 2);
 
-        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id, LEXICAL_ITEM("allowvoice"), keyboard);
+        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id,
+                                               LEXICAL_ITEM("allowvoice") + LEXICAL_ITEM(ToString(_dbCash->GetGptSettingsCash(id)->allowvoice)), keyboard);
         TELEBOT_TASK(send);
     });
 
@@ -683,7 +686,8 @@ void MyBot::MyBot::SetWhisperTemperature(const Callback& callback)
         keyboard->SetButton(whisperTemperature09, 2, 2);
         keyboard->SetButton(whisperTemperature10, 2, 3);
 
-        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id, LEXICAL_ITEM("whispertemperature"), keyboard);
+        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id,
+                                               LEXICAL_ITEM("whispertemperature") + std::to_string(_dbCash->GetWhisperSettingsCash(id)->temperature), keyboard);
         TELEBOT_TASK(send);
     });
 
@@ -708,7 +712,8 @@ void MyBot::MyBot::SetDalleSize(const Callback& callback)
         keyboard->SetButton(mediumSize, 1, 0);
         keyboard->SetButton(largeSize, 1, 1);
 
-        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id, LEXICAL_ITEM("dallesize"), keyboard);
+        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id,
+                                               LEXICAL_ITEM("dallesize") + ToString(_dbCash->GetDalleSettingsCash(id)->size), keyboard);
         TELEBOT_TASK(send);
     });
 
@@ -731,7 +736,8 @@ void MyBot::MyBot::SetDalleAllowVoice(const Callback& callback)
         keyboard->SetButton(dalleAllowVoiceTrue, 0, 1);
         keyboard->SetButton(dalleAllowVoiceFalse, 0, 2);
 
-        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id, LEXICAL_ITEM("allowvoice"), keyboard);
+        auto send = _bot->EditMessageTextAsync(id, callback->message->message_id,
+                                               LEXICAL_ITEM("allowvoice") + LEXICAL_ITEM(ToString(_dbCash->GetDalleSettingsCash(id)->allowvoice)), keyboard);
         TELEBOT_TASK(send);
     });
 

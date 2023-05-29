@@ -16,7 +16,7 @@ MyBot::User::Ptr MyBot::DbCash::GetUserCash(std::int64_t userId)
 std::future<bool> MyBot::DbCash::AddTotalUsageCash(std::int64_t userId, int usage)
 {
     if (_users.find(userId) == _users.end()) GetUserCash(userId);
-    _users.at(userId)->totalusage = usage;
+    _users.at(userId)->totalusage += usage;
     return _dbRequest->AddUsage(userId, usage);
 }
 
