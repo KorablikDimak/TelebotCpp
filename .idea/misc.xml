@@ -2,10 +2,14 @@
 <project version="4">
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
+    <sourceRoots>
+      <file path="$PROJECT_DIR$" />
+    </sourceRoots>
     <libraryRoots>
       <file path="$PROJECT_DIR$/../CInfoLog" />
       <file path="$PROJECT_DIR$/../GoogleTest" />
       <file path="$PROJECT_DIR$/../LINQcpp" />
+      <file path="$PROJECT_DIR$/../libpqxx-7.7.5" />
     </libraryRoots>
   </component>
 </project>
