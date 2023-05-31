@@ -186,6 +186,7 @@ void MyBot::MyBot::Stop()
 {
     if (_cancellationTokenSource == nullptr || _cancellationTokenSource->Token()->IsCancellationRequested()) return;
     _cancellationTokenSource->Cancel();
+    _bot->Stop();
 
     _openAiThreadsChecker.wait();
     _telebotThreadsChecker.wait();
