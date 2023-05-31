@@ -3,7 +3,7 @@
 
 #include "Language.h"
 #include "Role.h"
-#include "DbMacros.h"
+#include "DbProvider/DbMacros.h"
 
 namespace MyBot
 {

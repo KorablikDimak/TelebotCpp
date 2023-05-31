@@ -1,4 +1,4 @@
-#include "MyBot/MyBot.h"
+#include "MyBot.h"
 
 const std::string MyBot::MyBot::FILE_DIRECTORY = "root/files";
 const std::string MyBot::MyBot::OPENAI_USER = "TelegramBot";
@@ -121,11 +121,11 @@ MyBot::MyBot::MyBot(const std::map<std::string, std::string>& args)
                           [this](const Callback& callback){ SetWhisperTemperatureValue(callback, 1); });
 
     _bot->OnCallbackQuery("dalle_size_256x256_button_clicked",
-                          [this](const Callback& callback){ SetDalleSizeValue(callback, Size::Mini); });
+                          [this](const Callback& callback){ SetDalleSizeValue(callback, OpenAI::Size::Mini); });
     _bot->OnCallbackQuery("dalle_size_512x512_button_clicked",
-                          [this](const Callback& callback){ SetDalleSizeValue(callback, Size::Medium); });
+                          [this](const Callback& callback){ SetDalleSizeValue(callback, OpenAI::Size::Medium); });
     _bot->OnCallbackQuery("dalle_size_1024x1024_button_clicked",
-                          [this](const Callback& callback){ SetDalleSizeValue(callback, Size::Large); });
+                          [this](const Callback& callback){ SetDalleSizeValue(callback, OpenAI::Size::Large); });
 
     _bot->OnCallbackQuery("dalle_allow_voice_true_button_clicked",
                           [this](const Callback& callback){ SetDalleAllowVoiceValue(callback, true); });
@@ -981,9 +981,9 @@ void MyBot::MyBot::SetWhisperTemperatureValue(const Callback& callback, float te
     COMMON_TASK(set);
 }
 
-void MyBot::MyBot::SetDalleSizeValue(const Callback& callback, Size size)
+void MyBot::MyBot::SetDalleSizeValue(const Callback& callback, OpenAI::Size size)
 {
-    auto set = std::async(std::launch::async, [this, callback](Size size)
+    auto set = std::async(std::launch::async, [this, callback](OpenAI::Size size)
     {
         std::int64_t id = callback->from->id;
         auto answer = _bot->AnswerCallbackQueryAsync(callback->id);
@@ -991,7 +991,7 @@ void MyBot::MyBot::SetDalleSizeValue(const Callback& callback, Size size)
         auto updateDb = _dbCash->SetDalleSizeCash(id, size);
         DB_TASK(updateDb);
 
-        auto send = _bot->SendMessageAsync(id, LEXICAL_ITEM("setdallesizecomplited") + ToString(size));
+        auto send = _bot->SendMessageAsync(id, LEXICAL_ITEM("setdallesizecomplited") + OpenAI::ToString(size));
         TELEBOT_TASK(send);
 
         if (_openAiSessions.find(id) == _openAiSessions.end() || _openAiSessions[id]->GetModelName() != "DALLE") return;

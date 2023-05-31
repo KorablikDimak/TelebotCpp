@@ -1,10 +1,10 @@
 #ifndef MyBot_MyBotH
 #define MyBot_MyBotH
 
-#include "Environment.h"
+#include "MyBot/Environment.h"
 #include "Telebot.h"
 #include "OpenAI.h"
-#include "DbCash.h"
+#include "MyBot/DbCash.h"
 #include "Common/MethodHandler.h"
 #include "CInfoLog.h"
 
@@ -86,7 +86,7 @@ namespace MyBot
         void SetGptTemperatureValue(const Callback& callback, float temperature);
         void SetGptAllowVoiceValue(const Callback& callback, bool allowVoice);
         void SetWhisperTemperatureValue(const Callback& callback, float temperature);
-        void SetDalleSizeValue(const Callback& callback, Size size);
+        void SetDalleSizeValue(const Callback& callback, OpenAI::Size size);
         void SetDalleAllowVoiceValue(const Callback& callback, bool allowVoice);
 
         template<typename TResult>

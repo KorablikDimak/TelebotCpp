@@ -93,7 +93,7 @@ MyBot::DalleSettings::Ptr MyBot::DbCash::GetDalleSettingsCash(std::int64_t userI
     return settings;
 }
 
-std::future<bool> MyBot::DbCash::SetDalleSizeCash(std::int64_t userId, Size size)
+std::future<bool> MyBot::DbCash::SetDalleSizeCash(std::int64_t userId, OpenAI::Size size)
 {
     if (_dalleSettings.find(userId) == _dalleSettings.end()) GetDalleSettingsCash(userId);
     _dalleSettings.at(userId)->size = size;

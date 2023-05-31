@@ -1,7 +1,7 @@
 #ifndef MyBot_WhisperSettingsH
 #define MyBot_WhisperSettingsH
 
-#include "DbMacros.h"
+#include "DbProvider/DbMacros.h"
 
 namespace MyBot
 {

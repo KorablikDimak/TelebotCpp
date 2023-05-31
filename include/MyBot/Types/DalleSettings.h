@@ -2,7 +2,7 @@
 #define MyBot_DalleSettingsH
 
 #include "OpenAI/Types/Size.h"
-#include "DbMacros.h"
+#include "DbProvider/DbMacros.h"
 
 namespace MyBot
 {
@@ -12,12 +12,13 @@ namespace MyBot
         typedef std::shared_ptr<DalleSettings> Ptr;
 
         std::int64_t userid;
-        Size size;
+        OpenAI::Size size;
         bool allowvoice;
     };
 
     inline void FromDbRow(const pqxx::row& row, DalleSettings::Ptr& object)
     {
+        using namespace OpenAI;
         GET_VALUE(userid);
         GET_ENUM(size);
         GET_VALUE(allowvoice);

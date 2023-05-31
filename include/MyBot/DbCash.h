@@ -36,7 +36,7 @@ namespace MyBot
         std::future<bool> SetWhisperTemperatureCash(std::int64_t userId, float temperature);
 
         DalleSettings::Ptr GetDalleSettingsCash(std::int64_t userId);
-        std::future<bool> SetDalleSizeCash(std::int64_t userId, Size size);
+        std::future<bool> SetDalleSizeCash(std::int64_t userId, OpenAI::Size size);
         std::future<bool> SetDalleAllowVoiceCash(std::int64_t userId, bool allowVoice);
 
         void Clear();

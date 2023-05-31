@@ -1,7 +1,7 @@
 #ifndef MyBot_DbRequestH
 #define MyBot_DbRequestH
 
-#include "Db/DbConnection.h"
+#include "DbProvider.h"
 #include "Types/User.h"
 #include "Types/GptSettings.h"
 #include "Types/WhisperSettings.h"
@@ -14,7 +14,7 @@ namespace MyBot
     private:
         static const unsigned char POOL_MAX_SIZE;
 
-        std::unique_ptr<DbProvider::DbConnection> _dbConnection;
+        std::unique_ptr<DbProvider::DbProvider> _dbConnection;
 
     public:
         typedef std::shared_ptr<DbRequest> Ptr;
@@ -44,7 +44,7 @@ namespace MyBot
         std::future<bool> SetWhisperTemperature(std::int64_t userId, float temperature);
 
         std::future<DalleSettings::Ptr> GetDalleSettings(std::int64_t userId);
-        std::future<bool> SetDalleSize(std::int64_t userId, Size size);
+        std::future<bool> SetDalleSize(std::int64_t userId, OpenAI::Size size);
         std::future<bool> SetDalleAllowVoice(std::int64_t userId, bool allowVoice);
     };
 

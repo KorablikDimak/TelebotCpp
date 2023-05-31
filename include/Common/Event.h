@@ -42,17 +42,15 @@ namespace Common
 
         void operator+=(const EventHandler& handler)
         {
+            std::lock_guard<std::shared_mutex> lock(_listMutex);
             if (!Contains(handler))
-            {
-                std::lock_guard<std::shared_mutex> lock(_listMutex);
                 _handlers.push_back(handler);
-            }
         }
 
         void operator-=(const EventHandler& handler)
         {
-            auto iterator = Find(handler);
             std::lock_guard<std::shared_mutex> lock(_listMutex);
+            EventHandlerIterator iterator = Find(handler);
             if (iterator != _handlers.end())
             {
                 if (_currentIterator == iterator)
@@ -65,15 +63,9 @@ namespace Common
             }
         }
 
-        bool IsEmpty() const
-        {
-            std::lock_guard<std::shared_mutex> lock(_listMutex);
-            return _handlers.empty();
-        }
-
+    private:
         bool Contains(const EventHandler& handler) const
         {
-            std::lock_guard<std::shared_mutex> lock(_listMutex);
             for (const EventHandler& element : _handlers)
                 if (*handler == *element) return true;
             return false;
@@ -81,10 +73,9 @@ namespace Common
 
         EventHandlerIterator Find(const EventHandler& handler) const
         {
-            std::lock_guard<std::shared_mutex> lock(_listMutex);
-            auto iterator = _handlers.begin();
-            for (std::size_t i = 0; i < _handlers.size(); ++i)
-                if (*_handlers.at(iterator + i) == *handler) return iterator + i;
+            for (EventHandlerIterator iterator = _handlers.begin(); iterator != _handlers.end(); ++iterator)
+                if (**iterator == *handler) return iterator;
+            return _handlers.end();
         }
     };
 }

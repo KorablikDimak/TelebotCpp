@@ -4,8 +4,13 @@ project(TelebotCpp)
 
 set(ENABLE_TESTS TRUE)
 
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O1")
+else()
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O3")
+endif()
+
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-O1")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive -Wl,-allow-multiple-definition")
 
@@ -70,10 +75,10 @@ add_subdirectory(../CInfoLog CInfoLog)
 add_subdirectory(../LINQcpp LINQ)
 add_subdirectory(../libpqxx-7.7.5 pqxx)
 
-set(MyBotHeaders include/MyBot/MyBot.h include/Db/DbPool.h include/Db/DbConnection.h include/MyBot/Environment.h
-        include/MyBot/Types/DbMacros.h include/MyBot/DbRequest.h include/MyBot/DbCash.h)
+set(MyBotHeaders include/MyBot.h include/DbProvider/DbPool.h include/DbProvider.h include/MyBot/Environment.h
+        include/DbProvider/DbMacros.h include/MyBot/DbRequest.h include/MyBot/DbCash.h)
 
-set(MyBotSource src/MyBot/main.cpp src/MyBot/MyBot.cpp src/Db/DbPool.cpp src/Db/DbConnection.cpp
+set(MyBotSource src/MyBot/main.cpp src/MyBot/MyBot.cpp src/DbProvider/DbPool.cpp src/DbProvider/DbProvider.cpp
         src/MyBot/Environment.cpp src/MyBot/DbRequest.cpp src/MyBot/DbCash.cpp)
 
 set(MyBotTypes include/MyBot/Types/Language.h include/MyBot/Types/Role.h
